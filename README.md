@@ -1,29 +1,30 @@
-# StackerBee
+# Unofficial Ruby CloudStack [![Build Status](https://travis-ci.org/promptworks/staker_bee.png?branch=master)](https://travis-ci.org/promptworks/stacker_bee)
 
-TODO: Write a gem description
+The unofficial CloudStack client for Ruby.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'stacker_bee'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+You can install StackerBee with rubygems:
 
     $ gem install stacker_bee
 
-## Usage
+If you are using Bundler simply add the following to your Gemfile:
 
-TODO: Write usage instructions here
+    gem 'stacker_bee'
 
-## Contributing
+And execute:
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+    $ bundle install
+
+## Basic Configuration
+
+TODO
+Set individual class attrs
+Set class config=
+Set environment variables
+
+## Basic Usage
+
+TODO
+As a dependency
+Using the CLI
