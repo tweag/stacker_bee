@@ -8,7 +8,9 @@ else # for 1.8.7
   end
 end
 
-require_stacker_bee['stacker_bee/version']
+%w(version client).each do |file_name|
+  require_stacker_bee["stacker_bee/#{file_name}"]
+end
 
 module StackerBee
 end
