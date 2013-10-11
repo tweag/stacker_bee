@@ -1,57 +1,43 @@
-module StackerBee
-  class Client
-    attr_writer :url, :api_key, :secret_key
+require "forwardable"
 
-    def initialize(config = {})
-      self.configuration = config
-    end
+module StackerBee
+  module Configurable
+    extend Forwardable
+    def_delegators :configuration, :url, :url=, :api_key, :api_key=, :secret_key, :secret_key=
 
     def configuration=(config)
-      %w(url api_key secret_key).each do |param|
-        value = config[param] || config[param.to_sym]
-        self.send("#{param}=", value) if value
-      end
-      configuration
+      @configuration = Configuration.new(config)
     end
 
     def configuration
-      {
-        url:        self.url,
-        api_key:    self.api_key,
-        secret_key: self.secret_key
-      }
+      @configuration ||= Configuration.new
     end
+  end
 
-    def url
-      @url ||= self.class.url
-    end
-
-    def api_key
-      @api_key ||= self.class.api_key
-    end
-
-    def secret_key
-      @secret_key ||= self.class.secret_key
-    end
+  class Client
+    include Configurable
 
     class << self
-      attr_accessor :url, :api_key, :secret_key
+      include Configurable
+    end
 
-      def configuration=(config)
-        %w(url api_key secret_key).each do |param|
-          value = config[param] || config[param.to_sym]
-          self.send("#{param}=", value) if value
-        end
-        configuration
-      end
+    def initialize(config = nil)
+      config ||= self.class.configuration.dup
+      self.configuration = config
+    end
 
-      def configuration
-        {
-          url:        self.url,
-          api_key:    self.api_key,
-          secret_key: self.secret_key
-        }
-      end
+    def list_virtual_machines(options = {})
+      self.request(:list_virtual_machines, options)
+    end
+
+    protected
+
+    def request(endpoint, options = {})
+      self.connection.get endpoint, options
+    end
+
+    def connection
+      @connection ||= Connection.new(self.configuration)
     end
   end
 end
