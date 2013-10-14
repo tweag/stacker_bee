@@ -1,6 +1,34 @@
 require "spec_helper"
 require "ostruct"
 
+describe StackerBee::Client, "#request" do
+  let(:url)         { "cloud-stack.com" }
+  let(:api_key)     { "cloud-stack-api-key" }
+  let(:secret_key)  { "cloud-stack-secret-key" }
+  let(:config_hash) do
+    {
+      url:        url,
+      api_key:    api_key,
+      secret_key: secret_key
+    }
+  end
+  let(:client)      { StackerBee::Client.new config_hash }
+  let(:endpoint)    { "list_stuff" }
+  let(:params)      { { list: :all } }
+  let(:connection)  { double }
+  let(:request)     { double }
+  let(:raw_request) { double }
+  let(:response)    { double }
+  before do
+    StackerBee::Connection.should_receive(:new) { connection }
+    StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) { request }
+    connection.should_receive(:get).with(request) { raw_request }
+    StackerBee::Response.should_receive(:new).with(raw_request) { response }
+  end
+  subject { client.request(endpoint, params) }
+  it { should eq response }
+end
+
 describe StackerBee::Client, "configuration" do
   let(:default_url)         { "default_cloud-stack.com" }
   let(:default_api_key)     { "default-cloud-stack-api-key" }

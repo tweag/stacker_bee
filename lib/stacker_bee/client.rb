@@ -26,15 +26,13 @@ module StackerBee
       self.configuration = config
     end
 
-    def list_virtual_machines(options = {})
-      self.request(:list_virtual_machines, options)
+    def request(endpoint, params = {})
+      request      = Request.new(endpoint, self.api_key, params) 
+      raw_response = self.connection.get(request)
+      Response.new(raw_response)
     end
 
     protected
-
-    def request(endpoint, options = {})
-      self.connection.get endpoint, options
-    end
 
     def connection
       @connection ||= Connection.new(self.configuration)

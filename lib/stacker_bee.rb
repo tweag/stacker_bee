@@ -8,9 +8,6 @@ else # for 1.8.7
   end
 end
 
-%w(version configuration client).each do |file_name|
+%w(version configuration connection client request response middleware/request/signed_query).each do |file_name|
   require_stacker_bee["stacker_bee/#{file_name}"]
-end
-
-module StackerBee
 end
