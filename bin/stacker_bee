@@ -1,0 +1,63 @@
+#! /usr/bin/env ruby
+require 'optparse'
+require 'stacker_bee'
+require 'json'
+
+filename  = File.basename(__FILE__)
+options   = {}
+verbose   = false
+optparse  = OptionParser.new do |opts|
+  opts.banner = "Usage: #{filename} api_endpoint [options]\n" <<
+                "Example: #{filename} list_virtual_machines -u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY"
+  opts.on('-a', '--api-key=API_KEY', "CloudStack API Key") do |api_key|
+    options[:api_key] = api_key
+  end
+  opts.on('-s', '--secret-key=SECRET_KEY', "CloudStack Secret Key") do |secret_key|
+    options[:secret_key] = secret_key
+  end
+  opts.on('-u', '--url=URL', "CloudStack URL") do |url|
+    options[:url] = url
+  end
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    verbose = true
+  end
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+end
+
+begin
+  optparse.parse!
+  mandatory = [:api_key, :secret_key, :url]
+  missing = mandatory.select{ |param| options[param].nil? }
+  if not missing.empty?
+    puts "Missing options: #{missing.join(', ')}" if mandatory != missing
+    puts optparse
+    exit
+  end
+rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+  puts $!.to_s
+  puts optparse
+  exit
+end
+
+puts "StackerBee version #{StackerBee::VERSION}" if verbose
+
+if verbose
+  puts "URL: #{options[:url]}"
+  puts "API key: #{options[:api_key]}"
+end
+
+client = StackerBee::Client.new(options)
+
+ARGV.each do |endpoint|
+  if verbose
+    puts "="*80
+    puts "#{endpoint}:"
+  end
+  response = client.request(endpoint)
+  puts JSON.pretty_generate response.body
+end
+
+exit
