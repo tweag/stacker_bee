@@ -7,6 +7,7 @@ module StackerBee
       class SignedQuery < Faraday::Middleware
         def initialize(app, key)
           @key = key
+          raise "Key cannot be nil" unless @key
           super(app)
         end
 

@@ -1,5 +1,7 @@
 module StackerBee
   class Request
+    include Utilties
+
     RESPONSE_TYPE = "json"
 
     attr_accessor :params
@@ -17,18 +19,6 @@ module StackerBee
 
     def query_params
       self.params.to_a.sort!.map!{|(key, val)| [camel_case_lower(key), val] }
-    end
-
-    protected
-
-    def camel_case(string)
-      string = string.to_s
-      return string if string !~ /_/ && string =~ /[A-Z]+.*/
-      string.split('_').map{|e| e.capitalize }.join
-    end
-
-    def camel_case_lower(string)
-      string.to_s.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
     end
   end
 end

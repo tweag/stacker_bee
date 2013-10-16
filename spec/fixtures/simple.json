@@ -1,0 +1,848 @@
+{
+  "listapisresponse": {
+    "count": 1,
+    "api": [
+      {
+        "name": "listVirtualMachines",
+        "description": "List the virtual machines owned by the account.",
+        "isasync": false,
+        "related": "",
+        "params": [
+          {
+            "name": "zoneid",
+            "description": "the availability zone ID",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "state",
+            "description": "state of the virtual machine",
+            "type": "string",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "name",
+            "description": "name of the virtual machine",
+            "type": "string",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "account",
+            "description": "list resources by account. Must be used with the domainId parameter.",
+            "type": "string",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "isoid",
+            "description": "list vms by iso",
+            "type": "uuid",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "groupid",
+            "description": "the group ID",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "page",
+            "description": "",
+            "type": "integer",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "details",
+            "description": "comma separated list of host details requested, value can be a list of [all, group, nics, stats, secgrp, tmpl, servoff, iso, volume, min, affgrp]. If no parameter is passed in, the details will be defaulted to all",
+            "type": "list",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "forvirtualnetwork",
+            "description": "list by network type; true if need to list vms using Virtual Network, false otherwise",
+            "type": "boolean",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "podid",
+            "description": "the pod ID",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "updatePod"
+          },
+          {
+            "name": "hypervisor",
+            "description": "the target hypervisor for the template",
+            "type": "string",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "tags",
+            "description": "List resources by tags (key/value pairs)",
+            "type": "map",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "pagesize",
+            "description": "",
+            "type": "integer",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "vpcid",
+            "description": "list vms by vpc",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "restartVPC"
+          },
+          {
+            "name": "storageid",
+            "description": "the storage ID where vm's volumes belong to",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "findStoragePoolsForMigration"
+          },
+          {
+            "name": "domainid",
+            "description": "list only resources belonging to the domain specified",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "affinitygroupid",
+            "description": "list vms by affinity group",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "isrecursive",
+            "description": "defaults to false, but if true, lists all resources from the parent specified by the domainId till leaves.",
+            "type": "boolean",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "listall",
+            "description": "If set to false, list only resources belonging to the command's caller; if set to true - list resources that the caller is authorized to see. Default value is false",
+            "type": "boolean",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "projectid",
+            "description": "list objects by project",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "keyword",
+            "description": "List by keyword",
+            "type": "string",
+            "length": 255,
+            "required": false
+          },
+          {
+            "name": "id",
+            "description": "the ID of the virtual machine",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "listVirtualMachines"
+          },
+          {
+            "name": "networkid",
+            "description": "list by network id",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": ""
+          },
+          {
+            "name": "hostid",
+            "description": "the host ID",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "listHosts"
+          },
+          {
+            "name": "templateid",
+            "description": "list vms by template",
+            "type": "uuid",
+            "length": 255,
+            "required": false,
+            "related": "listIsos"
+          }
+        ],
+        "response": [
+          {
+            "name": "networkkbsread",
+            "description": "the incoming network traffic on the vm",
+            "type": "long"
+          },
+          {
+            "name": "networkkbswrite",
+            "description": "the outgoing network traffic on the host",
+            "type": "long"
+          },
+          {
+            "name": "hostid",
+            "description": "the ID of the host for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "templatedisplaytext",
+            "description": " an alternate display text of the template for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "rootdeviceid",
+            "description": "device ID of the root volume",
+            "type": "long"
+          },
+          {
+            "name": "memory",
+            "description": "the memory allocated for the virtual machine",
+            "type": "integer"
+          },
+          {
+            "name": "password",
+            "description": "the password (if exists) of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "tags",
+            "description": "the list of resource tags associated with vm",
+            "type": "set",
+            "response": [
+              {
+                "name": "account",
+                "description": "the account associated with the tag",
+                "type": "string"
+              },
+              {
+                "name": "key",
+                "description": "tag key name",
+                "type": "string"
+              },
+              {
+                "name": "resourceid",
+                "description": "id of the resource",
+                "type": "string"
+              },
+              {
+                "name": "customer",
+                "description": "customer associated with the tag",
+                "type": "string"
+              },
+              {
+                "name": "domainid",
+                "description": "the ID of the domain associated with the tag",
+                "type": "string"
+              },
+              {
+                "name": "resourcetype",
+                "description": "resource type",
+                "type": "string"
+              },
+              {
+                "name": "domain",
+                "description": "the domain associated with the tag",
+                "type": "string"
+              },
+              {
+                "name": "project",
+                "description": "the project name where tag belongs to",
+                "type": "string"
+              },
+              {
+                "name": "projectid",
+                "description": "the project id the tag belongs to",
+                "type": "string"
+              },
+              {
+                "name": "value",
+                "description": "tag value",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "instancename",
+            "description": "instance name of the user vm; this parameter is returned to the ROOT admin only",
+            "type": "string"
+          },
+          {
+            "name": "securitygroup",
+            "description": "list of security groups associated with the virtual machine",
+            "type": "set",
+            "response": [
+              {
+                "name": "account",
+                "description": "the account owning the security group",
+                "type": "string"
+              },
+              {
+                "name": "name",
+                "description": "the name of the security group",
+                "type": "string"
+              },
+              {
+                "name": "egressrule",
+                "description": "the list of egress rules associated with the security group",
+                "type": "set",
+                "response": [
+                  {
+                    "name": "endport",
+                    "description": "the ending IP of the security group rule ",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "protocol",
+                    "description": "the protocol of the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "securitygroupname",
+                    "description": "security group name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "startport",
+                    "description": "the starting IP of the security group rule",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "ruleid",
+                    "description": "the id of the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "icmpcode",
+                    "description": "the code for the ICMP message response",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "account",
+                    "description": "account owning the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "icmptype",
+                    "description": "the type of the ICMP message response",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "cidr",
+                    "description": "the CIDR notation for the base IP address of the security group rule",
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "name": "project",
+                "description": "the project name of the group",
+                "type": "string"
+              },
+              {
+                "name": "projectid",
+                "description": "the project id of the group",
+                "type": "string"
+              },
+              {
+                "name": "tags",
+                "description": "the list of resource tags associated with the rule",
+                "type": "set",
+                "response": [
+                  {
+                    "name": "domainid",
+                    "description": "the ID of the domain associated with the tag",
+                    "type": "string"
+                  },
+                  {
+                    "name": "resourceid",
+                    "description": "id of the resource",
+                    "type": "string"
+                  },
+                  {
+                    "name": "resourcetype",
+                    "description": "resource type",
+                    "type": "string"
+                  },
+                  {
+                    "name": "value",
+                    "description": "tag value",
+                    "type": "string"
+                  },
+                  {
+                    "name": "customer",
+                    "description": "customer associated with the tag",
+                    "type": "string"
+                  },
+                  {
+                    "name": "project",
+                    "description": "the project name where tag belongs to",
+                    "type": "string"
+                  },
+                  {
+                    "name": "key",
+                    "description": "tag key name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "domain",
+                    "description": "the domain associated with the tag",
+                    "type": "string"
+                  },
+                  {
+                    "name": "projectid",
+                    "description": "the project id the tag belongs to",
+                    "type": "string"
+                  },
+                  {
+                    "name": "account",
+                    "description": "the account associated with the tag",
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "name": "domain",
+                "description": "the domain name of the security group",
+                "type": "string"
+              },
+              {
+                "name": "domainid",
+                "description": "the domain ID of the security group",
+                "type": "string"
+              },
+              {
+                "name": "description",
+                "description": "the description of the security group",
+                "type": "string"
+              },
+              {
+                "name": "ingressrule",
+                "description": "the list of ingress rules associated with the security group",
+                "type": "set",
+                "response": [
+                  {
+                    "name": "protocol",
+                    "description": "the protocol of the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "endport",
+                    "description": "the ending IP of the security group rule ",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "startport",
+                    "description": "the starting IP of the security group rule",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "ruleid",
+                    "description": "the id of the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "securitygroupname",
+                    "description": "security group name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "cidr",
+                    "description": "the CIDR notation for the base IP address of the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "account",
+                    "description": "account owning the security group rule",
+                    "type": "string"
+                  },
+                  {
+                    "name": "icmptype",
+                    "description": "the type of the ICMP message response",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "icmpcode",
+                    "description": "the code for the ICMP message response",
+                    "type": "integer"
+                  }
+                ]
+              },
+              {
+                "name": "id",
+                "description": "the ID of the security group",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "displayvm",
+            "description": "an optional field whether to the display the vm to the end user or not.",
+            "type": "boolean"
+          },
+          {
+            "name": "zoneid",
+            "description": "the ID of the availablility zone for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "hypervisor",
+            "description": "the hypervisor on which the template runs",
+            "type": "string"
+          },
+          {
+            "name": "serviceofferingid",
+            "description": "the ID of the service offering of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "created",
+            "description": "the date when this virtual machine was created",
+            "type": "date"
+          },
+          {
+            "name": "templateid",
+            "description": "the ID of the template for the virtual machine. A -1 is returned if the virtual machine was created from an ISO file.",
+            "type": "string"
+          },
+          {
+            "name": "cpunumber",
+            "description": "the number of cpu this virtual machine is running with",
+            "type": "integer"
+          },
+          {
+            "name": "serviceofferingname",
+            "description": "the name of the service offering of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "keypair",
+            "description": "ssh key-pair",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "description": "the ID of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "displayname",
+            "description": "user generated name. The name of the virtual machine is returned if no displayname exists.",
+            "type": "string"
+          },
+          {
+            "name": "forvirtualnetwork",
+            "description": "the virtual network for the service offering",
+            "type": "boolean"
+          },
+          {
+            "name": "nic",
+            "description": "the list of nics associated with vm",
+            "type": "set",
+            "response": [
+              {
+                "name": "networkname",
+                "description": "the name of the corresponding network",
+                "type": "string"
+              },
+              {
+                "name": "traffictype",
+                "description": "the traffic type of the nic",
+                "type": "string"
+              },
+              {
+                "name": "ip6gateway",
+                "description": "the gateway of IPv6 network",
+                "type": "string"
+              },
+              {
+                "name": "ip6address",
+                "description": "the IPv6 address of network",
+                "type": "string"
+              },
+              {
+                "name": "isdefault",
+                "description": "true if nic is default, false otherwise",
+                "type": "boolean"
+              },
+              {
+                "name": "isolationuri",
+                "description": "the isolation uri of the nic",
+                "type": "string"
+              },
+              {
+                "name": "secondaryip",
+                "description": "the Secondary ipv4 addr of nic",
+                "type": "list"
+              },
+              {
+                "name": "macaddress",
+                "description": "true if nic is default, false otherwise",
+                "type": "string"
+              },
+              {
+                "name": "broadcasturi",
+                "description": "the broadcast uri of the nic",
+                "type": "string"
+              },
+              {
+                "name": "id",
+                "description": "the ID of the nic",
+                "type": "string"
+              },
+              {
+                "name": "ip6cidr",
+                "description": "the cidr of IPv6 network",
+                "type": "string"
+              },
+              {
+                "name": "netmask",
+                "description": "the netmask of the nic",
+                "type": "string"
+              },
+              {
+                "name": "networkid",
+                "description": "the ID of the corresponding network",
+                "type": "string"
+              },
+              {
+                "name": "ipaddress",
+                "description": "the ip address of the nic",
+                "type": "string"
+              },
+              {
+                "name": "gateway",
+                "description": "the gateway of the nic",
+                "type": "string"
+              },
+              {
+                "name": "type",
+                "description": "the type of the nic",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "description": "the name of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "passwordenabled",
+            "description": "true if the password rest feature is enabled, false otherwise",
+            "type": "boolean"
+          },
+          {
+            "name": "domainid",
+            "description": "the ID of the domain in which the virtual machine exists",
+            "type": "string"
+          },
+          {
+            "name": "diskiowrite",
+            "description": "the write (io) of disk on the vm",
+            "type": "long"
+          },
+          {
+            "name": "templatename",
+            "description": "the name of the template for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "diskkbswrite",
+            "description": "the write (bytes) of disk on the vm",
+            "type": "long"
+          },
+          {
+            "name": "isoname",
+            "description": "the name of the ISO attached to the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "isoid",
+            "description": "the ID of the ISO attached to the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "account",
+            "description": "the account associated with the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "domain",
+            "description": "the name of the domain in which the virtual machine exists",
+            "type": "string"
+          },
+          {
+            "name": "rootdevicetype",
+            "description": "device type of the root volume",
+            "type": "string"
+          },
+          {
+            "name": "groupid",
+            "description": "the group ID of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "project",
+            "description": "the project name of the vm",
+            "type": "string"
+          },
+          {
+            "name": "zonename",
+            "description": "the name of the availability zone for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "diskioread",
+            "description": "the read (io) of disk on the vm",
+            "type": "long"
+          },
+          {
+            "name": "group",
+            "description": "the group name of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "isdynamicallyscalable",
+            "description": "true if vm contains XS/VMWare tools inorder to support dynamic scaling of VM cpu/memory.",
+            "type": "boolean"
+          },
+          {
+            "name": "publicipid",
+            "description": "public IP address id associated with vm via Static nat rule",
+            "type": "string"
+          },
+          {
+            "name": "hostname",
+            "description": "the name of the host for the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "servicestate",
+            "description": "State of the Service from LB rule",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "description": "the state of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "haenable",
+            "description": "true if high-availability is enabled, false otherwise",
+            "type": "boolean"
+          },
+          {
+            "name": "cpuspeed",
+            "description": "the speed of each cpu",
+            "type": "integer"
+          },
+          {
+            "name": "diskkbsread",
+            "description": "the read (bytes) of disk on the vm",
+            "type": "long"
+          },
+          {
+            "name": "guestosid",
+            "description": "Os type ID of the virtual machine",
+            "type": "string"
+          },
+          {
+            "name": "publicip",
+            "description": "public IP address id associated with vm via Static nat rule",
+            "type": "string"
+          },
+          {
+            "name": "projectid",
+            "description": "the project id of the vm",
+            "type": "string"
+          },
+          {
+            "name": "cpuused",
+            "description": "the amount of the vm's CPU currently used",
+            "type": "string"
+          },
+          {
+            "name": "affinitygroup",
+            "description": "list of affinity groups associated with the virtual machine",
+            "type": "set",
+            "response": [
+              {
+                "name": "type",
+                "description": "the type of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "domainid",
+                "description": "the domain ID of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "description",
+                "description": "the description of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "name",
+                "description": "the name of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "domain",
+                "description": "the domain name of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "account",
+                "description": "the account owning the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "id",
+                "description": "the ID of the affinity group",
+                "type": "string"
+              },
+              {
+                "name": "virtualmachineIds",
+                "description": "virtual machine Ids associated with this affinity group ",
+                "type": "list"
+              }
+            ]
+          },
+          {
+            "name": "isodisplaytext",
+            "description": "an alternate display text of the ISO attached to the virtual machine",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
