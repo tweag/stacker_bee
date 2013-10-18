@@ -1,24 +1,22 @@
 require "forwardable"
-require "multi_json"
+require "stacker_bee/body_parser"
+require "stacker_bee/request_error"
 
 module StackerBee
   class Response
+    include BodyParser
     extend Forwardable
     def_delegators :body, :[], :[]=, :empty?, :keys, :inspect, :to_s, :first
 
-    attr_reader :body
-
     def initialize(raw_response)
-      @body = parse(raw_response.body)
+      raise RequestError.for(raw_response) unless raw_response.success?
+      super(raw_response)
     end
 
     protected
 
     def parse(json)
-      parsed = MultiJson.load(json)
-      response_key = parsed.keys.first if parsed.keys.size == 1
-      raise "Unable to determine response key in #{parsed.keys}" unless response_key
-      parsed = parsed[response_key]
+      parsed = super(json)
       return parsed unless parsed.respond_to? :keys
       keys = parsed.keys
       if keys.include?("count") && keys.size == 2

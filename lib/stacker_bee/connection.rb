@@ -1,4 +1,5 @@
 require "faraday"
+require "stacker_bee/middleware/request/signed_query"
 
 module StackerBee
   class Connection

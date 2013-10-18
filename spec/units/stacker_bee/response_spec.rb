@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe StackerBee::Response do
   let(:raw_body)          { '{ "json": "here" }' }
-  let(:raw_response)  { double body: raw_body }
+  let(:raw_response)  { double body: raw_body, :success? => true }
   let(:response)      { StackerBee::Response.new raw_response }
   subject { response }
   its(:body) { should == 'here' }
@@ -25,5 +25,11 @@ describe StackerBee::Response do
   context "raw response for create endpoint" do
     let(:raw_body) { '{ "register_ssh_keypair": {"fingerprint": 456} }' }
     its(:body) { should == {"fingerprint" => 456} }
+  end
+
+  context "for failed request" do
+    let(:raw_response) { double body: '{"foo": "bar"}', :success? => false, status: 431 }
+    let(:client_error) { StackerBee::ClientError.new raw_response }
+    it { expect(-> { subject }).to raise_exception StackerBee::ClientError }
   end
 end

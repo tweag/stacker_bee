@@ -12,7 +12,12 @@ describe "A response to a request sent to the CloudStack API" do
   let(:client) do
     StackerBee::Client.new(config_hash)
   end
-  subject { client.list_virtual_machines }
+  subject { client.list_accounts }
   it { should_not be_empty }
   its(:first) { should include "id" }
+
+  context "containing an error" do
+    subject { client.deploy_virtual_machine }
+    it { expect(-> { subject }).to raise_error StackerBee::ClientError }
+  end
 end
