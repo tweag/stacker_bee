@@ -1,4 +1,9 @@
 require "forwardable"
+require "stacker_bee/configuration"
+require "stacker_bee/api"
+require "stacker_bee/connection"
+require "stacker_bee/request"
+require "stacker_bee/response"
 
 module StackerBee
   class Client

@@ -1,4 +1,5 @@
 require "multi_json"
+require "stacker_bee/utilities"
 
 module StackerBee
   class API

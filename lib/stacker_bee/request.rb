@@ -1,3 +1,5 @@
+require "stacker_bee/utilities"
+
 module StackerBee
   class Request
     include Utilties
