@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "A response to a request sent to the CloudStack API" do
+describe "A response to a request sent to the CloudStack API", :vcr do
   let(:config_hash) do
     {
       url:        ENV["CLOUD_STACK_URL"],
@@ -12,12 +12,17 @@ describe "A response to a request sent to the CloudStack API" do
   let(:client) do
     StackerBee::Client.new(config_hash)
   end
-  subject { client.list_accounts }
+  subject do
+    client.list_accounts
+  end
+
   it { should_not be_empty }
   its(:first) { should include "id" }
 
   context "containing an error" do
-    subject { client.deploy_virtual_machine }
+    subject do
+      client.deploy_virtual_machine
+    end
     it { expect(-> { subject }).to raise_error StackerBee::ClientError }
   end
 end

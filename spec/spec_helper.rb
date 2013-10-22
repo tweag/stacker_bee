@@ -7,6 +7,10 @@
 
 require File.expand_path("../../lib/stacker_bee", __FILE__)
 
+ENV["CLOUD_STACK_URL"]        ||= "http://192.168.1.1:8080"
+ENV["CLOUD_STACK_API_KEY"]    ||= "MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY"
+ENV["CLOUD_STACK_SECRET_KEY"] ||= "TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRE"
+
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
@@ -21,4 +25,22 @@ RSpec.configure do |config|
   config.after(:each) do
     StackerBee::Client.reset!
   end
+end
+
+require 'vcr'
+
+VCR.configure do |c|
+  c.hook_into :webmock
+  c.cassette_library_dir     = 'spec/cassettes'
+  c.filter_sensitive_data('<CLOUD_STACK_URL>')        { ENV["CLOUD_STACK_URL"] }
+  c.filter_sensitive_data('<CLOUD_STACK_API_KEY>')    { ENV["CLOUD_STACK_API_KEY"] }
+  c.filter_sensitive_data('<CLOUD_STACK_SECRET_KEY>') { ENV["CLOUD_STACK_SECRET_KEY"] }
+  c.default_cassette_options = {
+    :record             => :new_episodes,
+    :match_requests_on  => [
+      :method,
+      VCR.request_matchers.uri_without_param(:signature)
+    ]
+  }
+  c.configure_rspec_metadata!
 end
