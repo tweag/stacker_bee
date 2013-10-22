@@ -1,0 +1,33 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>/client/api/?apiKey=<CLOUD_STACK_API_KEY>&command=listAccounts&response=json&signature=oftBcJm8kFc%2Buxul8pAL2%2Bh0bdU=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '1779'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: UTF-8
+      string: '{ "listaccountsresponse" : { "count":1 ,"account" : [  {"id":"0a886d5c-1d15-11e3-8a19-2aaf623ece81","name":"admin","accounttype":1,"domainid":"0a884d72-1d15-11e3-8a19-2aaf623ece81","domain":"ROOT","receivedbytes":100,"sentbytes":100,"vmlimit":"Unlimited","vmtotal":1,"vmavailable":"Unlimited","iplimit":"Unlimited","iptotal":1,"ipavailable":"Unlimited","volumelimit":"Unlimited","volumetotal":5,"volumeavailable":"Unlimited","snapshotlimit":"Unlimited","snapshottotal":0,"snapshotavailable":"Unlimited","templatelimit":"Unlimited","templatetotal":0,"templateavailable":"Unlimited","vmrunning":1,"projectlimit":"Unlimited","projecttotal":2,"projectavailable":"Unlimited","networklimit":"Unlimited","networktotal":1,"networkavailable":"Unlimited","vpclimit":"Unlimited","vpctotal":0,"vpcavailable":"Unlimited","cpulimit":"Unlimited","cputotal":1,"cpuavailable":"Unlimited","memorylimit":"Unlimited","memorytotal":32,"memoryavailable":"Unlimited","primarystoragelimit":"Unlimited","primarystoragetotal":22,"primarystorageavailable":"Unlimited","secondarystoragelimit":"Unlimited","secondarystoragetotal":0,"secondarystorageavailable":"Unlimited","state":"enabled","user":[{"id":"0a88e1b0-1d15-11e3-8a19-2aaf623ece81","username":"admin","firstname":"Admin","lastname":"User","email":"admin@mailprovider.com","created":"2013-09-14T00:09:55-0400","state":"enabled","account":"admin","accounttype":1,"domainid":"0a884d72-1d15-11e3-8a19-2aaf623ece81","domain":"ROOT","apikey":"<CLOUD_STACK_API_KEY>","secretkey":"<CLOUD_STACK_SECRET_KEY>","accountid":"0a886d5c-1d15-11e3-8a19-2aaf623ece81","iscallerchilddomain":false,"isdefault":true}],"isdefault":true}
+        ] } }'
+    http_version: 
+  recorded_at: Tue, 22 Oct 2013 20:02:55 GMT
+recorded_with: VCR 2.6.0

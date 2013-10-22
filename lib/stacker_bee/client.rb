@@ -73,10 +73,6 @@ module StackerBee
       end
     end
 
-    # def list_virtual_machines(options = {})
-    #    self.request(:list_virtual_machines, options)["listvirtualmachinesresponse"]["virtualmachine"]
-    # end
-
     protected
 
     def connection
