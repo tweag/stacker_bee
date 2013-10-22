@@ -20,6 +20,18 @@ And execute:
 
     $ bundle install
 
+## Development
+
+Running the tests:
+
+    $ rake
+
+To interact with a real CloudStack server:
+
+    $ cp .env.default .env
+
+And edit `.env`, specifying the URL and credentials for your CloudStack server. This file is ignored by git.
+
 ## Basic Configuration
 
 TODO

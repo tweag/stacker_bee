@@ -1,5 +1,6 @@
 *.gem
 *.rbc
+.env
 .rvmrc
 .bundle
 .config

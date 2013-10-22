@@ -7,9 +7,8 @@
 
 require File.expand_path("../../lib/stacker_bee", __FILE__)
 
-ENV["CLOUD_STACK_URL"]        ||= "http://192.168.1.1:8080"
-ENV["CLOUD_STACK_API_KEY"]    ||= "MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY-KEY-MY"
-ENV["CLOUD_STACK_SECRET_KEY"] ||= "TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRET-TOP-SECRE"
+require 'dotenv'
+Dotenv.load('.env', '.env.default')
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

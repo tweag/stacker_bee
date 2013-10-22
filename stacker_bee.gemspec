@@ -19,12 +19,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "faraday", "~> 0.8"
-  spec.add_runtime_dependency 'multi_json', '~> 1.8'
+  spec.add_runtime_dependency "faraday",      "~> 0.8"
+  spec.add_runtime_dependency 'multi_json',   "~> 1.8"
 
   spec.add_development_dependency "bundler",  "~> 1.3"
   spec.add_development_dependency "rake",     "~> 10.0"
   spec.add_development_dependency "rspec",    "~> 2.1"
   spec.add_development_dependency "webmock",  "~> 1.15"
   spec.add_development_dependency "vcr",      "~> 2.6"
+  spec.add_development_dependency "dotenv",   "~> 0.9"
 end
