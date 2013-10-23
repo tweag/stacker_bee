@@ -6,10 +6,14 @@ describe StackerBee::API do
   subject { api }
   its(:api_path) { should eq api_path }
 
-  describe "#endpoints" do
-    subject { api.endpoints }
-    it { should be_a Hash }
-    its(:keys) { should include "list_virtual_machines" }
-    its(["list_virtual_machines"]) { should be_a Hash }
-  end
+  its(["list_virtual_machines"]) { should be_a Hash }
+  its(["get_vm_password"])       { should be_a Hash }
+  its(["getvmpassword"])         { should be_a Hash }
+  its(["getVMPassword"])         { should be_a Hash }
+  its(["getVmPassword"])         { should be_a Hash }
+  its(["getWRONG"])              { should be_nil }
+  it { should be_key "get_vm_password" }
+  it { should be_key "getvmpassword" }
+  it { should be_key "getVMPassword" }
+  it { should be_key "getVmPassword" }
 end

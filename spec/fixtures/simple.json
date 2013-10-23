@@ -3,6 +3,29 @@
     "count": 1,
     "api": [
       {
+        "name": "getVMPassword",
+        "description": "Returns an encrypted password for the VM",
+        "isasync": false,
+        "related": "",
+        "params": [
+          {
+            "name": "id",
+            "description": "The ID of the virtual machine",
+            "type": "uuid",
+            "length": 255,
+            "required": true,
+            "related": "revertToVMSnapshot,removeNicFromVirtualMachine,deployVirtualMachine,migrateVirtualMachine,rebootVirtualMachine,resetPasswordForVirtualMachine,startVirtualMachine,changeServiceForVirtualMachine,recoverVirtualMachine,listVirtualMachines,updateVMAffinityGroup,migrateVirtualMachineWithVolume,attachIso,restoreVirtualMachine,updateDefaultNicForVirtualMachine,detachIso,assignVirtualMachine,resetSSHKeyForVirtualMachine,destroyVirtualMachine,updateVirtualMachine,stopVirtualMachine"
+          }
+        ],
+        "response": [
+          {
+            "name": "encryptedpassword",
+            "description": "The encrypted password of the VM",
+            "type": "string"
+          }
+        ]
+      },
+      {
         "name": "listVirtualMachines",
         "description": "List the virtual machines owned by the account.",
         "isasync": false,

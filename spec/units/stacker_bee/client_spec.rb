@@ -35,7 +35,7 @@ describe StackerBee::Client, "calling endpoint" do
   before do
     StackerBee::Client.api_path = api_path
     StackerBee::Connection.stub(:new) { connection }
-    StackerBee::Request.stub(:new).with(endpoint, api_key, params) { request }
+    StackerBee::Request.stub(:new).with("listVirtualMachines", api_key, params) { request }
     connection.stub(:get).with(request) { raw_request }
     StackerBee::Response.stub(:new).with(raw_request) { response }
   end

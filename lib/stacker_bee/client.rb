@@ -60,17 +60,13 @@ module StackerBee
     end
 
     def method_missing(name, *args, &block)
-      api = self.class.api.endpoints[name.to_s]
+      api = self.class.api[name]
       super unless api
-      self.request(name, *args)
+      self.request(api["name"], *args)
     end
 
     def respond_to?(name, include_private = false)
-      if self.class.api.endpoints.keys.include?(name.to_s)
-        true
-      else
-        super
-      end
+      self.class.api.key?(name) || super
     end
 
     protected

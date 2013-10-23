@@ -10,7 +10,7 @@ module StackerBee
 
     def initialize(endpoint, api_key, params = {})
       params[:api_key]  = api_key
-      params[:command]  = camel_case_lower(endpoint)
+      params[:command]  = endpoint
       params[:response] = RESPONSE_TYPE
       self.params = params
     end
@@ -20,7 +20,7 @@ module StackerBee
     end
 
     def query_params
-      self.params.to_a.sort!.map!{|(key, val)| [camel_case_lower(key), val] }
+      self.params.to_a.sort!.map!{|(key, val)| [camel_case(key, true), val] }
     end
   end
 end

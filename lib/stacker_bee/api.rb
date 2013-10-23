@@ -13,11 +13,19 @@ module StackerBee
       end
     end
 
-    def endpoints
-      @endpoints ||= self.read_endpoints
+    def [](key)
+      self.endpoints[uncase(key)]
+    end
+
+    def key?(key)
+      self.endpoints.key? uncase(key)
     end
 
     protected
+
+    def endpoints
+      @endpoints ||= self.read_endpoints
+    end
 
     def read_endpoints
       return unless self.api_path
@@ -28,8 +36,7 @@ module StackerBee
 
     def apis_by_endpoint(response)
       response["listapisresponse"]["api"].each_with_object({}) do |api, memo|
-        camel = snake_case(api["name"])
-        memo[camel] = api
+        memo[uncase(api["name"])] = api
       end
     end
   end

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe StackerBee::Request do
-  let(:endpoint)  { "list_stuff" }
+  let(:endpoint)  { "listStuff" }
   let(:api_key)   { "this_guy" }
   let(:params)    { { list: :all } }
   let(:request)   { StackerBee::Request.new endpoint, api_key, params }
