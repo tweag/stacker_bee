@@ -53,16 +53,23 @@ module StackerBee
       @configuration ||= configuration_with_defaults
     end
 
-    def request(endpoint, params = {})
-      request      = Request.new(endpoint, self.api_key, params) 
+    def request(endpoint_name, params = {})
+      request      = Request.new(endpoint_for(endpoint_name), api_key, params)
       raw_response = self.connection.get(request)
       Response.new(raw_response)
     end
 
-    def method_missing(name, *args, &block)
+    def endpoint_for(name)
       api = self.class.api[name]
-      super unless api
-      self.request(api["name"], *args)
+      api && api["name"]
+    end
+
+    def method_missing(name, *args, &block)
+      if endpoint = endpoint_for(name)
+        request(endpoint, *args, &block)
+      else
+        super
+      end
     end
 
     def respond_to?(name, include_private = false)

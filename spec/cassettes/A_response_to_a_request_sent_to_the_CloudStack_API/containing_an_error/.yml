@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: <CLOUD_STACK_URL>/client/api/?apiKey=<CLOUD_STACK_API_KEY>&command=deployVirtualMachine&response=json&signature=3hI1nOEaCluyLOqvfIkEkvGM1HY=
+    uri: <CLOUD_STACK_URL>?apiKey=<CLOUD_STACK_API_KEY>&command=deployVirtualMachine&response=json&signature=3hI1nOEaCluyLOqvfIkEkvGM1HY=
     body:
       encoding: US-ASCII
       string: ''
@@ -33,5 +33,5 @@ http_interactions:
         to execute API command deployvirtualmachine due to missing parameter zoneid"}
         }'
     http_version: 
-  recorded_at: Tue, 22 Oct 2013 15:24:52 GMT
+  recorded_at: Thu, 24 Oct 2013 18:42:16 GMT
 recorded_with: VCR 2.6.0

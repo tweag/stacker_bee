@@ -49,6 +49,10 @@ describe StackerBee::Client, "calling endpoint" do
 end
 
 describe StackerBee::Client, "#request" do
+  subject { client.request(endpoint, params) }
+  let(:endpoint)    { "listVirtualMachines" }
+  let(:params)      { { list: :all } }
+
   let(:url)         { "cloud-stack.com" }
   let(:api_key)     { "cloud-stack-api-key" }
   let(:secret_key)  { "cloud-stack-secret-key" }
@@ -60,8 +64,6 @@ describe StackerBee::Client, "#request" do
     }
   end
   let(:client)      { StackerBee::Client.new config_hash }
-  let(:endpoint)    { "list_stuff" }
-  let(:params)      { { list: :all } }
   let(:connection)  { double }
   let(:request)     { double }
   let(:raw_request) { double }
@@ -72,8 +74,13 @@ describe StackerBee::Client, "#request" do
     connection.should_receive(:get).with(request) { raw_request }
     StackerBee::Response.should_receive(:new).with(raw_request) { response }
   end
-  subject { client.request(endpoint, params) }
+
   it { should eq response }
+
+  context "called with a differently-cased endpoint" do
+    subject { client.request("list_Virtual_mACHINES", params) }
+    it { should eq response }
+  end
 end
 
 describe StackerBee::Client, "configuration" do
