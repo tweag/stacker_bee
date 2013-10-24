@@ -11,8 +11,20 @@ describe StackerBee::Connection do
   let(:connection)    { StackerBee::Connection.new configuration }
   before do
     Faraday.should_receive(:new).with(url: url) { faraday }
-    faraday.should_receive(:get).with('', query_params) { response }
   end
   subject { connection.get request }
-  it { should be response }
+
+  context "successfully connecting" do
+    before do
+      faraday.should_receive(:get).with('', query_params) { response }
+    end
+    it { should be response }
+  end
+
+  context "failing to connect" do
+    before do
+      faraday.stub(:get) { raise Faraday::Error::ConnectionFailed, "boom" }
+    end
+    it { expect(-> { subject }).to raise_error StackerBee::ConnectionError, /#{url}/ }
+  end
 end

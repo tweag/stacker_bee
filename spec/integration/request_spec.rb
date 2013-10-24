@@ -5,9 +5,10 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   let(:io)         { StringIO.new }
   let(:logger)     { Logger.new(io) }
   let(:log_string) { io.string }
+  let(:url)        { ENV["CLOUD_STACK_URL"] }
   let(:config_hash) do
     {
-      url:        ENV["CLOUD_STACK_URL"],
+      url:        url,
       api_key:    ENV["CLOUD_STACK_API_KEY"],
       secret_key: ENV["CLOUD_STACK_SECRET_KEY"],
       logger:     logger,
@@ -47,5 +48,10 @@ describe "A response to a request sent to the CloudStack API", :vcr do
         log_string.should include "ERROR"
       end
     end
+  end
+
+  context "failing to connect" do
+    let(:url) { "http://127.0.0.1:1234/client/api" }
+    it { expect(-> { subject }).to raise_error StackerBee::ConnectionError, /#{url}/ }
   end
 end
