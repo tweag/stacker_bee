@@ -23,7 +23,7 @@ module StackerBee
       end
 
       def configuration=(config_hash)
-        self.default_config.merge!(config_hash)
+        default_config.merge!(config_hash)
       end
 
       def api_path
@@ -55,7 +55,7 @@ module StackerBee
 
     def request(endpoint_name, params = {})
       request      = Request.new(endpoint_for(endpoint_name), api_key, params)
-      raw_response = self.connection.get(request)
+      raw_response = connection.get(request)
       Response.new(raw_response)
     end
 
@@ -79,7 +79,7 @@ module StackerBee
     protected
 
     def connection
-      @connection ||= Connection.new(self.configuration)
+      @connection ||= Connection.new(configuration)
     end
 
     def configuration_with_defaults(config = {})
