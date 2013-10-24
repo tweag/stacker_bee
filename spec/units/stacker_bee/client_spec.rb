@@ -32,6 +32,7 @@ describe StackerBee::Client, "calling endpoint" do
   let(:list)        { double }
   let(:response)    { list }
   let(:api_path) { File.join(File.dirname(__FILE__), '../../fixtures/simple.json') }
+
   before do
     StackerBee::Client.api_path = api_path
     StackerBee::Connection.stub(:new) { connection }
@@ -124,6 +125,15 @@ describe StackerBee::Client, "configuration" do
 
     context "with instance-specific configuration" do
       subject { StackerBee::Client.new(instance_config_hash) }
+      its(:configuration) { should eq instance_configuration }
+      its(:url)           { should eq instance_url }
+      its(:api_key)       { should eq instance_api_key }
+      its(:secret_key)    { should eq instance_secret_key }
+    end
+
+    context "with instance-specific configuration that's not a hash" do
+      subject { StackerBee::Client.new(config) }
+      let(:config) { double(to_hash: instance_config_hash) }
       its(:configuration) { should eq instance_configuration }
       its(:url)           { should eq instance_url }
       its(:api_key)       { should eq instance_api_key }
