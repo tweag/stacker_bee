@@ -23,22 +23,22 @@ describe StackerBee::Client, "calling endpoint" do
       secret_key: secret_key
     }
   end
-  let(:client)      { StackerBee::Client.new config_hash }
-  let(:endpoint)    { :list_virtual_machines }
-  let(:params)      { { list: :all } }
-  let(:connection)  { double }
-  let(:request)     { double }
-  let(:raw_request) { double }
-  let(:list)        { double }
-  let(:response)    { list }
-  let(:api_path) { File.join(File.dirname(__FILE__), '../../fixtures/simple.json') }
+  let(:client)       { StackerBee::Client.new config_hash }
+  let(:endpoint)     { :list_virtual_machines }
+  let(:params)       { { list: :all } }
+  let(:connection)   { double }
+  let(:request)      { double }
+  let(:raw_response) { double }
+  let(:list)         { double }
+  let(:response)     { double(body: list) }
+  let(:api_path)     { File.join(File.dirname(__FILE__), '../../fixtures/simple.json') }
 
   before do
     StackerBee::Client.api_path = api_path
     StackerBee::Connection.stub(:new) { connection }
     StackerBee::Request.stub(:new).with("listVirtualMachines", api_key, params) { request }
-    connection.stub(:get).with(request) { raw_request }
-    StackerBee::Response.stub(:new).with(raw_request) { response }
+    connection.stub(:get).with(request) { raw_response }
+    StackerBee::Response.stub(:new).with(raw_response) { response }
   end
 
   subject { client }
@@ -64,23 +64,25 @@ describe StackerBee::Client, "#request" do
       secret_key: secret_key
     }
   end
-  let(:client)      { StackerBee::Client.new config_hash }
-  let(:connection)  { double }
-  let(:request)     { double }
-  let(:raw_request) { double }
-  let(:response)    { double }
+  let(:client)        { StackerBee::Client.new config_hash }
+  let(:connection)    { double }
+  let(:request)       { double }
+  let(:raw_response)  { double }
+  let(:response)      { double(body: response_body) }
+  let(:response_body) { double }
+
   before do
     StackerBee::Connection.should_receive(:new) { connection }
     StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) { request }
-    connection.should_receive(:get).with(request) { raw_request }
-    StackerBee::Response.should_receive(:new).with(raw_request) { response }
+    connection.should_receive(:get).with(request) { raw_response }
+    StackerBee::Response.should_receive(:new).with(raw_response) { response }
   end
 
-  it { should eq response }
+  it { should eq response_body }
 
   context "called with a differently-cased endpoint" do
     subject { client.request("list_Virtual_mACHINES", params) }
-    it { should eq response }
+    it { should eq response_body }
   end
 end
 
