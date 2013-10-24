@@ -13,7 +13,7 @@ module StackerBee
     end
 
     def get(request)
-      @faraday.get(request.path, request.query_params)
+      @faraday.get('', request.query_params)
     end
   end
 end

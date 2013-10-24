@@ -6,7 +6,6 @@ describe StackerBee::Request do
   let(:params)    { { list: :all } }
   let(:request)   { StackerBee::Request.new endpoint, api_key, params }
   subject { request }
-  its(:path)   { should include "api" }
   its(:params) { should == { list: :all, api_key: api_key, command: "listStuff", response: "json" } }
 
   describe "#query_params" do

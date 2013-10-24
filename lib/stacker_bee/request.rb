@@ -15,10 +15,6 @@ module StackerBee
       self.params = params
     end
 
-    def path
-      "/client/api/"
-    end
-
     def query_params
       self.params.to_a.sort!.map!{|(key, val)| [camel_case(key, true), val] }
     end
