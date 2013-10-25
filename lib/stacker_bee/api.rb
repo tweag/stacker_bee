@@ -9,29 +9,29 @@ module StackerBee
     def initialize(attrs = {})
       attrs.each_pair do |key, value|
         setter = "#{key}="
-        self.send(setter, value)
+        send(setter, value)
       end
     end
 
     def [](key)
-      self.endpoints[uncase(key)]
+      endpoints[uncase(key)]
     end
 
     def key?(key)
-      self.endpoints.key? uncase(key)
+      endpoints.key? uncase(key)
     end
 
     protected
 
     def endpoints
-      @endpoints ||= self.read_endpoints
+      @endpoints ||= read_endpoints
     end
 
     def read_endpoints
-      return unless self.api_path
-      json     = File.read(self.api_path)
+      return unless api_path
+      json     = File.read(api_path)
       response = MultiJson.load(json)
-      self.apis_by_endpoint(response)
+      apis_by_endpoint(response)
     end
 
     def apis_by_endpoint(response)

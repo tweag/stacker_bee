@@ -11,8 +11,8 @@ module StackerBee
     def parse(json)
       parsed = MultiJson.load(json)
       response_key = parsed.keys.first if parsed.keys.size == 1
-      raise "Unable to determine response key in #{parsed.keys}" unless response_key
-      parsed[response_key]
+      return parsed[response_key] if response_key
+      fail "Unable to determine response key in #{parsed.keys}"
     end
   end
 end

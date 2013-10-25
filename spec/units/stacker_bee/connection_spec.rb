@@ -23,8 +23,11 @@ describe StackerBee::Connection do
 
   context "failing to connect" do
     before do
-      faraday.stub(:get) { raise Faraday::Error::ConnectionFailed, "boom" }
+      faraday.stub(:get) { fail Faraday::Error::ConnectionFailed, "boom" }
     end
-    it { expect(-> { subject }).to raise_error StackerBee::ConnectionError, /#{url}/ }
+    it "should raise helpful exception" do
+      klass = StackerBee::ConnectionError
+      expect(-> { subject }).to raise_error klass, /#{url}/
+    end
   end
 end

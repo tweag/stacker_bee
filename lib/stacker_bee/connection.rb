@@ -13,7 +13,7 @@ module StackerBee
       @faraday = Faraday.new(url: self.configuration.url) do |faraday|
         faraday.use      Middleware::SignedQuery, self.configuration.secret_key
         faraday.use      Middleware::Logger, self.configuration.logger
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.adapter  Faraday.default_adapter  # Net::HTTP
       end
     end
 

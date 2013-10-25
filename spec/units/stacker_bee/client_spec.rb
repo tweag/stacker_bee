@@ -31,12 +31,18 @@ describe StackerBee::Client, "calling endpoint" do
   let(:raw_response) { double }
   let(:list)         { double }
   let(:response)     { double(body: list) }
-  let(:api_path)     { File.join(File.dirname(__FILE__), '../../fixtures/simple.json') }
+  let(:api_path) do
+    File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
+  end
 
   before do
     StackerBee::Client.api_path = api_path
     StackerBee::Connection.stub(:new) { connection }
-    StackerBee::Request.stub(:new).with("listVirtualMachines", api_key, params) { request }
+    StackerBee::Request.stub(:new).with(
+      "listVirtualMachines", api_key, params
+    ) do
+      request
+    end
     connection.stub(:get).with(request) { raw_response }
     StackerBee::Response.stub(:new).with(raw_response) { response }
   end
@@ -73,7 +79,9 @@ describe StackerBee::Client, "#request" do
 
   before do
     StackerBee::Connection.should_receive(:new) { connection }
-    StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) { request }
+    StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) do
+      request
+    end
     connection.should_receive(:get).with(request) { raw_response }
     StackerBee::Response.should_receive(:new).with(raw_response) { response }
   end
@@ -97,7 +105,9 @@ describe StackerBee::Client, "configuration" do
       secret_key: default_secret_key
     }
   end
-  let!(:default_configuration) { StackerBee::Configuration.new(default_config_hash) }
+  let!(:default_configuration) do
+    StackerBee::Configuration.new(default_config_hash)
+  end
   let(:instance_url)        { "instance-cloud-stack.com" }
   let(:instance_api_key)    { "instance-cloud-stack-api-key" }
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
@@ -108,11 +118,19 @@ describe StackerBee::Client, "configuration" do
       secret_key: instance_secret_key
     }
   end
-  let!(:instance_configuration) { StackerBee::Configuration.new(instance_config_hash) }
+  let!(:instance_configuration) do
+    StackerBee::Configuration.new(instance_config_hash)
+  end
   before do
-    StackerBee::Configuration.stub(:new) { raise "Unexpected Configuration instantiation" }
-    StackerBee::Configuration.stub(:new).with(default_config_hash)  { default_configuration }
-    StackerBee::Configuration.stub(:new).with(instance_config_hash) { instance_configuration }
+    StackerBee::Configuration.stub(:new) do
+      fail "Unexpected Configuration instantiation"
+    end
+    StackerBee::Configuration.stub(:new).with(default_config_hash)  do
+      default_configuration
+    end
+    StackerBee::Configuration.stub(:new).with(instance_config_hash) do
+      instance_configuration
+    end
     StackerBee::Client.configuration = default_config_hash
   end
 

@@ -9,7 +9,7 @@ module StackerBee
     def_delegators :body, :[], :[]=, :empty?, :keys, :inspect, :to_s, :first
 
     def initialize(raw_response)
-      raise RequestError.for(raw_response) unless raw_response.success?
+      fail RequestError.for(raw_response) unless raw_response.success?
       super(raw_response)
     end
 

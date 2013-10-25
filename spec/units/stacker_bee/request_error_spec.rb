@@ -21,7 +21,8 @@ end
 describe StackerBee::RequestError do
   let(:http_status) { 431 }
   let(:message) do
-    "Unable to execute API command deployvirtualmachine due to missing parameter zoneid"
+    "Unable to execute API command deployvirtualmachine " +
+    "due to missing parameter zoneid"
   end
   let(:raw_body) do
     <<-EOS

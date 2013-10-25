@@ -4,7 +4,9 @@ describe StackerBee::API do
   subject { api }
 
   let(:api) { StackerBee::API.new(api_path: api_path) }
-  let(:api_path) { File.join(File.dirname(__FILE__), '../../fixtures/simple.json') }
+  let(:api_path) do
+    File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
+  end
 
   its(:api_path) { should eq api_path }
 

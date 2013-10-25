@@ -8,7 +8,11 @@ describe StackerBee::Response do
   its(:body) { should == 'here' }
 
   context "raw response for list endpoint" do
-    let(:raw_body) { '{ "listvirtualmachinesresponse": {"count": 1, "virtualmachine": ["ohai"] }}' }
+    let(:raw_body) do
+      '{ "listvirtualmachinesresponse": ' +
+        '{ "count": 1, "virtualmachine": ["ohai"] }' +
+      '}'
+    end
     its(:body) { should == ["ohai"] }
   end
 
@@ -18,17 +22,25 @@ describe StackerBee::Response do
   end
 
   context "raw response for async endpoint" do
-    let(:raw_body) { '{ "deployvirtualmachineresponse": {"id": 123, "jobid": 321} }' }
-    its(:body) { should == {"id" => 123, "jobid" => 321} }
+    let(:raw_body) do
+      '{ "deployvirtualmachineresponse": { "id": 123, "jobid": 321 } }'
+    end
+    its(:body) { should == { "id" => 123, "jobid" => 321 } }
   end
 
   context "raw response for create endpoint" do
-    let(:raw_body) { '{ "register_ssh_keypair": {"fingerprint": 456} }' }
-    its(:body) { should == {"fingerprint" => 456} }
+    let(:raw_body) { '{ "register_ssh_keypair": { "fingerprint": 456 } }' }
+    its(:body) { should == { "fingerprint" => 456 } }
   end
 
   context "for failed request" do
-    let(:raw_response) { double body: '{"foo": "bar"}', :success? => false, status: 431 }
+    let(:raw_response) do
+      double(
+        :body     => '{ "foo": "bar" }',
+        :success? => false,
+        :status   => 431
+      )
+    end
     let(:client_error) { StackerBee::ClientError.new raw_response }
     it { expect(-> { subject }).to raise_exception StackerBee::ClientError }
   end

@@ -10,10 +10,10 @@ module StackerBee
 
       attr_accessor :logger
 
-      def initialize(app, logger = nil)
+      def initialize(app, _logger = nil)
         super(app)
-        self.logger = logger
-        self.logger.progname ||= PROGNAME
+        self.logger = _logger
+        logger.progname ||= PROGNAME
       end
 
       def logger

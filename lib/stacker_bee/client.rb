@@ -7,10 +7,18 @@ require "stacker_bee/response"
 
 module StackerBee
   class Client
-    DEFAULT_API_PATH = File.join(File.dirname(__FILE__), '../../config/4.2.json')
+    DEFAULT_API_PATH = File.join(
+      File.dirname(__FILE__), '../../config/4.2.json'
+    )
 
     extend Forwardable
-    def_delegators :configuration, :url, :url=, :api_key, :api_key=, :secret_key, :secret_key=
+    def_delegators :configuration,
+                   :url,
+                   :url=,
+                   :api_key,
+                   :api_key=,
+                   :secret_key,
+                   :secret_key=
 
     class << self
 
@@ -65,7 +73,8 @@ module StackerBee
     end
 
     def method_missing(name, *args, &block)
-      if endpoint = endpoint_for(name)
+      endpoint = endpoint_for(name)
+      if endpoint
         request(endpoint, *args, &block)
       else
         super

@@ -16,7 +16,7 @@ module StackerBee
     end
 
     def query_params
-      self.params.to_a.sort!.map!{|(key, val)| [camel_case(key, true), val] }
+      params.to_a.sort!.map! { |(key, val)| [camel_case(key, true), val] }
     end
   end
 end

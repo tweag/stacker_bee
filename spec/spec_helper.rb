@@ -31,12 +31,18 @@ require 'vcr'
 VCR.configure do |c|
   c.hook_into :webmock
   c.cassette_library_dir     = 'spec/cassettes'
-  c.filter_sensitive_data('<CLOUD_STACK_URL>')        { ENV["CLOUD_STACK_URL"] }
-  c.filter_sensitive_data('<CLOUD_STACK_API_KEY>')    { ENV["CLOUD_STACK_API_KEY"] }
-  c.filter_sensitive_data('<CLOUD_STACK_SECRET_KEY>') { ENV["CLOUD_STACK_SECRET_KEY"] }
+  c.filter_sensitive_data('<CLOUD_STACK_URL>') do
+    ENV["CLOUD_STACK_URL"]
+  end
+  c.filter_sensitive_data('<CLOUD_STACK_API_KEY>') do
+    ENV["CLOUD_STACK_API_KEY"]
+  end
+  c.filter_sensitive_data('<CLOUD_STACK_SECRET_KEY>') do
+    ENV["CLOUD_STACK_SECRET_KEY"]
+  end
   c.default_cassette_options = {
-    :record             => :new_episodes,
-    :match_requests_on  => [
+    record: :new_episodes,
+    match_requests_on: [
       :method,
       VCR.request_matchers.uri_without_param(:signature)
     ]

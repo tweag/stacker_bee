@@ -18,7 +18,7 @@ describe StackerBee::Middleware::Logger do
       {
         method:          "PATCH",
         url:             "http://localhost",
-        request_headers: {"User-Agent"=>"RSpec"}
+        request_headers: { "User-Agent" => "RSpec" }
       }
     end
     before do
@@ -36,7 +36,7 @@ describe StackerBee::Middleware::Logger do
       {
         status:           status,
         body:             "OK",
-        response_headers: {"Server"=>"RSpec"}
+        response_headers: { "Server" => "RSpec" }
       }
     end
     before do

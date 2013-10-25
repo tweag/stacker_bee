@@ -17,11 +17,11 @@ module StackerBee
     end
 
     def status
-      self.body["errorcode"]
+      body["errorcode"]
     end
 
     def to_s
-      self.body["errortext"]
+      body["errortext"]
     end
   end
 
