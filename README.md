@@ -1,4 +1,4 @@
-# Unofficial Ruby CloudStack 
+# Unofficial Ruby CloudStack client
 
 [![Code Climate](https://codeclimate.com/github/promptworks/stacker_bee.png)](https://codeclimate.com/github/promptworks/stacker_bee)
 [![Dependency Status](https://gemnasium.com/promptworks/stacker_bee.png)](https://gemnasium.com/promptworks/stacker_bee)
@@ -20,7 +20,75 @@ And execute:
 
     $ bundle install
 
-## Development
+## Basic Usage
+
+    my_client = StackerBee::Client.new({
+      url:        'http://localhost:8080/client/api',
+      api_key:    'MY_API_KEY',
+      secret_key: 'MY_SECRET_KEY'
+    })
+    
+    my_client.list_virtual_machines
+    
+    my_client.create_volume name: "MyVolume"
+
+## Basic Configuration
+
+All configuration parameters set on the Client class are used as defaults for Client instances.
+
+### URL
+
+Your CloudStack URL. E.g. http://localhost:8080/client/api
+
+    StackerBee::Client.url = "http://localhost:8080/client/api"
+
+Or:
+
+    my_client = StackerBee::Client.new({
+      url: 'http://localhost:8080/client/api'
+    })
+
+### Keys
+
+Your CloudStack credentials, i.e. API key and secret key.
+
+    StackerBee::Client.api_key    = "MY_API_KEY"
+    StackerBee::Client.secret_key = "MY_SECRET_KEY"
+
+Or:
+
+    my_client = StackerBee::Client.new({
+      api_key:    'MY_API_KEY',
+      secret_key: 'MY_SECRET_KEY'
+    })
+
+### Logger
+
+Your logger of choice.
+
+    StackerBee::Client.logger = Rails.logger
+
+Or:
+
+    my_client = StackerBee::Client.new({
+      logger: Rails.logger
+    })
+
+## Configurable API
+
+    StackerBee::Client.api_path = "/path/to/your/listApis/response.json"
+
+## CLI
+
+Usage:
+
+    $ stacker_bee COMMAND [OPTIONS]
+
+Examples:
+
+    $ stacker_bee list_virtual_machines -u http://localhost:8080/client/api -a MY_API_KEY -s MY_SECRET_KEY
+
+## Contributing
 
 Running the tests:
 
@@ -32,15 +100,6 @@ To interact with a real CloudStack server:
 
 And edit `.env`, specifying the URL and credentials for your CloudStack server. This file is ignored by git.
 
-## Basic Configuration
+## License
 
-TODO
-Set individual class attrs
-Set class config=
-Set environment variables
-
-## Basic Usage
-
-TODO
-As a dependency
-Using the CLI
+StackerBee is released under the [MIT License](http://www.opensource.org/licenses/MIT).
