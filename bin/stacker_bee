@@ -58,7 +58,7 @@ ARGV.each do |endpoint|
     puts "#{endpoint}:"
   end
   response = client.request(endpoint)
-  puts JSON.pretty_generate response.body
+  puts JSON.pretty_generate response
 end
 
 exit
