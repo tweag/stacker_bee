@@ -13,6 +13,8 @@ module StackerBee
 
     extend Forwardable
     def_delegators :configuration,
+                   :logger,
+                   :logger=,
                    :url,
                    :url=,
                    :api_key,
