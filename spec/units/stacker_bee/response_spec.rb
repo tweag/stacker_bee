@@ -44,4 +44,9 @@ describe StackerBee::Response do
     let(:client_error) { StackerBee::ClientError.new raw_response }
     it { expect(-> { subject }).to raise_exception StackerBee::ClientError }
   end
+
+  context "for response with single key that's an object" do
+    let(:raw_body) { '{ "getuserresponse": { "user": { "id": 1 } } }' }
+    its(:body) { should == { "id" => 1 } }
+  end
 end
