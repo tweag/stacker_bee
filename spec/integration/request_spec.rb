@@ -61,8 +61,9 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   context "trailing slash in URL" do
     let(:url) { ENV["CLOUD_STACK_URL"].gsub(/\/$/, '') + '/' }
     it "makes request with trailing slash" do
+      stub = stub_request(:get, /#{url}/).to_return(body: '{"foo": {}}')
       subject
-      a_request(:get, /#{url}/).should have_been_made.once
+      stub.should have_been_requested
     end
   end
 end
