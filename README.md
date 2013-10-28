@@ -27,9 +27,9 @@ And execute:
       api_key:    'MY_API_KEY',
       secret_key: 'MY_SECRET_KEY'
     })
-    
+
     my_client.list_virtual_machines
-    
+
     my_client.create_volume name: "MyVolume"
 
 ## Basic Configuration
@@ -82,11 +82,15 @@ Or:
 
 Usage:
 
-    $ stacker_bee COMMAND [OPTIONS]
+    $ stacker_bee [OPTIONS]
 
 Examples:
 
-    $ stacker_bee list_virtual_machines -u http://localhost:8080/client/api -a MY_API_KEY -s MY_SECRET_KEY
+    $ stacker_bee -u http://localhost:8080/client/api -a MY_API_KEY -s MY_SECRET_KEY
+    StackerBee CloudStack REPL
+    >> list_virtual_machines state: 'Running'
+    => [{"id"=>"48b91ab4-dc23-4e24-bc6f-695d58c91087", "name"=>"jason" ...}]
+    >>
 
 ## Contributing
 
@@ -96,9 +100,9 @@ Running the tests:
 
 To interact with a real CloudStack server:
 
-    $ cp .env.default .env
+    $ cp config.default.yml config.yml
 
-And edit `.env`, specifying the URL and credentials for your CloudStack server. This file is ignored by git.
+And edit `config.yml`, specifying the URL and credentials for your CloudStack server. This file is ignored by git.
 
 ## License
 

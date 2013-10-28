@@ -5,12 +5,12 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   let(:io)         { StringIO.new }
   let(:logger)     { Logger.new(io) }
   let(:log_string) { io.string }
-  let(:url)        { ENV["CLOUD_STACK_URL"] }
+  let(:url)        { CONFIG["url"] }
   let(:config_hash) do
     {
       url:        url,
-      api_key:    ENV["CLOUD_STACK_API_KEY"],
-      secret_key: ENV["CLOUD_STACK_SECRET_KEY"],
+      api_key:    CONFIG["api_key"],
+      secret_key: CONFIG["secret_key"],
       logger:     logger,
       apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json')
     }
@@ -59,7 +59,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "trailing slash in URL", :regression do
-    let(:url) { ENV["CLOUD_STACK_URL"].gsub(/\/$/, '') + '/' }
+    let(:url) { CONFIG["url"].gsub(/\/$/, '') + '/' }
     it "makes request with trailing slash" do
       stub = stub_request(:get, /#{url}/).to_return(body: '{"foo": {}}')
       subject

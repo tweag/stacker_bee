@@ -2,39 +2,59 @@
 require 'optparse'
 require 'stacker_bee'
 require 'json'
+require 'yaml'
+require 'irb'
+require 'irb/completion'
+
+cli_title = "StackerBee CloudStack REPL"
 
 filename  = File.basename(__FILE__)
 options   = {}
 verbose   = false
 optparse  = OptionParser.new do |opts|
-  opts.banner = "Usage: #{filename} api_endpoint [options]\n" <<
-                "Example: #{filename} list_virtual_machines " <<
+  opts.banner = "#{cli_title}\n" <<
+                "Usage: #{filename} [options]\n" <<
+                "Example: #{filename} " <<
                 "-u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY"
-  opts.on('-a', '--api-key=API_KEY', "CloudStack API Key") do |api_key|
-    options[:api_key] = api_key
+
+  config_help = "StackerBee configuration file, formatted as YAML"
+  opts.on('-c', '--config=/PATH/TO/CONFIG.yml', config_help) do |config|
+    options["config"] = config
   end
-  opts.on('-s', '--secret-key=SECRET_KEY', "CloudStack Secret Key") do |key|
-    options[:secret_key] = key
+  opts.on('-a', '--api_key=API_KEY', "CloudStack API Key") do |key|
+    options["api_key"] = key
+  end
+  opts.on('-s', '--secret_key=SECRET_KEY', "CloudStack Secret Key") do |key|
+    options["secret_key"] = key
   end
   opts.on('-u', '--url=URL', "CloudStack URL") do |url|
-    options[:url] = url
+    options["url"] = url
   end
   opts.on('-v', '--[no-]verbose', 'Run verbosely') do |v|
     verbose = true
   end
   opts.on('-h', '--help', 'Display this screen') do
     puts opts
+
+    puts
+    puts "Example config file:"
+    puts
+    puts "url: 'http://127.0.0.1:1234/client/api'"
+    puts "api_key: 'MY_KEY-MY_KEY-MY_KEY'"
+    puts "secret_key: 'TOP-SECRET-TOP-SECRET'"
+
     exit
   end
 end
 
 begin
   optparse.parse!
-  mandatory = [:api_key, :secret_key, :url]
-  missing = mandatory.select { |param| options[param].nil? }
-  unless missing.empty?
-    puts "Missing options: #{missing.join(', ')}" if mandatory != missing
-    puts optparse
+  if options["config"]
+    hash = File.read options["config"]
+    options.merge! YAML.load(hash)
+  end
+  unless (%w(api_key secret_key url) - options.keys).empty?
+    puts "Please specify a config file or all of the following: --api_key, --secret_key and --url"
     exit
   end
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument
@@ -43,22 +63,35 @@ rescue OptionParser::InvalidOption, OptionParser::MissingArgument
   exit
 end
 
-puts "StackerBee version #{StackerBee::VERSION}" if verbose
-
 if verbose
-  puts "URL: #{options[:url]}"
-  puts "API key: #{options[:api_key]}"
+  puts "StackerBee version #{StackerBee::VERSION}"
+  puts "URL: #{options["url"]}"
+  puts "API key: #{options["api_key"]}"
+else
+  options['logger'] = Logger.new('/dev/null')
 end
 
 client = StackerBee::Client.new(options)
 
-ARGV.each do |endpoint|
-  if verbose
-    puts "=" * 80
-    puts "#{endpoint}:"
+
+module IRB
+  class << self
+    def parse_opts
+      # Don't touch ARGV
+    end
+
+    def start_session(object)
+      setup nil
+      workspace = WorkSpace.new(object)
+      irb       = Irb.new(workspace)
+
+      @CONF[:MAIN_CONTEXT] = irb.context
+      trap('INT')      { irb.signal_handle }
+      catch(:IRB_EXIT) { irb.eval_input }
+    end
   end
-  response = client.request(endpoint)
-  puts JSON.pretty_generate response
 end
 
-exit
+puts cli_title
+puts '  try: list_virtual_machines state: "Started"'
+IRB.start_session client

@@ -7,8 +7,13 @@
 
 require File.expand_path("../../lib/stacker_bee", __FILE__)
 
-require 'dotenv'
-Dotenv.load('.env', '.env.default')
+require 'yaml'
+
+default_config_file = File.expand_path("../../config.default.yml", __FILE__)
+config_file         = File.expand_path("../../config.yml", __FILE__)
+
+CONFIG = YAML.load(File.read(default_config_file))
+CONFIG.merge!(YAML.load(File.read(config_file))) if File.exists?(config_file)
 
 require 'webmock/rspec'
 
@@ -34,13 +39,13 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.cassette_library_dir     = 'spec/cassettes'
   c.filter_sensitive_data('<CLOUD_STACK_URL>') do
-    ENV["CLOUD_STACK_URL"]
+    CONFIG["url"]
   end
   c.filter_sensitive_data('<CLOUD_STACK_API_KEY>') do
-    ENV["CLOUD_STACK_API_KEY"]
+    CONFIG["api_key"]
   end
   c.filter_sensitive_data('<CLOUD_STACK_SECRET_KEY>') do
-    ENV["CLOUD_STACK_SECRET_KEY"]
+    CONFIG["secret_key"]
   end
   c.default_cassette_options = {
     record: :new_episodes,
