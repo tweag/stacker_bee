@@ -1,26 +1,15 @@
 require "stacker_bee/body_parser"
 require "stacker_bee/request_error"
-require "pp"
+require 'delegate'
 
 module StackerBee
-  class Response
+  class Response < SimpleDelegator
     include BodyParser
-
-    def method_missing(name, *args, &block)
-      body.public_send(name, *args, &block) if body.respond_to?(name)
-    end
-
-    def respond_to?(name)
-      super || body.respond_to?(name)
-    end
 
     def initialize(raw_response)
       fail RequestError.for(raw_response) unless raw_response.success?
-      super(raw_response)
-    end
-
-    def inspect(*args)
-      body.pretty_inspect
+      self.body = raw_response
+      super body
     end
 
     protected

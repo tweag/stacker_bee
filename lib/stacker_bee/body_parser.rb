@@ -4,7 +4,7 @@ module StackerBee
   module BodyParser
     attr_reader :body
 
-    def initialize(raw_response)
+    def body=(raw_response)
       @body = parse(raw_response.body)
     end
 

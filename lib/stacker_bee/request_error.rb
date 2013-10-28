@@ -4,6 +4,10 @@ module StackerBee
   class RequestError < Exception
     include BodyParser
 
+    def initialize(raw_body)
+      self.body = raw_body
+    end
+
     def self.for(raw_response)
       klass = case raw_response.status
               when 401      then AuthenticationError
