@@ -1,5 +1,6 @@
 require "stacker_bee/body_parser"
 require "stacker_bee/request_error"
+require "pp"
 
 module StackerBee
   class Response
@@ -16,6 +17,10 @@ module StackerBee
     def initialize(raw_response)
       fail RequestError.for(raw_response) unless raw_response.success?
       super(raw_response)
+    end
+
+    def inspect(*)
+      body.pretty_inspect
     end
 
     protected

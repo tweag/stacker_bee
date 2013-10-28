@@ -89,7 +89,10 @@ Examples:
     $ stacker_bee -u http://localhost:8080/client/api -a MY_API_KEY -s MY_SECRET_KEY
     StackerBee CloudStack REPL
     >> list_virtual_machines state: 'Running'
-    => [{"id"=>"48b91ab4-dc23-4e24-bc6f-695d58c91087", "name"=>"jason" ...}]
+    => [{"id"=>"48b91ab4-dc23-4e24-bc6f-695d58c91087",
+      "name"=>"MyVM",
+      "displayname"=>"My VM",
+      ...
     >>
 
 ## Contributing
