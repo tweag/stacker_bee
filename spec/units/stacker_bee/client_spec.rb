@@ -29,8 +29,7 @@ describe StackerBee::Client, "calling endpoint" do
   let(:connection)   { double }
   let(:request)      { double }
   let(:raw_response) { double }
-  let(:list)         { double }
-  let(:response)     { double(body: list) }
+  let(:response)     { double }
   let(:api_path) do
     File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
   end
@@ -51,7 +50,7 @@ describe StackerBee::Client, "calling endpoint" do
   it { should respond_to endpoint }
   describe "response to endpoint request" do
     subject { client.list_virtual_machines(params) }
-    it { should eq list }
+    it { should eq response }
   end
 end
 
@@ -74,8 +73,7 @@ describe StackerBee::Client, "#request" do
   let(:connection)    { double }
   let(:request)       { double }
   let(:raw_response)  { double }
-  let(:response)      { double(body: response_body) }
-  let(:response_body) { double }
+  let(:response)      { double }
 
   before do
     StackerBee::Connection.should_receive(:new) { connection }
@@ -86,11 +84,11 @@ describe StackerBee::Client, "#request" do
     StackerBee::Response.should_receive(:new).with(raw_response) { response }
   end
 
-  it { should eq response_body }
+  it { should eq response }
 
   context "called with a differently-cased endpoint" do
     subject { client.request("list_Virtual_mACHINES", params) }
-    it { should eq response_body }
+    it { should eq response }
   end
 end
 

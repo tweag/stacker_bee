@@ -1,12 +1,17 @@
-require "forwardable"
 require "stacker_bee/body_parser"
 require "stacker_bee/request_error"
 
 module StackerBee
   class Response
     include BodyParser
-    extend Forwardable
-    def_delegators :body, :[], :[]=, :empty?, :keys, :inspect, :to_s, :first
+
+    def method_missing(name, *args, &block)
+      body.public_send(name, *args, &block) if body.respond_to?(name)
+    end
+
+    def respond_to?(name)
+      super || body.respond_to?(name)
+    end
 
     def initialize(raw_response)
       fail RequestError.for(raw_response) unless raw_response.success?

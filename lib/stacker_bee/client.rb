@@ -66,7 +66,7 @@ module StackerBee
     def request(endpoint_name, params = {})
       request      = Request.new(endpoint_for(endpoint_name), api_key, params)
       raw_response = connection.get(request)
-      Response.new(raw_response).body
+      Response.new(raw_response)
     end
 
     def endpoint_for(name)
