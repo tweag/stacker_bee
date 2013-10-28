@@ -16,10 +16,12 @@ module StackerBee
       end
 
       def sign_uri(uri)
-        downcased = uri.query.downcase
-        signed    = OpenSSL::HMAC.digest 'sha1', @key, downcased
-        encoded   = Base64.encode64(signed).chomp
-        escaped   = CGI.escape(encoded)
+        downcased  = uri.query.downcase
+        nonplussed = downcased.gsub('+', '%20')
+        signed     = OpenSSL::HMAC.digest 'sha1', @key, nonplussed
+        encoded    = Base64.encode64(signed).chomp
+        escaped    = CGI.escape(encoded)
+
         uri.query << "&signature=#{escaped}"
       end
     end

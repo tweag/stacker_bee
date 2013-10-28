@@ -66,4 +66,15 @@ describe "A response to a request sent to the CloudStack API", :vcr do
       stub.should have_been_requested
     end
   end
+
+  context "space character in a request parameter", :regression do
+    let(:params) { { name: "stacker bee" } }
+    subject do
+      client.list_accounts(params)
+    end
+
+    it "properly signs the request" do
+      expect { subject }.not_to raise_error
+    end
+  end
 end
