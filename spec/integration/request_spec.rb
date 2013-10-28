@@ -39,7 +39,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     subject do
       client.deploy_virtual_machine
     end
-    it { expect(-> { subject }).to raise_error StackerBee::ClientError }
+    it { expect { subject }.to raise_error StackerBee::ClientError }
 
     it "should log response as error" do
       begin
@@ -58,7 +58,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     end
   end
 
-  context "trailing slash in URL" do
+  context "trailing slash in URL", :regression do
     let(:url) { ENV["CLOUD_STACK_URL"].gsub(/\/$/, '') + '/' }
     it "makes request with trailing slash" do
       stub = stub_request(:get, /#{url}/).to_return(body: '{"foo": {}}')

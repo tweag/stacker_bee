@@ -9,9 +9,9 @@ describe StackerBee::Response do
 
   context "raw response for list endpoint" do
     let(:raw_body) do
-      '{ "listvirtualmachinesresponse": ' +
-        '{ "count": 1, "virtualmachine": ["ohai"] }' +
-      '}'
+      '{ "listvirtualmachinesresponse":
+        { "count": 1, "virtualmachine": ["ohai"] }
+      }'
     end
     its(:body) { should == ["ohai"] }
   end
@@ -41,8 +41,7 @@ describe StackerBee::Response do
         :status   => 431
       )
     end
-    let(:client_error) { StackerBee::ClientError.new raw_response }
-    it { expect(-> { subject }).to raise_exception StackerBee::ClientError }
+    it { expect { subject }.to raise_exception StackerBee::ClientError }
   end
 
   context "for response with single key that's an object" do
