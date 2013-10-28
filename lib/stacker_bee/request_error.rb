@@ -6,10 +6,9 @@ module StackerBee
 
     def self.for(raw_response)
       klass = case raw_response.status
-              when 400..499
-                ClientError
-              when 500..599
-                ServerError
+              when 401      then AuthenticationError
+              when 400..499 then ClientError
+              when 500..599 then ServerError
               else
                 self
               end
@@ -29,5 +28,8 @@ module StackerBee
   end
 
   class ClientError < RequestError
+  end
+
+  class AuthenticationError < ClientError
   end
 end

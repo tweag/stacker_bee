@@ -49,4 +49,26 @@ describe StackerBee::Response do
     let(:raw_body) { '{ "getuserresponse": { "user": { "id": 1 } } }' }
     its(:body) { should == { "id" => 1 } }
   end
+
+  context "for request with invalid credentials" do
+    let(:raw_response) do
+      double(
+        body: %[
+          { "createprojectresponse" :
+            {"uuidList":[],"errorcode":401,"errortext":"#{message}"} } ],
+        success?: false,
+        status: 401
+      )
+    end
+    let(:client_error) { StackerBee::AuthenticationError.new raw_response }
+    let(:message) do
+      "unable to verify user credentials and/or request signature"
+    end
+    it "raises an AuthenticationError" do
+      expect { subject }.to raise_exception(
+        StackerBee::AuthenticationError, message
+      )
+    end
+  end
+
 end
