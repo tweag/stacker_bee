@@ -16,8 +16,20 @@ module StackerBee
     end
 
     def query_params
-      params.select! { |key, val| !val.nil? }
-      params.to_a.sort.map { |(key, val)| [camel_case(key, true), val] }
+      params
+        .reject { |key, val| val.nil? }
+        .sort
+        .map { |(key, val)| [cloud_stack_key(key), cloud_stack_value(val)] }
+    end
+
+    private
+
+    def cloud_stack_key(key)
+      camel_case(key, true)
+    end
+
+    def cloud_stack_value(value)
+      value.respond_to?(:join) ? value.join(',') : value
     end
   end
 end
