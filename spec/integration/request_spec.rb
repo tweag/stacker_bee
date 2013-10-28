@@ -77,4 +77,26 @@ describe "A response to a request sent to the CloudStack API", :vcr do
       expect { subject }.not_to raise_error
     end
   end
+
+  context "a nil request parameter", :regression do
+    let(:params) { { name: nil } }
+    subject do
+      client.list_accounts(params)
+    end
+
+    it "properly executes the request" do
+      expect { subject }.not_to raise_error
+    end
+  end
+
+  context "a request parameter with and empty string", :regression do
+    let(:params) { { name: '' } }
+    subject do
+      client.list_accounts(params)
+    end
+
+    it "properly executes the request" do
+      expect { subject }.not_to raise_error
+    end
+  end
 end
