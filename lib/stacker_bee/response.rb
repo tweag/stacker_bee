@@ -19,7 +19,7 @@ module StackerBee
       super(raw_response)
     end
 
-    def inspect(*)
+    def inspect(*args)
       body.pretty_inspect
     end
 

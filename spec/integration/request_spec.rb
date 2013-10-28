@@ -101,7 +101,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "a request parameter with an Array", :regression do
-    let(:params) { { page: 1, pagesize: 1, details: %i(events stats) } }
+    let(:params) { { page: 1, pagesize: 1, details: [:events, :stats] } }
     subject do
       client.list_hosts(params).first.keys
     end
