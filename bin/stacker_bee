@@ -85,9 +85,9 @@ module IRB
       workspace = WorkSpace.new(object)
       irb       = Irb.new(workspace)
 
-      @CONF[:MAIN_CONTEXT] = irb.context
+      @CONF[:MAIN_CONTEXT] = irb.context      # rubocop:disable SymbolName
       trap('INT')      { irb.signal_handle }
-      catch(:IRB_EXIT) { irb.eval_input }
+      catch(:IRB_EXIT) { irb.eval_input }     # rubocop:disable SymbolName
     end
   end
 end
