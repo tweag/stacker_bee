@@ -2,7 +2,7 @@ require "stacker_bee/utilities"
 
 module StackerBee
   class Request
-    include Utilties
+    include Utilities
 
     RESPONSE_TYPE = "json"
 

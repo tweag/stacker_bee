@@ -3,7 +3,8 @@ require "stacker_bee/utilities"
 
 module StackerBee
   class API
-    include Utilties
+    include Utilities
+
     attr_accessor :api_path
 
     def initialize(attrs = {})

@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe StackerBee::Utilties, "#uncase" do
-  include StackerBee::Utilties
+describe StackerBee::Utilities, "#uncase" do
+  include StackerBee::Utilities
   it { uncase("Foo Bar").should eq "foobar" }
   it { uncase("foo_bar").should eq "foobar" }
   it { uncase("foo-bar").should eq "foobar" }

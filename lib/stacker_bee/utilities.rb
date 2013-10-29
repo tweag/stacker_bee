@@ -1,5 +1,5 @@
 module StackerBee
-  module Utilties
+  module Utilities
     def uncase(string)
       string.to_s.downcase.gsub(/\W|_/, '')
     end
