@@ -3,7 +3,7 @@ require "spec_helper"
 describe StackerBee::Request do
   let(:endpoint)  { "listStuff" }
   let(:api_key)   { "this_guy" }
-  let(:params)    { { list: :all, nothing: nil, deets: %i(things stuff) } }
+  let(:params)    { { list: :all, nothing: nil, deets: [:things, :stuff] } }
   let(:request)   { StackerBee::Request.new endpoint, api_key, params }
   subject { request }
   its(:params) do
@@ -12,7 +12,7 @@ describe StackerBee::Request do
       api_key: api_key,
       command: "listStuff",
       nothing: nil,
-      deets: %i(things stuff),
+      deets: [:things, :stuff],
       response: "json"
     }
   end
