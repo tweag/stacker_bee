@@ -17,11 +17,9 @@ module StackerBee
     def parse(json)
       parsed = super(json)
       return parsed unless parsed.respond_to? :keys
-
       if parsed.size == 2 && parsed.key?("count")
-        parsed.delete("count")
-        parsed.values.first
-      elsif parsed.size == 1 && parsed.values.first.is_a?(Hash)
+        parsed.reject { |key, val| key == "count" }.values.first
+      elsif parsed.size == 1 && parsed.values.first.respond_to?(:keys)
         parsed.values.first
       else
         parsed

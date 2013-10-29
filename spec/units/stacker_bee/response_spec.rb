@@ -10,10 +10,16 @@ describe StackerBee::Response do
   context "raw response for list endpoint" do
     let(:raw_body) do
       '{ "listvirtualmachinesresponse":
-        { "count": 1, "virtualmachine": ["ohai"] }
+        { "count": 1, "virtualmachine": [{"ohai": "there"}] }
       }'
     end
-    its(:body) { should == ["ohai"] }
+    its(:body) { should == [{ "ohai" => "there" }] }
+
+    context "first item" do
+      subject { response.first }
+      it { should == { "ohai" => "there" } }
+      its(["o_hai"]) { should == "there" }
+    end
   end
 
   context "raw response for list endpoint with no records" do

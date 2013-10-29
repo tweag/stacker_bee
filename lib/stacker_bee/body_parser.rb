@@ -1,4 +1,5 @@
 require "multi_json"
+require "stacker_bee/rash"
 
 module StackerBee
   module BodyParser
@@ -10,9 +11,13 @@ module StackerBee
 
     def parse(json)
       parsed = MultiJson.load(json)
-      response_key = parsed.keys.first if parsed.keys.size == 1
-      return parsed[response_key] if response_key
-      fail "Unable to determine response key in #{parsed.keys}"
+      fail "Cannot determine response key in #{parsed.keys}" if parsed.size > 1
+      case value = parsed.values.first
+      when Hash  then Rash.new(value)
+      when Array then value.map { |item| Rash.new(item) }
+      else
+        value
+      end
     end
   end
 end

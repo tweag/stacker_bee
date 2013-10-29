@@ -18,12 +18,16 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   let(:client) do
     StackerBee::Client.new(config_hash)
   end
-  subject do
-    client.list_accounts
-  end
+  subject { client.list_accounts }
 
   it { should_not be_empty }
-  its(:first) { should include "id" }
+
+  context "first item" do
+    subject { client.list_accounts.first }
+    it { should include "id" }
+    its(["accounttype"])  { should be_a Numeric }
+    its(["account_type"]) { should be_a Numeric }
+  end
 
   it "should log request" do
     subject
