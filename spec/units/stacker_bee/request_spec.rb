@@ -3,7 +3,14 @@ require "spec_helper"
 describe StackerBee::Request do
   let(:endpoint)  { "listStuff" }
   let(:api_key)   { "this_guy" }
-  let(:params)    { { list: :all, nothing: nil, deets: [:things, :stuff] } }
+  let(:params) do
+    {
+      list:     :all,
+      nothing:  nil,
+      deets:    [:things, :stuff],
+      blank:    ''
+    }
+  end
   let(:request)   { StackerBee::Request.new endpoint, api_key, params }
   subject { request }
   its(:params) do
@@ -12,6 +19,7 @@ describe StackerBee::Request do
       api_key: api_key,
       command: "listStuff",
       nothing: nil,
+      blank:   '',
       deets: [:things, :stuff],
       response: "json"
     }
@@ -26,6 +34,16 @@ describe StackerBee::Request do
     it { should include %w(deets things,stuff) }
     it "removes params with nil values" do
       subject.map(&:first).should_not include "nothing"
+    end
+    it "removes params with blank values" do
+      subject.map(&:first).should_not include "blank"
+    end
+
+    context "allowing blank strings" do
+      before do
+        request.allow_empty_string_params = true
+      end
+      it { should include ['blank', ''] }
     end
   end
 end

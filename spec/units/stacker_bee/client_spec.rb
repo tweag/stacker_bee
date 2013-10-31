@@ -27,7 +27,7 @@ describe StackerBee::Client, "calling endpoint" do
   let(:endpoint)     { :list_virtual_machines }
   let(:params)       { { list: :all } }
   let(:connection)   { double }
-  let(:request)      { double }
+  let(:request)      { double :allow_empty_string_params= => nil }
   let(:raw_response) { double }
   let(:response)     { double }
   let(:api_path) do
@@ -71,7 +71,7 @@ describe StackerBee::Client, "#request" do
   end
   let(:client)        { StackerBee::Client.new config_hash }
   let(:connection)    { double }
-  let(:request)       { double }
+  let(:request)       { double :allow_empty_string_params= => nil }
   let(:raw_response)  { double }
   let(:response)      { double }
 
@@ -100,7 +100,8 @@ describe StackerBee::Client, "configuration" do
     {
       url:        default_url,
       api_key:    default_api_key,
-      secret_key: default_secret_key
+      secret_key: default_secret_key,
+      allow_empty_string_params: false
     }
   end
   let!(:default_configuration) do
@@ -113,7 +114,8 @@ describe StackerBee::Client, "configuration" do
     {
       url:        instance_url,
       api_key:    instance_api_key,
-      secret_key: instance_secret_key
+      secret_key: instance_secret_key,
+      allow_empty_string_params: false
     }
   end
   let!(:instance_configuration) do

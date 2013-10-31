@@ -29,7 +29,9 @@ module StackerBee
       end
 
       def default_config
-        @default_config ||= {}
+        @default_config ||= {
+          allow_empty_string_params: false
+        }
       end
 
       def configuration=(config_hash)
@@ -65,6 +67,8 @@ module StackerBee
 
     def request(endpoint_name, params = {})
       request      = Request.new(endpoint_for(endpoint_name), api_key, params)
+      request.allow_empty_string_params =
+        configuration.allow_empty_string_params
       raw_response = connection.get(request)
       Response.new(raw_response)
     end
