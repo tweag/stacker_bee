@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.name          = "stacker_bee"
   spec.version       = StackerBee::VERSION
   spec.platform      = Gem::Platform::RUBY
-  spec.authors       = ["Greg Sterndale"]
-  spec.email         = ["greg@promptworks.com"]
+  spec.authors       = ["Greg Sterndale", "Mike Nicholaides"]
+  spec.email         = ["team@promptworks.com"]
   spec.summary       = %q{Ruby CloudStack client}
   spec.description   = %q{Ruby CloudStack client and CLI}
   spec.homepage      = "http://github.com/promptworks/stacker_bee"
