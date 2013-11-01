@@ -3,6 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/promptworks/stacker_bee.png)](https://codeclimate.com/github/promptworks/stacker_bee)
 [![Dependency Status](https://gemnasium.com/promptworks/stacker_bee.png)](https://gemnasium.com/promptworks/stacker_bee)
 [![Build Status](https://travis-ci.org/promptworks/stacker_bee.png?branch=master)](https://travis-ci.org/promptworks/stacker_bee)
+[![Gem Version](https://badge.fury.io/rb/stacker_bee.png)](http://badge.fury.io/rb/stacker_bee)
 
 The unofficial CloudStack client for Ruby.
 
