@@ -1,4 +1,4 @@
-require 'forwardable'
+require "forwardable"
 require "stacker_bee/utilities"
 
 module StackerBee

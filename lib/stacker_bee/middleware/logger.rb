@@ -1,6 +1,6 @@
-require 'forwardable'
-require 'logger'
-require 'pp'
+require "forwardable"
+require "logger"
+require "pp"
 
 module StackerBee
   module Middleware

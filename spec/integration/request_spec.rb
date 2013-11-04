@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'logger'
+require "spec_helper"
+require "logger"
 
 describe "A response to a request sent to the CloudStack API", :vcr do
   let(:io)         { StringIO.new }

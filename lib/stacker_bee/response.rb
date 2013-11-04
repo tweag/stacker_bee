@@ -1,6 +1,6 @@
 require "stacker_bee/body_parser"
 require "stacker_bee/request_error"
-require 'delegate'
+require "delegate"
 
 module StackerBee
   class Response < SimpleDelegator

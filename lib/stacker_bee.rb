@@ -1,16 +1,2 @@
-require_stacker_bee = if defined?(require_relative)
-                        lambda do |path|
-                          require_relative path
-                        end
-                      else # for 1.8.7
-                        lambda do |path|
-                          require "stacker_bee/#{path}"
-                        end
-                      end
-
-%w(
-  version
-  client
-).each do |file_name|
-  require_stacker_bee["stacker_bee/#{file_name}"]
-end
+require_relative "stacker_bee/version"
+require_relative "stacker_bee/client"
