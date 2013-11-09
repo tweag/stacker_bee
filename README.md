@@ -110,7 +110,7 @@ And edit `config.yml`, specifying the URL and credentials for your CloudStack se
 
 ## Thanks to
 
-- Chip Childers for a [reference implementation of a CloudStack client in Ruby](http://chipchilders.github.io/cloudstack_ruby_client/)
+- [Chip Childers](http://github.com/chipchilders) for a [reference implementation of a CloudStack client in Ruby](http://chipchilders.github.io/cloudstack_ruby_client/)
 
 ## License
 
