@@ -2,6 +2,7 @@
 *.rbc
 config.yml
 .rvmrc
+.ruby-version
 .bundle
 .config
 .yardoc
