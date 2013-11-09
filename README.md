@@ -108,6 +108,10 @@ To interact with a real CloudStack server:
 
 And edit `config.yml`, specifying the URL and credentials for your CloudStack server. This file is ignored by git.
 
+## Thanks to
+
+- Chip Childers for a [reference implementation of a CloudStack client in Ruby](http://chipchilders.github.io/cloudstack_ruby_client/)
+
 ## License
 
 StackerBee is released under the [MIT License](http://www.opensource.org/licenses/MIT).
