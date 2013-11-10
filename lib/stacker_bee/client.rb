@@ -23,7 +23,6 @@ module StackerBee
                    :secret_key=
 
     class << self
-
       def reset!
         @api, @api_path, @default_config = nil
       end

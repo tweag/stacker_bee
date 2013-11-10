@@ -42,7 +42,6 @@ module StackerBee
         debug env[:response_headers].pretty_inspect
         debug env[:body]
       end
-
     end
   end
 end
