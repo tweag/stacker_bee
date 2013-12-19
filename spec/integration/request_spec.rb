@@ -15,9 +15,11 @@ describe "A response to a request sent to the CloudStack API", :vcr do
       apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json')
     }
   end
+
   let(:client) do
     StackerBee::Client.new(config_hash)
   end
+
   subject { client.list_accounts }
 
   it { should_not be_empty }
@@ -112,5 +114,31 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     it { should include "cpuused" }
     it { should include "events" }
     it { should_not include "cpuallocated" }
+  end
+
+  context "a request parameter with a map" do
+    let(:zone_id)             { client.list_zones.first["id"] }
+
+    let(:service_offering_id) do
+      client.list_network_offerings(
+        supported_services: 'sourcenat',
+        type: 'isolated').first["id"]
+    end
+
+    let(:network) do
+      client.create_network(zone_id: zone_id,
+                            network_offering_id: service_offering_id,
+                            name: "John", displaytext: "John")
+    end
+
+    let(:tag) do
+      client.create_tags(resource_type: "Network",
+                         resource_ids: network["id"],
+                         tags: { "speed [lab]" => 'real fast!' })
+    end
+
+    it "can create an object" do
+      tag.should_not be_nil
+    end
   end
 end

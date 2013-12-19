@@ -49,6 +49,16 @@ For example:
     vm = cloud_stack.list_virtual_machines(affinity_group_id: id).first
     puts vm[:iso_display_text]
 
+### Handling 'map' parameters
+
+For any endpoint requiring a map parameter, simply pass in a hash.
+
+    create_tags(tags: { type: 'community'}, resource_type: "Template", resource_ids: id )
+
+This will yield a request with the following query string:
+
+    ...&tags[0].key=type&tags[0].name=type&tags[0].value=community
+
 ### Configurable Logger
 
     StackerBee::Client.logger = Rails.logger
