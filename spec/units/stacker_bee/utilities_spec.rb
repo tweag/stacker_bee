@@ -6,6 +6,7 @@ describe StackerBee::Utilities, "#uncase" do
   it { uncase("foo_bar").should eq "foobar" }
   it { uncase("foo-bar").should eq "foobar" }
   it { uncase("fooBar").should eq "foobar" }
+  it { uncase("foo[0].Bar").should eq "foo[0].bar" }
 
   it { snake_case("Foo Bar").should eq "foo_bar" }
   it { snake_case("foo_bar").should eq "foo_bar" }
@@ -22,4 +23,5 @@ describe StackerBee::Utilities, "#uncase" do
   it { camel_case("foo-bar", true).should eq "fooBar" }
   it { camel_case("fooBar", true).should eq "fooBar" }
   it { camel_case("fooBar", false).should eq "FooBar" }
+  it { camel_case("foo[0].Bar", false).should eq "Foo[0].Bar" }
 end

@@ -1,0 +1,153 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>?apiKey=<CLOUD_STACK_API_KEY>&command=listZones&response=json&signature=/MnHgTBKGc%2BXx0Z8KwMllvw92vg=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '403'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: US-ASCII
+      string: ! '{ "listzonesresponse" : { "count":1 ,"zone" : [  {"id":"39e9e31e-925c-4b55-8d33-f99912b73dfc","name":"Sandbox-simulator","dns1":"10.147.28.6","internaldns1":"10.147.28.6","guestcidraddress":"10.1.1.0/24","networktype":"Advanced","securitygroupsenabled":false,"allocationstate":"Enabled","zonetoken":"ea3acbc4-cae8-3b82-b42f-7492ddfede00","dhcpprovider":"VirtualRouter","localstorageenabled":false}
+        ] } }'
+    http_version: 
+  recorded_at: Wed, 18 Dec 2013 21:25:06 GMT
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>?apiKey=<CLOUD_STACK_API_KEY>&command=listNetworkOfferings&response=json&signature=BAdYatJ5Rjcffi6sU8P%2BZtLhSF8=&supportedServices=sourcenat&type=isolated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '6006'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: US-ASCII
+      string: ! '{ "listnetworkofferingsresponse" : { "count":4 ,"networkoffering"
+        : [  {"id":"fa126319-f822-4786-9cd3-30bd0c55ca94","name":"DefaultIsolatedNetworkOfferingWithSourceNatService","displaytext":"Offering
+        for Isolated networks with Source Nat service enabled","traffictype":"Guest","isdefault":true,"specifyvlan":false,"conservemode":true,"specifyipranges":false,"availability":"Required","networkrate":200,"state":"Enabled","guestiptype":"Isolated","serviceofferingid":"983410fa-b51b-439c-b8ba-be973804c38f","service":[{"name":"SourceNat","provider":[{"name":"VirtualRouter"}],"capability":[{"name":"SupportedSourceNatTypes","value":"peraccount","canchooseservicecapability":false},{"name":"RedundantRouter","value":"false","canchooseservicecapability":false}]},{"name":"Dns","provider":[{"name":"VirtualRouter"}]},{"name":"UserData","provider":[{"name":"VirtualRouter"}]},{"name":"PortForwarding","provider":[{"name":"VirtualRouter"}]},{"name":"Firewall","provider":[{"name":"VirtualRouter"}]},{"name":"Lb","provider":[{"name":"VirtualRouter"}],"capability":[{"name":"SupportedLBIsolation","value":"dedicated","canchooseservicecapability":false},{"name":"ElasticLb","value":"false","canchooseservicecapability":false},{"name":"InlineMode","value":"false","canchooseservicecapability":false}]},{"name":"Dhcp","provider":[{"name":"VirtualRouter"}]},{"name":"Vpn","provider":[{"name":"VirtualRouter"}]},{"name":"StaticNat","provider":[{"name":"VirtualRouter"}],"capability":[{"name":"ElasticIp","value":"false","canchooseservicecapability":false},{"name":"AssociatePublicIP","value":"true","canchooseservicecapability":false}]}],"forvpc":false,"ispersistent":false,"egressdefaultpolicy":false},
+        {"id":"7e70b3b5-5e2c-42cb-9b49-93a87c13a675","name":"DefaultIsolatedNetworkOfferingForVpcNetworks","displaytext":"Offering
+        for Isolated Vpc networks with Source Nat service enabled","traffictype":"Guest","isdefault":true,"specifyvlan":false,"conservemode":false,"specifyipranges":false,"availability":"Optional","networkrate":200,"state":"Enabled","guestiptype":"Isolated","serviceofferingid":"983410fa-b51b-439c-b8ba-be973804c38f","service":[{"name":"SourceNat","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"SupportedSourceNatTypes","value":"peraccount","canchooseservicecapability":false},{"name":"RedundantRouter","value":"false","canchooseservicecapability":false}]},{"name":"Dns","provider":[{"name":"VpcVirtualRouter"}]},{"name":"UserData","provider":[{"name":"VpcVirtualRouter"}]},{"name":"PortForwarding","provider":[{"name":"VpcVirtualRouter"}]},{"name":"Lb","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"SupportedLBIsolation","value":"dedicated","canchooseservicecapability":false},{"name":"ElasticLb","value":"false","canchooseservicecapability":false},{"name":"InlineMode","value":"false","canchooseservicecapability":false}]},{"name":"Dhcp","provider":[{"name":"VpcVirtualRouter"}]},{"name":"Vpn","provider":[{"name":"VpcVirtualRouter"}]},{"name":"StaticNat","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"ElasticIp","value":"false","canchooseservicecapability":false},{"name":"AssociatePublicIP","value":"true","canchooseservicecapability":false}]},{"name":"NetworkACL","provider":[{"name":"VpcVirtualRouter"}]}],"forvpc":true,"ispersistent":false,"egressdefaultpolicy":false},
+        {"id":"a9d78d52-f306-44c5-bb6d-c121a507db05","name":"DefaultIsolatedNetworkOfferingForVpcNetworksNoLB","displaytext":"Offering
+        for Isolated Vpc networks with Source Nat service enabled and LB service Disabled","traffictype":"Guest","isdefault":true,"specifyvlan":false,"conservemode":false,"specifyipranges":false,"availability":"Optional","networkrate":200,"state":"Enabled","guestiptype":"Isolated","serviceofferingid":"983410fa-b51b-439c-b8ba-be973804c38f","service":[{"name":"SourceNat","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"SupportedSourceNatTypes","value":"peraccount","canchooseservicecapability":false},{"name":"RedundantRouter","value":"false","canchooseservicecapability":false}]},{"name":"Dns","provider":[{"name":"VpcVirtualRouter"}]},{"name":"UserData","provider":[{"name":"VpcVirtualRouter"}]},{"name":"PortForwarding","provider":[{"name":"VpcVirtualRouter"}]},{"name":"Dhcp","provider":[{"name":"VpcVirtualRouter"}]},{"name":"Vpn","provider":[{"name":"VpcVirtualRouter"}]},{"name":"StaticNat","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"ElasticIp","value":"false","canchooseservicecapability":false},{"name":"AssociatePublicIP","value":"true","canchooseservicecapability":false}]},{"name":"NetworkACL","provider":[{"name":"VpcVirtualRouter"}]}],"forvpc":true,"ispersistent":false,"egressdefaultpolicy":false},
+        {"id":"f9a7b0d0-ce61-4f8d-a360-be1040d67287","name":"DefaultIsolatedNetworkOfferingForVpcNetworksWithInternalLB","displaytext":"Offering
+        for Isolated Vpc networks with Internal LB support","traffictype":"Guest","isdefault":true,"specifyvlan":false,"conservemode":false,"specifyipranges":false,"availability":"Optional","networkrate":200,"state":"Enabled","guestiptype":"Isolated","serviceofferingid":"983410fa-b51b-439c-b8ba-be973804c38f","service":[{"name":"SourceNat","provider":[{"name":"VpcVirtualRouter"}],"capability":[{"name":"SupportedSourceNatTypes","value":"peraccount","canchooseservicecapability":false},{"name":"RedundantRouter","value":"false","canchooseservicecapability":false}]},{"name":"Dns","provider":[{"name":"VpcVirtualRouter"}]},{"name":"UserData","provider":[{"name":"VpcVirtualRouter"}]},{"name":"Lb","provider":[{"name":"InternalLbVm"}],"capability":[{"name":"SupportedLBIsolation","value":"dedicated","canchooseservicecapability":false},{"name":"ElasticLb","value":"false","canchooseservicecapability":false},{"name":"InlineMode","value":"false","canchooseservicecapability":false}]},{"name":"Dhcp","provider":[{"name":"VpcVirtualRouter"}]},{"name":"NetworkACL","provider":[{"name":"VpcVirtualRouter"}]}],"forvpc":true,"ispersistent":false,"egressdefaultpolicy":false}
+        ] } }'
+    http_version: 
+  recorded_at: Wed, 18 Dec 2013 21:25:06 GMT
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>?apiKey=<CLOUD_STACK_API_KEY>&command=createNetwork&displaytext=John&name=John&networkOfferingId=fa126319-f822-4786-9cd3-30bd0c55ca94&response=json&signature=UDcfFqlzwpHJib/9kLKzR0%2BCbyc=&zoneId=39e9e31e-925c-4b55-8d33-f99912b73dfc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '4441'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: US-ASCII
+      string: ! '{ "createnetworkresponse" :  { "network" : {"id":"02e5fd84-e9ea-49f7-ba6a-6d63ea23a27f","name":"John","displaytext":"John","broadcastdomaintype":"Vlan","traffictype":"Guest","gateway":"10.1.1.1","netmask":"255.255.255.0","cidr":"10.1.1.0/24","zoneid":"39e9e31e-925c-4b55-8d33-f99912b73dfc","zonename":"Sandbox-simulator","networkofferingid":"fa126319-f822-4786-9cd3-30bd0c55ca94","networkofferingname":"DefaultIsolatedNetworkOfferingWithSourceNatService","networkofferingdisplaytext":"Offering
+        for Isolated networks with Source Nat service enabled","networkofferingconservemode":true,"networkofferingavailability":"Required","issystem":false,"state":"Allocated","related":"02e5fd84-e9ea-49f7-ba6a-6d63ea23a27f","dns1":"10.147.28.6","type":"Isolated","acltype":"Account","account":"admin","domainid":"ce4585b8-41f5-11e3-aaa7-d6558ad1fb9f","domain":"ROOT","service":[{"name":"SourceNat","capability":[{"name":"SupportedSourceNatTypes","value":"peraccount","canchooseservicecapability":false},{"name":"RedundantRouter","value":"true","canchooseservicecapability":false}]},{"name":"Dns","capability":[{"name":"AllowDnsSuffixModification","value":"true","canchooseservicecapability":false}]},{"name":"UserData"},{"name":"PortForwarding"},{"name":"Firewall","capability":[{"name":"TrafficStatistics","value":"per
+        public ip","canchooseservicecapability":false},{"name":"SupportedTrafficDirection","value":"ingress,
+        egress","canchooseservicecapability":false},{"name":"SupportedProtocols","value":"tcp,udp,icmp","canchooseservicecapability":false},{"name":"MultipleIps","value":"true","canchooseservicecapability":false},{"name":"SupportedEgressProtocols","value":"tcp,udp,icmp,
+        all","canchooseservicecapability":false}]},{"name":"Lb","capability":[{"name":"SupportedLbAlgorithms","value":"roundrobin,leastconn,source","canchooseservicecapability":false},{"name":"LbSchemes","value":"Public","canchooseservicecapability":false},{"name":"SupportedStickinessMethods","value":"[{\"methodname\":\"LbCookie\",\"paramlist\":[{\"paramname\":\"cookie-name\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"mode\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"nocache\",\"required\":false,\"isflag\":true,\"description\":\"
+        \"},{\"paramname\":\"indirect\",\"required\":false,\"isflag\":true,\"description\":\"
+        \"},{\"paramname\":\"postonly\",\"required\":false,\"isflag\":true,\"description\":\"
+        \"},{\"paramname\":\"domain\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"}],\"description\":\"This is loadbalancer cookie based stickiness method.\"},{\"methodname\":\"AppCookie\",\"paramlist\":[{\"paramname\":\"cookie-name\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"length\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"holdtime\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"request-learn\",\"required\":false,\"isflag\":true,\"description\":\"
+        \"},{\"paramname\":\"prefix\",\"required\":false,\"isflag\":true,\"description\":\"
+        \"},{\"paramname\":\"mode\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"}],\"description\":\"This is App session based sticky method. Define session
+        stickiness on an existing application cookie. It can be used only for a specific
+        http traffic\"},{\"methodname\":\"SourceBased\",\"paramlist\":[{\"paramname\":\"tablesize\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"},{\"paramname\":\"expire\",\"required\":false,\"isflag\":false,\"description\":\"
+        \"}],\"description\":\"This is source based Stickiness method, it can be used
+        for any type of protocol.\"}]","canchooseservicecapability":false},{"name":"SupportedProtocols","value":"tcp,
+        udp","canchooseservicecapability":false},{"name":"SupportedLBIsolation","value":"dedicated","canchooseservicecapability":false}]},{"name":"Dhcp","capability":[{"name":"DhcpAccrossMultipleSubnets","value":"true","canchooseservicecapability":false}]},{"name":"Vpn","capability":[{"name":"SupportedVpnTypes","value":"pptp,l2tp,ipsec","canchooseservicecapability":false},{"name":"VpnTypes","value":"removeaccessvpn","canchooseservicecapability":false}]},{"name":"StaticNat"}],"networkdomain":"cs2sandbox.simulator","physicalnetworkid":"46d08659-81e9-4f31-a589-a15aca972af0","restartrequired":false,"specifyipranges":false,"canusefordeploy":true,"ispersistent":false,"tags":[],"displaynetwork":true}
+        }  }'
+    http_version: 
+  recorded_at: Wed, 18 Dec 2013 21:25:06 GMT
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>?apiKey=<CLOUD_STACK_API_KEY>&command=createTags&resourceIds=02e5fd84-e9ea-49f7-ba6a-6d63ea23a27f&resourceType=Network&response=json&signature=KnWoymoA3Q34Iz%2BZ9iFEc8R0lEo=&tags%5B0%5D%5B.key%5D=speed&tags%5B0%5D%5B.name%5D=speed&tags%5B0%5D%5B.value%5D=fast
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '75'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: US-ASCII
+      string: ! '{ "createtagsresponse" : {"jobid":"90bdb3e9-dcd5-4aac-9aa9-1879863082cc"}
+        }'
+    http_version: 
+  recorded_at: Wed, 18 Dec 2013 21:25:07 GMT
+recorded_with: VCR 2.8.0

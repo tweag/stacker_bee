@@ -1,7 +1,9 @@
 module StackerBee
   module Utilities
+    REGEX = /\s|-|_/
+
     def uncase(string)
-      string.to_s.downcase.gsub(/\W|_/, '')
+      string.to_s.downcase.gsub(REGEX, '')
     end
 
     def snake_case(string)
@@ -9,7 +11,7 @@ module StackerBee
     end
 
     def camel_case(string, lower = false)
-      string.to_s.split(/\W|_/).each_with_object('') do |word, memo|
+      string.to_s.split(REGEX).each_with_object('') do |word, memo|
         memo << (memo.empty? && lower ? word[0].downcase : word[0].upcase)
         memo << word[1..-1]
       end

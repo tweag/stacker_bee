@@ -6,21 +6,26 @@ module StackerBee
 
     RESPONSE_TYPE = "json"
 
-    attr_accessor :params
     attr_writer   :allow_empty_string_params
+    attr_accessor :endpoint, :api_key
 
     def initialize(endpoint, api_key, params = {})
-      params[:api_key]  = api_key
-      params[:command]  = endpoint
-      params[:response] = RESPONSE_TYPE
-      self.params = params
+      @params = params
+      self.endpoint = endpoint
+      self.api_key  = api_key
     end
 
     def query_params
-      params
+      flat_params = DictionaryFlattener.new(@params).params
+
+      flat_params[:api_key]  = api_key
+      flat_params[:command]  = endpoint
+      flat_params[:response] = RESPONSE_TYPE
+
+      flat_params
         .reject { |key, val| val.nil? }
         .reject { |key, val| !allow_empty_string_params && val == '' }
-        .sort
+        .sort_by { |key, val| key.to_s }
         .map { |(key, val)| [cloud_stack_key(key), cloud_stack_value(val)] }
     end
 
