@@ -161,7 +161,7 @@ For Rails apps, it's sometimes convenient to use Rail's logger:
 
 ### Bulk Configuration
 
-The StackerBee::Client class can be configured with multiple options at once.
+The `StackerBee::Client` class can be configured with multiple options at once.
 
     StackerBee::Client.default_config = {
       url:        'http://localhost:8080/client/api',

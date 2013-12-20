@@ -57,10 +57,10 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "failing to connect" do
-    let(:url) { "http://127.0.0.1:1234/client/api" }
+    let(:url) { "http://127.0.0.1:666/client/api" }
     it "should raise helpful exception" do
       klass = StackerBee::ConnectionError
-      expect(-> { subject }).to raise_error klass, /#{url}/
+      expect{ subject }.to raise_error klass, /#{url}/
     end
   end
 
@@ -117,7 +117,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "a request parameter with a map" do
-    let(:zone_id)             { client.list_zones.first["id"] }
+    let(:zone_id) { client.list_zones.first["id"] }
 
     let(:service_offering_id) do
       client.list_network_offerings(
