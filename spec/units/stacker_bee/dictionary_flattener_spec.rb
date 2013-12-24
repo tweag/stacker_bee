@@ -17,12 +17,13 @@ describe StackerBee::DictionaryFlattener do
   end
 
   describe ".new" do
-    let(:prefix) { StackerBee::DictionaryFlattener.tokenize "rebels[0]" }
-    let(:prefix2) { StackerBee::DictionaryFlattener.tokenize "rebels[1]" }
+    def prefix(number)
+      StackerBee::DictionaryFlattener.tokenize "rebels[#{number}]"
+    end
 
     let(:params) do
       { "time" => "long ago",
-        "rebels" => { "r2" => "d2", "r1" => "" } }
+        "rebels" => { "r2" => "d2", "r1" => "", "father" => false } }
     end
 
     subject do
@@ -30,13 +31,17 @@ describe StackerBee::DictionaryFlattener do
     end
 
     it "flattens objects in the manner that cloudstack expects" do
-      subject["#{prefix}.name"].should eq "r2"
-      subject["#{prefix}.key"].should eq "r2"
-      subject["#{prefix}.value"].should eq "d2"
+      subject["#{prefix(0)}.name"].should eq "r2"
+      subject["#{prefix(0)}.key"].should eq "r2"
+      subject["#{prefix(0)}.value"].should eq "d2"
     end
 
     it "doesnt flatten empty hashes" do
-      subject.should_not have_key "#{prefix2}.name"
+      subject.should_not have_key "#{prefix(2)}.name"
+    end
+
+    it "handles booleans" do
+      subject["#{prefix(1)}.name"].should eq "father"
     end
 
     it "removes original map params" do
