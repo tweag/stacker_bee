@@ -26,10 +26,11 @@ module StackerBee
     def flatten_map_values(params, hashes)
       hashes.each do |outer|
         outer[1].each_with_index do |array, index|
-          key = self.class.tokenize("#{outer[0]}[#{index}]")
-          params["#{key}.key"] = array[0]
-          params["#{key}.name"] = array[0]
-          params["#{key}.value"] = array[1]
+          unless array[1].nil? || array[1].empty?
+            key = self.class.tokenize("#{outer[0]}[#{index}]")
+            params["#{key}.key"] = params["#{key}.name"] = array[0]
+            params["#{key}.value"] = array[1]
+          end
         end
         params.delete outer[0]
       end
