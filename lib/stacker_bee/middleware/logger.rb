@@ -13,7 +13,7 @@ module StackerBee
       def initialize(app, _logger = nil)
         super(app)
         self.logger = _logger
-        logger.progname ||= PROGNAME
+        logger.progname ||= PROGNAME if logger.respond_to?(:progname=)
       end
 
       def logger
