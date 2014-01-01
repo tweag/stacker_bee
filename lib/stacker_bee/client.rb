@@ -21,7 +21,9 @@ module StackerBee
                    :api_key,
                    :api_key=,
                    :secret_key,
-                   :secret_key=
+                   :secret_key=,
+                   :middleware_logger,
+                   :middleware_logger=
 
     class << self
       def reset!
@@ -30,7 +32,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          allow_empty_string_params: false
+          allow_empty_string_params: false,
+          middleware_logger: Middleware::Logger
         }
       end
 
