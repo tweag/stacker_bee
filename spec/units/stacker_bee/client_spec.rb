@@ -96,11 +96,13 @@ describe StackerBee::Client, "configuration" do
   let(:default_url)         { "default_cloud-stack.com" }
   let(:default_api_key)     { "default-cloud-stack-api-key" }
   let(:default_secret_key)  { "default-cloud-stack-secret-key" }
+  let(:default_middleware_logger) { double }
   let(:default_config_hash) do
     {
       url:        default_url,
       api_key:    default_api_key,
       secret_key: default_secret_key,
+      middleware_logger: default_middleware_logger,
       allow_empty_string_params: false
     }
   end
@@ -110,12 +112,14 @@ describe StackerBee::Client, "configuration" do
   let(:instance_url)        { "instance-cloud-stack.com" }
   let(:instance_api_key)    { "instance-cloud-stack-api-key" }
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
+  let(:middleware_logging_class) { double }
   let(:instance_config_hash) do
     {
       url:        instance_url,
       api_key:    instance_api_key,
       secret_key: instance_secret_key,
-      allow_empty_string_params: false
+      allow_empty_string_params: false,
+      middleware_logger: middleware_logging_class
     }
   end
   let!(:instance_configuration) do
@@ -149,6 +153,7 @@ describe StackerBee::Client, "configuration" do
       its(:url)           { should eq instance_url }
       its(:api_key)       { should eq instance_api_key }
       its(:secret_key)    { should eq instance_secret_key }
+      its(:middleware_logger) { should eq middleware_logging_class }
     end
 
     context "with instance-specific configuration that's not a hash" do
@@ -158,6 +163,7 @@ describe StackerBee::Client, "configuration" do
       its(:url)           { should eq instance_url }
       its(:api_key)       { should eq instance_api_key }
       its(:secret_key)    { should eq instance_secret_key }
+      its(:middleware_logger) { should eq middleware_logging_class }
     end
 
     describe "#url" do

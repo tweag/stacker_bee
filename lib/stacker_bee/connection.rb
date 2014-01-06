@@ -24,7 +24,7 @@ module StackerBee
       @faraday = Faraday.new(url: uri.to_s) do |faraday|
         faraday.use      Middleware::Detokenizer
         faraday.use      Middleware::SignedQuery, configuration.secret_key
-        faraday.use      Middleware::Logger, configuration.logger
+        faraday.use      configuration.middleware_logger, configuration.logger
         faraday.adapter  Faraday.default_adapter  # Net::HTTP
       end
     end
