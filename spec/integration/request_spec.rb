@@ -2,16 +2,12 @@ require "spec_helper"
 require "logger"
 
 describe "A response to a request sent to the CloudStack API", :vcr do
-  let(:io)         { StringIO.new }
-  let(:logger)     { Logger.new(io) }
-  let(:log_string) { io.string }
-  let(:url)        { CONFIG["url"] }
+  let(:url) { CONFIG["url"] }
   let(:config_hash) do
     {
       url:        url,
       api_key:    CONFIG["api_key"],
       secret_key: CONFIG["secret_key"],
-      logger:     logger,
       apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json')
     }
   end
@@ -31,36 +27,11 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     its(["account_type"]) { should be_a Numeric }
   end
 
-  it "should log request" do
-    subject
-    log_string.should include "listAccounts"
-  end
-
-  it "should not log response as error" do
-    subject
-    log_string.should_not include "ERROR"
-  end
-
-  context "containing an error" do
-    subject do
-      client.deploy_virtual_machine
-    end
-    it { expect { subject }.to raise_error StackerBee::ClientError }
-
-    it "should log response as error" do
-      begin
-        subject
-      rescue StackerBee::ClientError
-        log_string.should include "ERROR"
-      end
-    end
-  end
-
   context "failing to connect" do
     let(:url) { "http://127.0.0.1:666/client/api" }
     it "should raise helpful exception" do
       klass = StackerBee::ConnectionError
-      expect{ subject }.to raise_error klass, /#{url}/
+      expect { subject }.to raise_error klass, /#{url}/
     end
   end
 

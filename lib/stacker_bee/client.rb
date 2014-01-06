@@ -14,8 +14,6 @@ module StackerBee
 
     extend Forwardable
     def_delegators :configuration,
-                   :logger,
-                   :logger=,
                    :url,
                    :url=,
                    :api_key,
@@ -30,7 +28,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          allow_empty_string_params: false
+          allow_empty_string_params: false,
+          middlewares: ->(*) {}
         }
       end
 

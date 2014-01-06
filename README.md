@@ -52,20 +52,11 @@ For example:
 ### Handling 'map' parameters
 
 For any endpoint requiring a map parameter, simply pass in a hash.
-
     create_tags(tags: { type: 'community'}, resource_type: "Template", resource_ids: id )
 
 This will yield a request with the following query string:
 
     ...&tags[0].key=type&tags[0].name=type&tags[0].value=community
-
-### Configurable Logger
-
-    StackerBee::Client.logger = Rails.logger
-
-Or
-
-    StackerBee::Client.logger = Logger.new
 
 ### Configurable API Version
 
@@ -143,21 +134,40 @@ Or:
       secret_key: 'MY_SECRET_KEY'
     )
 
-### Logger
+### Faraday Middleware
 
-StackerBee can be configured with a custom `Logger`.
+StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and makes it easy for you to add Faraday middleware. Here's an example of adding your own middleware.
 
-    StackerBee::Client.logger = Logger.new
+    StackerBee::Client.default_config = {
+      middlewares: ->(faraday) do
+        faraday.use Custom::LoggingMiddleware, Logger.new
+        faraday.use Custom::CachingMiddleware, Rails.cache
+      end
+    }
 
-Or
+StackerBee itself puts some middlewares on Faraday. Any middlewares you add will be placed after these. If you want your middleware to come as the very first, you can use Faraday's builder like `faraday.builder.insert 0, MyMiddleware`.
 
-    my_client = StackerBee::Client.new(
-      logger: Logger.new
-    )
+### Logging
 
-For Rails apps, it's sometimes convenient to use Rail's logger:
+Logging is best handled with Faraday middleware.
 
-    StackerBee::Client.logger = Rails.logger
+#### GELF/Graylog2
+
+If you're using the Graylog2 GELF format, you're in luck because StackerBee currently ships with a Faraday middleware for that. Here's an example of logging to Graylog2:
+
+    logger = GELF::Notifier.new("localhost", 12201)
+
+    StackerBee::Client.default_config = {
+      middlewares: ->(faraday) { faraday.use faraday.use StackerBee::GraylogFaradayMiddleware, logger }
+    }
+
+#### Basic logging
+
+To log to a file or STDOUT, Faraday has a built-in logger. You can use it like so:
+
+    StackerBee::Client.default_config = {
+      middlewares: ->(faraday) { faraday.response :logger }
+    }
 
 ### Bulk Configuration
 

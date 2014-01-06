@@ -35,7 +35,7 @@ module StackerBee
     end
 
     def remove_empties(hash)
-      hash.reject{ |k, v| v.nil? || v == "" }
+      hash.reject { |k, v| v.nil? || v == "" }
     end
   end
 end
