@@ -1,7 +1,7 @@
 require "stacker_bee/body_parser"
 
 module StackerBee
-  class RequestError < Exception
+  class RequestError < StandardError
     include BodyParser
 
     def initialize(raw_body)
