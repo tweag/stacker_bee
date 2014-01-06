@@ -5,7 +5,7 @@ require "stacker_bee/middleware/logger"
 require "stacker_bee/middleware/detokenizer"
 
 module StackerBee
-  class ConnectionError < Exception
+  class ConnectionError < StandardError
   end
 
   class Connection
