@@ -202,6 +202,20 @@ This project uses [Rubocop](https://github.com/bbatsov/rubocop) to enforce code 
 
     $ bundle exec rubocop
 
+### Releasing
+
+To create a release, first bump the version in `lib/stacker_bee/version.rb`, and commit. Then, build the gem and release it to Rubygems with `rake release`:
+
+```
+$ rake release
+stacker_bee 1.2.3 built to pkg/stacker_bee-1.2.3.gem.
+Tagged v1.2.3.
+Pushed git commits and tags.
+Pushed stacker_bee 1.2.3 to rubygems.org.
+```
+
+We use Bundler's gem tasks to manage releases. See the output of `rake -T` and [Bundler's Rubygems documentation](http://bundler.io/rubygems.html) for more information.
+
 ## Thanks to
 
 - [Chip Childers](http://github.com/chipchilders) for a [reference implementation of a CloudStack client in Ruby](http://chipchilders.github.io/cloudstack_ruby_client/)
