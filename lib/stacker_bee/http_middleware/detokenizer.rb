@@ -2,7 +2,7 @@ require "faraday"
 require "base64"
 
 module StackerBee
-  module Middleware
+  module HTTPMiddleware
     class Detokenizer < Faraday::Middleware
       def call(env)
         detokenize(env[:url])

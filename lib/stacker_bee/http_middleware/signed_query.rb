@@ -2,7 +2,7 @@ require "faraday"
 require "base64"
 
 module StackerBee
-  module Middleware
+  module HTTPMiddleware
     class SignedQuery < Faraday::Middleware
       def initialize(app, key)
         @key = key
