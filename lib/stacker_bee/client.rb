@@ -64,12 +64,53 @@ module StackerBee
       @configuration ||= configuration_with_defaults
     end
 
+    require 'ostruct'
     def request(endpoint_name, params = {})
-      request = Request.new(endpoint_for(endpoint_name), api_key, params)
-      request.allow_empty_string_params =
-        configuration.allow_empty_string_params
-      raw_response = connection.get(request)
-      Response.new(raw_response)
+      env = OpenStruct.new(
+        endpoint_name: endpoint_name,
+        api_key:       api_key,
+        params:        params
+      )
+
+      middleware_app.call(env)
+
+      env.response
+    end
+
+    class Middleware < Struct.new(:block, :app)
+      def call(env)
+        block.call(env, app)
+      end
+    end
+
+    def middleware_app
+      middlewares = [
+        endpoint_normalizer_middleware,
+        base_middleware,
+      ]
+
+      ([nil] + middlewares).zip(middlewares).drop(1).each do |middleware, app|
+        middleware.app = app
+      end
+
+      middlewares.first
+    end
+
+    def endpoint_normalizer_middleware
+      Middleware.new(lambda do |env, app|
+        env.endpoint_name = endpoint_for(env.endpoint_name)
+        app.call(env)
+      end)
+    end
+
+    def base_middleware
+      Middleware.new(lambda do |env, _|
+        request = Request.new(env.endpoint_name, env.api_key, env.params)
+        request.allow_empty_string_params =
+          configuration.allow_empty_string_params
+        raw_response = connection.get(request)
+        env.response = Response.new(raw_response)
+      end)
     end
 
     def endpoint_for(name)
