@@ -1,11 +1,15 @@
 require "forwardable"
-require "ostruct"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
 require "stacker_bee/request"
 require "stacker_bee/dictionary_flattener"
 require "stacker_bee/response"
+require "stacker_bee/middleware/environment"
+require "stacker_bee/middleware/base"
+require "stacker_bee/middleware/adapter"
+require "stacker_bee/middleware/endpoint_normalizer"
+require "stacker_bee/middleware/remove_empty_strings"
 
 module StackerBee
   class Client
@@ -66,7 +70,7 @@ module StackerBee
     end
 
     def request(endpoint_name, params = {})
-      env = OpenStruct.new(
+      env = Middleware::Environment.new(
         endpoint_name: endpoint_name,
         api_key:       api_key,
         params:        params
@@ -77,46 +81,11 @@ module StackerBee
       env.response
     end
 
-    class Middleware < OpenStruct
-      def call(env)
-        block.call(env, app)
-      end
-
-      def endpoint_name_for(endpoint_name)
-        app.endpoint_name_for(endpoint_name)
-      end
-    end
-
-    class BaseMiddleware < Middleware
-      def endpoint_name_for(*)
-      end
-
-      def call(env)
-        env.request = Request.new(env.endpoint_name, env.api_key, env.params)
-        env.request.allow_empty_string_params = allow_empty_string_params
-        env.raw_response = connection.get(env.request)
-        env.response = Response.new(env.raw_response)
-      end
-    end
-
-    class EndpointNormalizerMiddleware < Middleware
-      def call(env)
-        env.endpoint_name = endpoint_for(env.endpoint_name)
-        app.call(env)
-      end
-
-      def endpoint_for(name)
-        # TODO: shouldn't this be in the base endpoint?
-        raise "API required" unless api
-        endpoint_description = api[name]
-        endpoint_description.fetch("name") if endpoint_description
-      end
-    end
-
     def middlewares
       [
-        EndpointNormalizerMiddleware.new(api: self.class.api),
-        BaseMiddleware.new(
+        Middleware::EndpointNormalizer.new(api: self.class.api),
+        Middleware::RemoveEmptyStrings.new,
+        Middleware::Adapter.new(
           allow_empty_string_params: configuration.allow_empty_string_params,
           connection: connection
         )

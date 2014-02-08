@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe StackerBee::Request do
+  subject { request }
+
+  let(:request) { StackerBee::Request.new endpoint, api_key, params }
+
   let(:endpoint)  { "listStuff" }
   let(:api_key)   { "this_guy" }
   let(:params) do
@@ -8,13 +12,9 @@ describe StackerBee::Request do
       list:     :all,
       nothing:  nil,
       deets:    [:things, :stuff],
-      settings: { cookiename: "Fred", something: "cool" },
-      blank:    ''
+      settings: { cookiename: "Fred", something: "cool" }
     }
   end
-
-  let(:request)   { StackerBee::Request.new endpoint, api_key, params }
-  subject { request }
 
   describe "#query_params" do
     let(:new_params) { params.merge("settings[1].name" => "cool") }
@@ -35,17 +35,6 @@ describe StackerBee::Request do
 
     it "removes params with nil values" do
       subject.map(&:first).should_not include "nothing"
-    end
-
-    it "removes params with blank values" do
-      subject.map(&:first).should_not include "blank"
-    end
-
-    context "allowing blank strings" do
-      before do
-        request.allow_empty_string_params = true
-      end
-      it { should include ['blank', ''] }
     end
   end
 end

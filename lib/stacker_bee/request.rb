@@ -24,7 +24,6 @@ module StackerBee
 
       flat_params
         .reject { |key, val| val.nil? }
-        .reject { |key, val| !allow_empty_string_params && val == '' }
         .sort_by { |key, val| key.to_s }
         .map { |(key, val)| [cloud_stack_key(key), cloud_stack_value(val)] }
     end

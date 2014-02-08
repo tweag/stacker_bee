@@ -27,7 +27,7 @@ describe StackerBee::Client, "calling endpoint" do
   let(:endpoint)     { :list_virtual_machines }
   let(:params)       { { list: :all } }
   let(:connection)   { double }
-  let(:request)      { double :allow_empty_string_params= => nil }
+  let(:request)      { double }
   let(:raw_response) { double }
   let(:response)     { double }
   let(:api_path) do
@@ -71,7 +71,7 @@ describe StackerBee::Client, "#request" do
   end
   let(:client)        { StackerBee::Client.new config_hash }
   let(:connection)    { double }
-  let(:request)       { double :allow_empty_string_params= => nil }
+  let(:request)       { double }
   let(:raw_response)  { double }
   let(:response)      { double }
 
@@ -85,11 +85,6 @@ describe StackerBee::Client, "#request" do
   end
 
   it { should eq response }
-
-  context "called with a differently-cased endpoint" do
-    subject { client.request("list_Virtual_mACHINES", params) }
-    it { should eq response }
-  end
 end
 
 describe StackerBee::Client, "configuration" do
