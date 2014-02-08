@@ -1,4 +1,5 @@
 require "forwardable"
+require "ostruct"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
@@ -64,7 +65,6 @@ module StackerBee
       @configuration ||= configuration_with_defaults
     end
 
-    require 'ostruct'
     def request(endpoint_name, params = {})
       env = OpenStruct.new(
         endpoint_name: endpoint_name,
@@ -77,49 +77,76 @@ module StackerBee
       env.response
     end
 
-    class Middleware < Struct.new(:block, :app)
+    class Middleware < OpenStruct
       def call(env)
         block.call(env, app)
+      end
+
+      def has_endpoint?(endpoint_name)
+        app.has_endpoint?(endpoint_name)
+      end
+
+      def endpoint_name_for(endpoint_name)
+        app.endpoint_name_for(endpoint_name)
+      end
+    end
+
+    class BaseMiddleware < Middleware
+      def has_endpoint?(*)
+        false
+      end
+
+      def endpoint_name_for(*)
+      end
+
+      def call(env)
+        env.request = Request.new(env.endpoint_name, env.api_key, env.params)
+        env.request.allow_empty_string_params = allow_empty_string_params
+        env.raw_response = connection.get(env.request)
+        env.response = Response.new(env.raw_response)
+      end
+    end
+
+    class EndpointNormalizerMiddleware < Middleware
+      def call(env)
+        env.endpoint_name = endpoint_for(env.endpoint_name)
+        app.call(env)
+      end
+
+      def endpoint_for(name)
+        # TODO: shouldn't this be in the base endpoint?
+        raise "API required" unless api
+        endpoint_description = api[name]
+        endpoint_description.fetch("name") if endpoint_description
+      end
+
+      def has_endpoint?(name)
+        api.key?(name)
       end
     end
 
     def middleware_app
-      middlewares = [
-        endpoint_normalizer_middleware,
-        base_middleware,
-      ]
+      @app ||= begin
+                 middlewares = [
+                   EndpointNormalizerMiddleware.new(api: self.class.api),
+                   BaseMiddleware.new(
+                     allow_empty_string_params: configuration.allow_empty_string_params,
+                     connection: connection
+                   )
+                 ]
 
-      ([nil] + middlewares).zip(middlewares).drop(1).each do |middleware, app|
-        middleware.app = app
-      end
+                 last_middleware = nil
+                 middlewares.reverse.each do |middleware|
+                   middleware.app = last_middleware
+                   last_middleware = middleware
+                 end
 
-      middlewares.first
-    end
-
-    def endpoint_normalizer_middleware
-      Middleware.new(lambda do |env, app|
-        env.endpoint_name = endpoint_for(env.endpoint_name)
-        app.call(env)
-      end)
-    end
-
-    def base_middleware
-      Middleware.new(lambda do |env, _|
-        request = Request.new(env.endpoint_name, env.api_key, env.params)
-        request.allow_empty_string_params =
-          configuration.allow_empty_string_params
-        raw_response = connection.get(request)
-        env.response = Response.new(raw_response)
-      end)
-    end
-
-    def endpoint_for(name)
-      api = self.class.api[name]
-      api && api["name"]
+                 middlewares.first
+               end
     end
 
     def method_missing(name, *args, &block)
-      endpoint = endpoint_for(name)
+      endpoint = middleware_app.endpoint_for(name)
       if endpoint
         request(endpoint, *args, &block)
       else
@@ -128,7 +155,8 @@ module StackerBee
     end
 
     def respond_to?(name, include_private = false)
-      self.class.api.key?(name) || super
+      # todo: switch the order of these
+      middleware_app.has_endpoint?(name) || super
     end
 
     protected

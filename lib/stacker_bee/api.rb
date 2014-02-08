@@ -9,8 +9,7 @@ module StackerBee
 
     def initialize(attrs = {})
       attrs.each_pair do |key, value|
-        setter = "#{key}="
-        send(setter, value)
+        send "#{key}=", value
       end
     end
 
@@ -19,7 +18,7 @@ module StackerBee
     end
 
     def key?(key)
-      endpoints.key? uncase(key)
+      endpoints.key?(uncase(key))
     end
 
     protected
