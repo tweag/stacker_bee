@@ -60,7 +60,7 @@ puts vm[:iso_display_text]
 For any endpoint requiring a map parameter, simply pass in a hash.
 
 ```ruby
-create_tags(tags: { type: 'community'}, resource_type: "Template", resource_ids: id )
+cloud_stack.create_tags(tags: { type: 'community' }, resource_type: "Template", resource_ids: id )
 ```
 
 This will yield a request with the following query string:
@@ -99,7 +99,7 @@ Configuring a client:
 
 ```ruby
 cloud_stack = StackerBee::Client.new(
-  url:        'http://localhost:8080/client/api'
+  url:        'http://localhost:8080/client/api',
   api_key:    'API_KEY',
   secret_key: 'SECRET_KEY',
   logger:     Rails.logger
