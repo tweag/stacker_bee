@@ -33,7 +33,6 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          allow_empty_string_params: false,
           middlewares: ->(*) {}
         }
       end
@@ -85,10 +84,7 @@ module StackerBee
       [
         Middleware::EndpointNormalizer.new(api: self.class.api),
         Middleware::RemoveEmptyStrings.new,
-        Middleware::Adapter.new(
-          allow_empty_string_params: configuration.allow_empty_string_params,
-          connection: connection
-        )
+        Middleware::Adapter.new(connection: connection)
       ]
     end
 

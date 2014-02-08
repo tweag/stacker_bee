@@ -6,7 +6,6 @@ module StackerBee
 
     RESPONSE_TYPE = "json"
 
-    attr_writer   :allow_empty_string_params
     attr_accessor :endpoint, :api_key
 
     def initialize(endpoint, api_key, params = {})
@@ -26,10 +25,6 @@ module StackerBee
         .reject { |key, val| val.nil? }
         .sort_by { |key, val| key.to_s }
         .map { |(key, val)| [cloud_stack_key(key), cloud_stack_value(val)] }
-    end
-
-    def allow_empty_string_params
-      @allow_empty_string_params ||= false
     end
 
     private
