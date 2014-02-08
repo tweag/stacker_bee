@@ -82,20 +82,12 @@ module StackerBee
         block.call(env, app)
       end
 
-      def has_endpoint?(endpoint_name)
-        app.has_endpoint?(endpoint_name)
-      end
-
       def endpoint_name_for(endpoint_name)
         app.endpoint_name_for(endpoint_name)
       end
     end
 
     class BaseMiddleware < Middleware
-      def has_endpoint?(*)
-        false
-      end
-
       def endpoint_name_for(*)
       end
 
@@ -118,10 +110,6 @@ module StackerBee
         raise "API required" unless api
         endpoint_description = api[name]
         endpoint_description.fetch("name") if endpoint_description
-      end
-
-      def has_endpoint?(name)
-        api.key?(name)
       end
     end
 
@@ -155,8 +143,7 @@ module StackerBee
     end
 
     def respond_to?(name, include_private = false)
-      # todo: switch the order of these
-      middleware_app.has_endpoint?(name) || super
+      super || !!middleware_app.endpoint_for(name)
     end
 
     protected
