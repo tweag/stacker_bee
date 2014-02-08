@@ -113,23 +113,27 @@ module StackerBee
       end
     end
 
+    def middlewares
+      [
+        EndpointNormalizerMiddleware.new(api: self.class.api),
+        BaseMiddleware.new(
+          allow_empty_string_params: configuration.allow_empty_string_params,
+          connection: connection
+        )
+      ]
+    end
+
     def middleware_app
       @app ||= begin
-                 middlewares = [
-                   EndpointNormalizerMiddleware.new(api: self.class.api),
-                   BaseMiddleware.new(
-                     allow_empty_string_params: configuration.allow_empty_string_params,
-                     connection: connection
-                   )
-                 ]
+                 middleware_stack = middlewares
 
                  last_middleware = nil
-                 middlewares.reverse.each do |middleware|
+                 middleware_stack.reverse.each do |middleware|
                    middleware.app = last_middleware
                    last_middleware = middleware
                  end
 
-                 middlewares.first
+                 middleware_stack.first
                end
     end
 
