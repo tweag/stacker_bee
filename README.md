@@ -101,8 +101,7 @@ Configuring a client:
 cloud_stack = StackerBee::Client.new(
   url:        'http://localhost:8080/client/api',
   api_key:    'API_KEY',
-  secret_key: 'SECRET_KEY',
-  logger:     Rails.logger
+  secret_key: 'SECRET_KEY'
 )
 ```
 
@@ -110,7 +109,6 @@ All configuration parameters set on the `StackerBee::Client` class are used as d
 
 ```ruby
 StackerBee::Client.url    = 'http://localhost:8080/client/api'
-StackerBee::Client.logger = Rails.logger
 
 user_client = StackerBee::Client.new(
   api_key:    'USER_API_KEY',
@@ -205,7 +203,6 @@ The `StackerBee::Client` class can be configured with multiple options at once.
 ```ruby
 StackerBee::Client.default_config = {
   url:        'http://localhost:8080/client/api',
-  logger:     Rails.logger,
   api_key:    'API_KEY',
   secret_key: 'MY_SECRET_KEY'
 }
