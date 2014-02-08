@@ -6,36 +6,36 @@ module StackerBee
     attr_accessor :params
 
     def self.tokenize(key)
-      key.gsub(/\[/, LB).gsub(/\]/, RB)
+      key.gsub("[", LB).gsub("]", RB)
     end
 
     def self.detokenize(key)
-      key.gsub(/#{LB}/, "[").gsub(/#{RB}/, "]")
+      key.gsub(LB, "[").gsub(RB, "]")
     end
 
     def initialize(params)
-      @params = params.dup
+      self.params = params.dup
       flatten_params
     end
 
     def flatten_params
-      hashes = params.select { |key, val|  val.respond_to? :keys }
-      flatten_map_values(params, hashes)
+      hashes = params.select { |_, val| val.respond_to?(:keys) }
+      flatten_map_values params, hashes
     end
 
     def flatten_map_values(params, hashes)
-      hashes.each do |outer|
-        remove_empties(outer[1]).each_with_index do |array, index|
-          key = self.class.tokenize("#{outer[0]}[#{index}]")
-          params["#{key}.key"] = params["#{key}.name"] = array[0]
-          params["#{key}.value"] = array[1]
+      hashes.each do |hash_name, hash|
+        remove_empties(hash).each_with_index do |(key, value), index|
+          hash_url_key = self.class.tokenize("#{hash_name}[#{index}]")
+          params["#{hash_url_key}.key"] = params["#{hash_url_key}.name"] = key
+          params["#{hash_url_key}.value"] = value
         end
-        params.delete outer[0]
+        params.delete hash_name
       end
     end
 
     def remove_empties(hash)
-      hash.reject { |k, v| v.nil? || v == "" }
+      hash.reject { |_, v| v.nil? || v == "" }
     end
   end
 end
