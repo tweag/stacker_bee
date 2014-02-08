@@ -2,9 +2,22 @@ require "forwardable"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
-require "stacker_bee/request"
-require "stacker_bee/dictionary_flattener"
-require "stacker_bee/response"
+require "stacker_bee/middleware/environment"
+require "stacker_bee/middleware/base"
+require "stacker_bee/middleware/adapter"
+require "stacker_bee/middleware/endpoint_normalizer"
+require "stacker_bee/middleware/remove_empty_strings"
+require "stacker_bee/middleware/cloud_stack_api"
+require "stacker_bee/middleware/dictionary_flattener"
+require "stacker_bee/middleware/remove_nils"
+require "stacker_bee/middleware/format_keys"
+require "stacker_bee/middleware/format_values"
+require "stacker_bee/middleware/json_body"
+require "stacker_bee/middleware/de_namespace"
+require "stacker_bee/middleware/rashify_response"
+require "stacker_bee/middleware/clean_response"
+require "stacker_bee/middleware/raise_on_http_error"
+require "stacker_bee/middleware/http_status"
 
 module StackerBee
   class Client
@@ -21,6 +34,56 @@ module StackerBee
                    :secret_key,
                    :secret_key=
 
+    def middlewares
+      # request
+      builder.use Middleware::EndpointNormalizer, api: self.class.api
+      builder.use Middleware::RemoveEmptyStrings
+      builder.use Middleware::CloudStackAPI, api_key: configuration.api_key
+
+      configuration.middlewares.call builder
+
+      builder.use Middleware::DictionaryFlattener
+      builder.use Middleware::RemoveNils
+      builder.use Middleware::FormatKeys
+      builder.use Middleware::FormatValues
+
+      # response
+      builder.use Middleware::RaiseOnHTTPError
+      builder.use Middleware::HTTPStatus
+      builder.use Middleware::CleanResponse
+      builder.use Middleware::RashifyResponse
+      builder.use Middleware::DeNamespace
+      builder.use Middleware::JSONBody
+
+      builder.use Middleware::Adapter, connection: connection
+
+      builder.build
+    end
+
+    def builder
+      @builder ||= Builder.new
+    end
+
+    class Builder
+      attr_accessor :middlewares
+
+      def middlewares
+        @middlewares ||= []
+      end
+
+      def use(*middleware_definition)
+        middlewares << middleware_definition
+      end
+
+      def before(*middleware_definition)
+        middlewares.unshift middleware_definition
+      end
+
+      def build
+        middlewares.map { |klass, *args| klass.new(*args) }
+      end
+    end
+
     class << self
       def reset!
         @api, @api_path, @default_config = nil
@@ -28,8 +91,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          allow_empty_string_params: false,
-          middlewares: ->(*) {}
+          faraday_middlewares: proc {},
+          middlewares:         proc {}
         }
       end
 
@@ -65,29 +128,45 @@ module StackerBee
     end
 
     def request(endpoint_name, params = {})
-      request = Request.new(endpoint_for(endpoint_name), api_key, params)
-      request.allow_empty_string_params =
-        configuration.allow_empty_string_params
-      raw_response = connection.get(request)
-      Response.new(raw_response)
+      env = Middleware::Environment.new(
+        endpoint_name: endpoint_name,
+        api_key:       api_key,
+        params:        params
+      )
+
+      middleware_app.call(env)
+
+      env.response.body
     end
 
-    def endpoint_for(name)
-      api = self.class.api[name]
-      api && api["name"]
+    def middleware_app
+      @app ||= begin
+                 middleware_stack = middlewares
+
+                 last_middleware = nil
+                 middleware_stack.reverse.each do |middleware|
+                   middleware.app = last_middleware
+                   last_middleware = middleware
+                 end
+
+                 middleware_stack.first
+               end
     end
 
-    def method_missing(name, *args, &block)
-      endpoint = endpoint_for(name)
-      if endpoint
-        request(endpoint, *args, &block)
+    def method_missing(method_name, *args, &block)
+      if respond_to_via_delegation?(method_name)
+        request(method_name, *args, &block)
       else
         super
       end
     end
 
-    def respond_to?(name, include_private = false)
-      self.class.api.key?(name) || super
+    def respond_to?(method_name, include_private = false)
+      super || respond_to_via_delegation?(method_name)
+    end
+
+    def respond_to_via_delegation?(method_name)
+      !!middleware_app.endpoint_name_for(method_name)
     end
 
     protected

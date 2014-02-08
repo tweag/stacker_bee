@@ -2,7 +2,7 @@ require "faraday"
 require "base64"
 
 module StackerBee
-  module Middleware
+  module HTTPMiddleware
     class Detokenizer < Faraday::Middleware
       def call(env)
         detokenize(env[:url])
@@ -10,7 +10,8 @@ module StackerBee
       end
 
       def detokenize(uri)
-        uri.query = StackerBee::DictionaryFlattener.detokenize uri.query
+        uri.query =
+          StackerBee::Middleware::DictionaryFlattener.detokenize uri.query
       end
     end
   end

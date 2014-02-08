@@ -13,84 +13,53 @@ describe StackerBee::Client, ".api" do
 end
 
 describe StackerBee::Client, "calling endpoint" do
-  let(:url)         { "cloud-stack.com" }
-  let(:api_key)     { "cloud-stack-api-key" }
-  let(:secret_key)  { "cloud-stack-secret-key" }
-  let(:config_hash) do
-    {
-      url:        url,
-      api_key:    api_key,
-      secret_key: secret_key
-    }
-  end
-  let(:client)       { StackerBee::Client.new config_hash }
-  let(:endpoint)     { :list_virtual_machines }
-  let(:params)       { { list: :all } }
-  let(:connection)   { double }
-  let(:request)      { double :allow_empty_string_params= => nil }
-  let(:raw_response) { double }
-  let(:response)     { double }
-  let(:api_path) do
-    File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
+  let(:client) do
+    StackerBee::Client.new(
+      url: "http://example.com",
+      middlewares: ->(builder) do
+        builder.before middleware_class,
+          expected_endpoint_name: endpoint_name,
+          expected_params:        params,
+          response_body:          response_body
+      end
+    )
   end
 
-  before do
-    StackerBee::Client.api_path = api_path
-    StackerBee::Connection.stub(:new) { connection }
-    StackerBee::Request.stub(:new).with(
-      "listVirtualMachines", api_key, params
-    ) do
-      request
+  let(:middleware_class) do
+    Class.new StackerBee::Middleware::Base do
+      def call(env)
+        raise unless env.request.endpoint_name == expected_endpoint_name
+        raise unless env.request.params == expected_params
+
+        env.response.body = response_body
+      end
+
+      def endpoint_name_for(*)
+        true
+      end
     end
-    connection.stub(:get).with(request) { raw_response }
-    StackerBee::Response.stub(:new).with(raw_response) { response }
   end
 
-  subject { client }
-  it { should respond_to endpoint }
-  describe "response to endpoint request" do
+  let(:endpoint_name) { :list_virtual_machines }
+  let(:params)        { double(:params) }
+  let(:response_body) { double(:response_body) }
+
+  describe "responding to methods" do
+    subject { client }
+    it { should respond_to endpoint_name }
+  end
+
+  describe "via a method call" do
     subject { client.list_virtual_machines(params) }
-    it { should eq response }
+    it { should eq response_body }
+  end
+
+  describe "via #request" do
+    subject { client.request(endpoint_name, params) }
+    it { should eq response_body }
   end
 end
 
-describe StackerBee::Client, "#request" do
-  subject { client.request(endpoint, params) }
-  let(:endpoint)    { "listVirtualMachines" }
-  let(:params)      { { list: :all } }
-
-  let(:url)         { "cloud-stack.com" }
-  let(:api_key)     { "cloud-stack-api-key" }
-  let(:secret_key)  { "cloud-stack-secret-key" }
-  let(:config_hash) do
-    {
-      url:        url,
-      api_key:    api_key,
-      secret_key: secret_key
-    }
-  end
-  let(:client)        { StackerBee::Client.new config_hash }
-  let(:connection)    { double }
-  let(:request)       { double :allow_empty_string_params= => nil }
-  let(:raw_response)  { double }
-  let(:response)      { double }
-
-  before do
-    StackerBee::Connection.should_receive(:new) { connection }
-    StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) do
-      request
-    end
-    connection.should_receive(:get).with(request) { raw_response }
-    StackerBee::Response.should_receive(:new).with(raw_response) { response }
-  end
-
-  it { should eq response }
-
-  context "called with a differently-cased endpoint" do
-    subject { client.request("list_Virtual_mACHINES", params) }
-    it { should eq response }
-  end
-end
 
 describe StackerBee::Client, "configuration" do
   let(:default_url)         { "default_cloud-stack.com" }
@@ -98,11 +67,11 @@ describe StackerBee::Client, "configuration" do
   let(:default_secret_key)  { "default-cloud-stack-secret-key" }
   let(:default_config_hash) do
     {
-      url:        default_url,
-      api_key:    default_api_key,
-      secret_key: default_secret_key,
-      allow_empty_string_params: false,
-      middlewares: ->(*) {}
+      url:                 default_url,
+      api_key:             default_api_key,
+      secret_key:          default_secret_key,
+      faraday_middlewares: proc {},
+      middlewares:         proc {}
     }
   end
   let!(:default_configuration) do
@@ -113,19 +82,19 @@ describe StackerBee::Client, "configuration" do
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
   let(:instance_config_hash) do
     {
-      url:        instance_url,
-      api_key:    instance_api_key,
-      secret_key: instance_secret_key,
-      allow_empty_string_params: false,
-      middlewares: ->(*) {}
+      url:                 instance_url,
+      api_key:             instance_api_key,
+      secret_key:          instance_secret_key,
+      faraday_middlewares: proc {},
+      middlewares:         proc {}
     }
   end
   let!(:instance_configuration) do
     StackerBee::Configuration.new(instance_config_hash)
   end
   before do
-    StackerBee::Configuration.stub(:new) do
-      fail "Unexpected Configuration instantiation"
+    StackerBee::Configuration.stub(:new) do |options|
+      fail "Unexpected Configuration instantiation: \n#{args.inspect}"
     end
     StackerBee::Configuration.stub(:new).with(default_config_hash)  do
       default_configuration

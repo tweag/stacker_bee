@@ -1,24 +1,24 @@
 require 'spec_helper'
 
-describe StackerBee::DictionaryFlattener do
-  let(:lb)               { StackerBee::DictionaryFlattener::LB }
-  let(:rb)               { StackerBee::DictionaryFlattener::RB }
+describe StackerBee::Middleware::DictionaryFlattener do
+  let(:lb)               { described_class::LB }
+  let(:rb)               { described_class::RB }
   let(:string)           { "cool[0].name%21" }
   let(:tokenized_string) { "cool#{lb}0#{rb}.name%21" }
 
   describe ".detokenize" do
-    subject { StackerBee::DictionaryFlattener.detokenize(tokenized_string) }
+    subject { described_class.detokenize(tokenized_string) }
     it { should eq string  }
   end
 
   describe ".tokenize" do
-    subject { StackerBee::DictionaryFlattener.tokenize(string) }
+    subject { described_class.tokenize(string) }
     it { should eq tokenized_string  }
   end
 
   describe ".new" do
     def prefix(number)
-      StackerBee::DictionaryFlattener.tokenize "rebels[#{number}]"
+      described_class.tokenize "rebels[#{number}]"
     end
 
     let(:params) do
@@ -27,7 +27,7 @@ describe StackerBee::DictionaryFlattener do
     end
 
     subject do
-      StackerBee::DictionaryFlattener.new(params).params
+      described_class.new.params(params)
     end
 
     it "flattens objects in the manner that cloudstack expects" do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StackerBee::GraylogFaradayMiddleware do
+describe StackerBee::HTTPMiddleware::Graylog do
   subject { log_data }
 
   class DummyLogger

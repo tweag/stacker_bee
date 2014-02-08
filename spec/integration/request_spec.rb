@@ -55,7 +55,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     end
   end
 
-  context "a nil request parameter", :regression do
+  context "a nil request parameter" do
     let(:params) { { name: nil } }
     subject do
       client.list_accounts(params)
@@ -74,6 +74,15 @@ describe "A response to a request sent to the CloudStack API", :vcr do
 
     it "properly executes the request" do
       expect { subject }.not_to raise_error
+    end
+  end
+
+  context "a request that triggers an error" do
+    subject { client.list_accounts(domain_id: 666) }
+
+    let(:message) { "Domain id=666 doesn't exist" }
+    it "properly signs the request" do
+      expect { subject }.to raise_error StackerBee::ClientError, message
     end
   end
 

@@ -155,13 +155,43 @@ my_client = StackerBee::Client.new(
 )
 ```
 
+### Middleware
+
+StackerBee can be configured with middleware. It uses it's own middleware stack to implement some of its functionality.
+
+To add a middleware, use the `middlewares` configuration option. For example:
+
+```ruby
+class StdoutLoggingMiddleware < StackerBee::Middleware::Base
+  def call(env)
+    app.call(env)
+    p "CloudStack call: #{env.inspect}"
+  end
+end
+
+class PrependedMiddleware < StackerBee::Middleware::Base
+  def call(env) app.call(env) end
+end
+
+StackerBee::Client.configuration = {
+  middlewares: ->(builder) do
+    # Using `before` places the middleware before the default middlewares
+    builder.before PrependedMiddleware
+
+    # Using `use` places the middleware after the default middlewares,
+    # but before the request is sent to Faraday
+    builder.use StdoutLoggingMiddleware
+  end
+}
+```
+
 ### Faraday Middleware
 
 StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and allows you to add Faraday middleware. Here's an example of adding your own middleware.
 
 ```ruby
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) do
+  faraday_middlewares: ->(faraday) do
     faraday.use Custom::LoggingMiddleware, Logger.new
     faraday.use Custom::CachingMiddleware, Rails.cache
   end
@@ -182,7 +212,7 @@ If you're using the Graylog2 GELF format, you're in luck because StackerBee curr
 logger = GELF::Notifier.new("localhost", 12201)
 
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) { faraday.use StackerBee::GraylogFaradayMiddleware, logger }
+  faraday_middlewares: ->(faraday) { faraday.use faraday.use StackerBee::GraylogFaradayMiddleware, logger }
 }
 ```
 
@@ -192,7 +222,7 @@ To log to a file or STDOUT, Faraday has a built-in logger. You can use it like s
 
 ```ruby
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) { faraday.response :logger }
+  faraday_middlewares: ->(faraday) { faraday.response :logger }
 }
 ```
 
