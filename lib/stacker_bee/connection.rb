@@ -1,7 +1,6 @@
 require "faraday"
 require "uri"
 require "stacker_bee/middleware/signed_query"
-require "stacker_bee/middleware/logger"
 require "stacker_bee/middleware/detokenizer"
 
 module StackerBee
