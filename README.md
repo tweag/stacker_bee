@@ -155,6 +155,25 @@ my_client = StackerBee::Client.new(
 )
 ```
 
+### Middleware
+
+StackerBee can be configured with middleware. It uses it's own middleware stack to implement some of its functionality.
+
+To add a middleware, use the `middlewares` configuration option. For example:
+
+```ruby
+class StdoutLoggingMiddleware < StackerBee::Middleware::Base
+  def call(env)
+    app.call(env)
+    p "CloudStack call: #{env.inspect}"
+  end
+end
+
+StackerBee::Client.configuration = {
+  middlewares: [StdoutLoggingMiddleware.new]
+}
+```
+
 ### Faraday Middleware
 
 StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and allows you to add Faraday middleware. Here's an example of adding your own middleware.
