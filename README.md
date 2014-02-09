@@ -182,7 +182,7 @@ If you're using the Graylog2 GELF format, you're in luck because StackerBee curr
 logger = GELF::Notifier.new("localhost", 12201)
 
 StackerBee::Client.default_config = {
-  middlewares: ->(faraday) { faraday.use faraday.use StackerBee::GraylogFaradayMiddleware, logger }
+  middlewares: ->(faraday) { faraday.use StackerBee::GraylogFaradayMiddleware, logger }
 }
 ```
 
