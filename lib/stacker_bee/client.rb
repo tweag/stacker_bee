@@ -104,17 +104,20 @@ module StackerBee
                end
     end
 
-    def method_missing(name, *args, &block)
-      endpoint = middleware_app.endpoint_for(name)
-      if endpoint
-        request(endpoint, *args, &block)
+    def method_missing(method_name, *args, &block)
+      if respond_to_via_delegation?(method_name)
+        request(method_name, *args, &block)
       else
         super
       end
     end
 
-    def respond_to?(name, include_private = false)
-      super || !!middleware_app.endpoint_for(name)
+    def respond_to?(method_name, include_private = false)
+      super || respond_to_via_delegation?(method_name)
+    end
+
+    def respond_to_via_delegation?(method_name)
+      !!middleware_app.endpoint_name_for(method_name)
     end
 
     protected
