@@ -160,7 +160,7 @@ my_client = StackerBee::Client.new(
 StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and makes it easy for you to add Faraday middleware. Here's an example of adding your own middleware.
 
 ```ruby
-StackerBee::Client.default_config = {
+StackerBee::Client.configuration = {
   middlewares: ->(faraday) do
     faraday.use Custom::LoggingMiddleware, Logger.new
     faraday.use Custom::CachingMiddleware, Rails.cache
@@ -181,7 +181,7 @@ If you're using the Graylog2 GELF format, you're in luck because StackerBee curr
 ```ruby
 logger = GELF::Notifier.new("localhost", 12201)
 
-StackerBee::Client.default_config = {
+StackerBee::Client.configuration = {
   middlewares: ->(faraday) { faraday.use StackerBee::GraylogFaradayMiddleware, logger }
 }
 ```
@@ -191,7 +191,7 @@ StackerBee::Client.default_config = {
 To log to a file or STDOUT, Faraday has a built-in logger. You can use it like so:
 
 ```ruby
-StackerBee::Client.default_config = {
+StackerBee::Client.configuration = {
   middlewares: ->(faraday) { faraday.response :logger }
 }
 ```
@@ -201,7 +201,7 @@ StackerBee::Client.default_config = {
 The `StackerBee::Client` class can be configured with multiple options at once.
 
 ```ruby
-StackerBee::Client.default_config = {
+StackerBee::Client.configuration = {
   url:        'http://localhost:8080/client/api',
   api_key:    'API_KEY',
   secret_key: 'MY_SECRET_KEY'
