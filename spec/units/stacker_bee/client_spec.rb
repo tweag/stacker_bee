@@ -96,7 +96,8 @@ describe StackerBee::Client, "configuration" do
       url:                 default_url,
       api_key:             default_api_key,
       secret_key:          default_secret_key,
-      faraday_middlewares: ->(*) {}
+      faraday_middlewares: ->(*) {},
+      middlewares:         []
     }
   end
   let!(:default_configuration) do
@@ -110,15 +111,16 @@ describe StackerBee::Client, "configuration" do
       url:                 instance_url,
       api_key:             instance_api_key,
       secret_key:          instance_secret_key,
-      faraday_middlewares: ->(*) {}
+      faraday_middlewares: ->(*) {},
+      middlewares:         []
     }
   end
   let!(:instance_configuration) do
     StackerBee::Configuration.new(instance_config_hash)
   end
   before do
-    StackerBee::Configuration.stub(:new) do
-      fail "Unexpected Configuration instantiation"
+    StackerBee::Configuration.stub(:new) do |options|
+      fail "Unexpected Configuration instantiation: \n#{args.inspect}"
     end
     StackerBee::Configuration.stub(:new).with(default_config_hash)  do
       default_configuration

@@ -26,6 +26,15 @@ module StackerBee
                    :secret_key,
                    :secret_key=
 
+    def middlewares
+      [
+        Middleware::EndpointNormalizer.new(api: self.class.api),
+        Middleware::RemoveEmptyStrings.new,
+        *configuration.middlewares,
+        Middleware::Adapter.new(connection: connection)
+      ]
+    end
+
     class << self
       def reset!
         @api, @api_path, @default_config = nil
@@ -33,7 +42,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          faraday_middlewares: ->(*) {}
+          faraday_middlewares: ->(*) {},
+          middlewares: []
         }
       end
 
@@ -78,14 +88,6 @@ module StackerBee
       middleware_app.call(env)
 
       env.response
-    end
-
-    def middlewares
-      [
-        Middleware::EndpointNormalizer.new(api: self.class.api),
-        Middleware::RemoveEmptyStrings.new,
-        Middleware::Adapter.new(connection: connection)
-      ]
     end
 
     def middleware_app
