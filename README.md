@@ -161,7 +161,7 @@ StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and allo
 
 ```ruby
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) do
+  faraday_middlewares: ->(faraday) do
     faraday.use Custom::LoggingMiddleware, Logger.new
     faraday.use Custom::CachingMiddleware, Rails.cache
   end
@@ -182,7 +182,7 @@ If you're using the Graylog2 GELF format, you're in luck because StackerBee curr
 logger = GELF::Notifier.new("localhost", 12201)
 
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) { faraday.use StackerBee::GraylogFaradayMiddleware, logger }
+  faraday_middlewares: ->(faraday) { faraday.use faraday.use StackerBee::GraylogFaradayMiddleware, logger }
 }
 ```
 
@@ -192,7 +192,7 @@ To log to a file or STDOUT, Faraday has a built-in logger. You can use it like s
 
 ```ruby
 StackerBee::Client.configuration = {
-  middlewares: ->(faraday) { faraday.response :logger }
+  faraday_middlewares: ->(faraday) { faraday.response :logger }
 }
 ```
 

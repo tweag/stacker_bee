@@ -1,16 +1,15 @@
 require 'spec_helper'
 
-describe "Client initialization configures the middleware" do
-
+describe "Client initialization configures the Faraday middleware" do
   context "pass a new middleware to the client" do
     subject { StackerBee::Client.new(configuration) }
 
     let(:configuration) do
       {
-        url:         "http://garbagestring",
-        api_key:     "HI!",
-        secret_key:  "SECRETT",
-        middlewares: ->(faraday) { faraday.use middleware_class }
+        url:                 "http://garbagestring",
+        api_key:             "HI!",
+        secret_key:          "SECRETT",
+        faraday_middlewares: ->(faraday) { faraday.use middleware_class }
       }
     end
 

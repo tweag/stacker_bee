@@ -93,10 +93,10 @@ describe StackerBee::Client, "configuration" do
   let(:default_secret_key)  { "default-cloud-stack-secret-key" }
   let(:default_config_hash) do
     {
-      url:        default_url,
-      api_key:    default_api_key,
-      secret_key: default_secret_key,
-      middlewares: ->(*) {}
+      url:                 default_url,
+      api_key:             default_api_key,
+      secret_key:          default_secret_key,
+      faraday_middlewares: ->(*) {}
     }
   end
   let!(:default_configuration) do
@@ -107,10 +107,10 @@ describe StackerBee::Client, "configuration" do
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
   let(:instance_config_hash) do
     {
-      url:        instance_url,
-      api_key:    instance_api_key,
-      secret_key: instance_secret_key,
-      middlewares: ->(*) {}
+      url:                 instance_url,
+      api_key:             instance_api_key,
+      secret_key:          instance_secret_key,
+      faraday_middlewares: ->(*) {}
     }
   end
   let!(:instance_configuration) do

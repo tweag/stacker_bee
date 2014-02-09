@@ -33,7 +33,7 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          middlewares: ->(*) {}
+          faraday_middlewares: ->(*) {}
         }
       end
 
