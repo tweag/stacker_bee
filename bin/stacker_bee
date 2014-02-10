@@ -68,8 +68,6 @@ if verbose
   puts "StackerBee version #{StackerBee::VERSION}"
   puts "URL: #{options["url"]}"
   puts "API key: #{options["api_key"]}"
-else
-  options['logger'] = Logger.new('/dev/null')
 end
 
 client = StackerBee::Client.new(options)
