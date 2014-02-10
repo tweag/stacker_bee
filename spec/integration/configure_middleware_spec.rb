@@ -44,7 +44,7 @@ describe "Configuring middlewares" do
 
   def self.it_configures_a_middleware
     describe "a StackerBee middleware" do
-      let(:middlewares) { [middleware_class.new] }
+      let(:middlewares) { [middleware_class] }
       it_uses_the_middleware
     end
   end

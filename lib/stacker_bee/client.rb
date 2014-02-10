@@ -28,11 +28,13 @@ module StackerBee
 
     def middlewares
       [
-        Middleware::EndpointNormalizer.new(api: self.class.api),
-        Middleware::RemoveEmptyStrings.new,
+        [Middleware::EndpointNormalizer, { api: self.class.api }],
+        [Middleware::RemoveEmptyStrings],
         *configuration.middlewares,
-        Middleware::Adapter.new(connection: connection)
-      ]
+        [Middleware::Adapter, { connection: connection }]
+      ].map do |klass, *args|
+        klass.new(*args)
+      end
     end
 
     class << self

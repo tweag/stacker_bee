@@ -170,7 +170,7 @@ class StdoutLoggingMiddleware < StackerBee::Middleware::Base
 end
 
 StackerBee::Client.configuration = {
-  middlewares: [StdoutLoggingMiddleware.new]
+  middlewares: [StdoutLoggingMiddleware]
 }
 ```
 
