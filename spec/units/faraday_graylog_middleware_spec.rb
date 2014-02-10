@@ -11,7 +11,7 @@ describe FaradayMiddleware::Graylog do
   let(:log_data) { logger.data }
   let(:logger)   { DummyLogger.new }
 
-  let(:dummy_adapter) { ->(env){ Faraday::Response.new(env) } }
+  let(:dummy_adapter) { ->(env) { Faraday::Response.new(env) } }
   let(:middleware) do
     described_class.new(dummy_adapter, logger, facility: facility)
   end

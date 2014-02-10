@@ -11,7 +11,7 @@ describe StackerBee::GraylogFaradayMiddleware do
   let(:log_data) { logger.data }
   let(:logger)   { DummyLogger.new }
 
-  let(:dummy_adapter) { ->(env){ Faraday::Response.new(env) } }
+  let(:dummy_adapter) { ->(env) { Faraday::Response.new(env) } }
   let(:middleware) { described_class.new(dummy_adapter, logger) }
   let(:status) { 200 }
 

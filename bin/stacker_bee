@@ -54,7 +54,7 @@ begin
     options.merge! YAML.load(hash)
   end
   unless (%w(api_key secret_key url) - options.keys).empty?
-    puts "Please specify a config file or all of the following: " +
+    puts "Please specify a config file or all of the following: " \
          "--api_key, --secret_key and --url"
     exit
   end
