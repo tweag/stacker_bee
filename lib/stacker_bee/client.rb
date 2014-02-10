@@ -2,7 +2,6 @@ require "forwardable"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
-require "stacker_bee/request"
 require "stacker_bee/response"
 require "stacker_bee/middleware/environment"
 require "stacker_bee/middleware/base"
@@ -34,7 +33,9 @@ module StackerBee
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
       builder.use Middleware::CloudStackAPI, api_key: configuration.api_key
-      configuration.middlewares.call(builder)
+
+      configuration.middlewares.call builder
+
       builder.use Middleware::DictionaryFlattener
       builder.use Middleware::RemoveNils
       builder.use Middleware::FormatKeys

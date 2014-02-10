@@ -5,11 +5,10 @@ describe StackerBee::Connection do
   let(:secret_key)    { "shhh" }
   let(:configuration) { double url: url, secret_key: secret_key }
   let(:query_params)  { [[:foo, :bar]] }
-  let(:request)       { double query_params: query_params }
   let(:response)      { double }
   let(:faraday)       { double get: response }
   let(:connection)    { StackerBee::Connection.new configuration }
-  subject { connection.get request }
+  subject { connection.get query_params }
   before do
     Faraday.stub(:new) { faraday }
   end

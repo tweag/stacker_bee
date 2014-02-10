@@ -37,7 +37,6 @@ describe StackerBee::Client, "calling endpoint" do
   before do
     StackerBee::Client.api_path = api_path
     StackerBee::Connection.stub new: connection
-    StackerBee::Request.stub new: request
     connection.stub get: raw_response
     StackerBee::Response.stub new: response
   end
@@ -73,8 +72,7 @@ describe StackerBee::Client, "#request" do
 
   before do
     StackerBee::Connection.stub new: connection
-    StackerBee::Request.stub new: request
-    connection.should_receive(:get).with(request) { raw_response }
+    connection.stub get: raw_response
     StackerBee::Response.stub new: response
   end
 

@@ -28,8 +28,8 @@ module StackerBee
       end
     end
 
-    def get(request)
-      @faraday.get(@path, request.query_params)
+    def get(params)
+      @faraday.get(@path, params)
     rescue Faraday::Error::ConnectionFailed
       raise ConnectionError, "Failed to connect to #{configuration.url}"
     end
