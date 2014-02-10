@@ -10,6 +10,11 @@ require "stacker_bee/middleware/base"
 require "stacker_bee/middleware/adapter"
 require "stacker_bee/middleware/endpoint_normalizer"
 require "stacker_bee/middleware/remove_empty_strings"
+require "stacker_bee/middleware/cloud_stack_api"
+require "stacker_bee/middleware/dictionary_flattener"
+require "stacker_bee/middleware/remove_nils"
+require "stacker_bee/middleware/format_keys"
+require "stacker_bee/middleware/format_values"
 
 module StackerBee
   class Client
@@ -29,7 +34,12 @@ module StackerBee
     def middlewares
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
+      builder.use Middleware::CloudStackAPI, api_key: configuration.api_key
       configuration.middlewares.call(builder)
+      builder.use Middleware::DictionaryFlattener
+      builder.use Middleware::RemoveNils
+      builder.use Middleware::FormatKeys
+      builder.use Middleware::FormatValues
       builder.use Middleware::Adapter, connection: connection
 
       builder.build

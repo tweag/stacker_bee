@@ -8,9 +8,14 @@ module StackerBee
       end
 
       def before(env)
+        env.request.params = params(env.request.params)
       end
 
       def after(env)
+      end
+
+      def params(params)
+        params
       end
 
       def endpoint_name_for(endpoint_name)

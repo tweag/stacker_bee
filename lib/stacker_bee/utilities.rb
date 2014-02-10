@@ -2,6 +2,8 @@ module StackerBee
   module Utilities
     REGEX = /\s|-|_/
 
+    module_function
+
     def uncase(string)
       string.to_s.downcase.gsub(REGEX, '')
     end
@@ -18,12 +20,31 @@ module StackerBee
       end
     end
 
-    def self.hash_deeply(hash, &block)
+    def hash_deeply(hash, &block)
       block.call hash
 
       hash.values
         .select { |val| val.respond_to?(:to_hash) }
         .each   { |val| hash_deeply val, &block }
+    end
+
+    def map_a_hash(hash)
+      hash.each_with_object({}) do |pair, new_hash|
+        key, value = yield(*pair)
+        new_hash[key] = value
+      end
+    end
+
+    def transform_hash_values(hash)
+      map_a_hash(hash) do |key, val|
+        [key, yield(val)]
+      end
+    end
+
+    def transform_hash_keys(hash)
+      map_a_hash(hash) do |key, val|
+        [yield(key), val]
+      end
     end
   end
 end

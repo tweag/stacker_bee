@@ -36,14 +36,10 @@ describe StackerBee::Client, "calling endpoint" do
 
   before do
     StackerBee::Client.api_path = api_path
-    StackerBee::Connection.stub(:new) { connection }
-    StackerBee::Request.stub(:new).with(
-      "listVirtualMachines", api_key, params
-    ) do
-      request
-    end
-    connection.stub(:get).with(request) { raw_response }
-    StackerBee::Response.stub(:new).with(raw_response) { response }
+    StackerBee::Connection.stub new: connection
+    StackerBee::Request.stub new: request
+    connection.stub get: raw_response
+    StackerBee::Response.stub new: response
   end
 
   subject { client }
@@ -76,12 +72,10 @@ describe StackerBee::Client, "#request" do
   let(:response)      { double }
 
   before do
-    StackerBee::Connection.should_receive(:new) { connection }
-    StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) do
-      request
-    end
+    StackerBee::Connection.stub new: connection
+    StackerBee::Request.stub new: request
     connection.should_receive(:get).with(request) { raw_response }
-    StackerBee::Response.should_receive(:new).with(raw_response) { response }
+    StackerBee::Response.stub new: response
   end
 
   it { should eq response }

@@ -55,7 +55,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     end
   end
 
-  context "a nil request parameter", :regression do
+  context "a nil request parameter" do
     let(:params) { { name: nil } }
     subject do
       client.list_accounts(params)
