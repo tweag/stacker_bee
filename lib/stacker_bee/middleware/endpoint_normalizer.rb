@@ -1,10 +1,9 @@
 module StackerBee
   module Middleware
     class EndpointNormalizer < Base
-      def call(env)
+      def before(env)
         env.request.endpoint_name =
           endpoint_name_for(env.request.endpoint_name)
-        app.call(env)
       end
 
       def endpoint_name_for(name)
