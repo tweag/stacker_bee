@@ -13,7 +13,7 @@ You can install StackerBee with rubygems:
 
     $ gem install stacker_bee
 
-If you are using Bundler simply add the following to your Gemfile:
+If you are using Bundler add the following to your Gemfile:
 
 ```ruby
 gem 'stacker_bee'
@@ -57,7 +57,7 @@ puts vm[:iso_display_text]
 
 ### Handling 'map' parameters
 
-For any endpoint requiring a map parameter, simply pass in a hash.
+For any endpoint requiring a map parameter, pass in a hash.
 
 ```ruby
 cloud_stack.create_tags(tags: { type: 'community' }, resource_type: "Template", resource_ids: id )
@@ -157,7 +157,7 @@ my_client = StackerBee::Client.new(
 
 ### Faraday Middleware
 
-StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and makes it easy for you to add Faraday middleware. Here's an example of adding your own middleware.
+StackerBee is built on [Faraday](https://github.com/lostisland/faraday) and allows you to add Faraday middleware. Here's an example of adding your own middleware.
 
 ```ruby
 StackerBee::Client.configuration = {
