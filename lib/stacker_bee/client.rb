@@ -27,13 +27,35 @@ module StackerBee
                    :secret_key=
 
     def middlewares
-      [
-        [Middleware::EndpointNormalizer, { api: self.class.api }],
-        [Middleware::RemoveEmptyStrings],
-        *configuration.middlewares,
-        [Middleware::Adapter, { connection: connection }]
-      ].map do |klass, *args|
-        klass.new(*args)
+      builder.use Middleware::EndpointNormalizer, api: self.class.api
+      builder.use Middleware::RemoveEmptyStrings
+      configuration.middlewares.call(builder)
+      builder.use Middleware::Adapter, connection: connection
+
+      builder.build
+    end
+
+    def builder
+      @builder ||= Builder.new
+    end
+
+    class Builder
+      attr_accessor :middlewares
+
+      def middlewares
+        @middlewares ||= []
+      end
+
+      def use(*middleware_definition)
+        middlewares << middleware_definition
+      end
+
+      def before(*middleware_definition)
+        middlewares.unshift middleware_definition
+      end
+
+      def build
+        middlewares.map { |klass, *args| klass.new(*args) }
       end
     end
 
@@ -44,8 +66,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          faraday_middlewares: ->(*) {},
-          middlewares: []
+          faraday_middlewares: proc{},
+          middlewares:         proc{}
         }
       end
 

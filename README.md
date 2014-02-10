@@ -169,8 +169,19 @@ class StdoutLoggingMiddleware < StackerBee::Middleware::Base
   end
 end
 
+class PrependedMiddleware < StackerBee::Middleware::Base
+  def call(env) app.call(env) end
+end
+
 StackerBee::Client.configuration = {
-  middlewares: [StdoutLoggingMiddleware]
+  middlewares: ->(builder) do
+    # Using `before` places the middleware before the default middlewares
+    builder.before PrependedMiddleware
+
+    # Using `use` places the middleware after the default middlewares,
+    # but before the request is sent to Faraday
+    builder.use StdoutLoggingMiddleware
+  end
 }
 ```
 

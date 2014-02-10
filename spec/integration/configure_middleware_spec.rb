@@ -12,7 +12,7 @@ describe "Configuring middlewares" do
   end
 
   let(:faraday_middlewares) { proc{} }
-  let(:middlewares)         { [] }
+  let(:middlewares)         { proc{} }
 
   let(:middleware_class) { Class.new(StackerBee::Middleware::Base, &body) }
   let(:faraday_middleware_class) { Class.new(Faraday::Middleware, &body) }
@@ -44,7 +44,9 @@ describe "Configuring middlewares" do
 
   def self.it_configures_a_middleware
     describe "a StackerBee middleware" do
-      let(:middlewares) { [middleware_class] }
+      let(:middlewares) do
+        ->(builder) { builder.use middleware_class }
+      end
       it_uses_the_middleware
     end
   end
