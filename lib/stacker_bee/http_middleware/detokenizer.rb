@@ -10,7 +10,8 @@ module StackerBee
       end
 
       def detokenize(uri)
-        uri.query = StackerBee::DictionaryFlattener.detokenize uri.query
+        uri.query =
+          StackerBee::Middleware::DictionaryFlattener.detokenize uri.query
       end
     end
   end
