@@ -10,9 +10,8 @@ module StackerBee
         hash.delete_if { |_, val| val == '' }
 
         hash.values
-          .select{ |val| val.respond_to?(:to_hash) }.each do |val|
-            deeply_remove_empty_strings val
-          end
+          .select { |val| val.respond_to?(:to_hash) }
+          .each   { |val| deeply_remove_empty_strings val }
       end
     end
   end

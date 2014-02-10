@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe StackerBee::Middleware::RemoveEmptyStrings do
-  let(:middleware) { described_class.new(app: proc{ |env| @response_env = env }) }
+  let(:middleware) do
+    described_class.new(app: proc { |env| @response_env = env })
+  end
   let(:env) { StackerBee::Middleware::Environment.new }
   # TODO: rename response_env
   let(:response_env) { @response_env }
@@ -27,7 +29,7 @@ describe StackerBee::Middleware::RemoveEmptyStrings do
           ok1: true,
           ok2: nil,
           ok3: 'string',
-          ok4: ' ',
+          ok4: ' '
         }
       }
     }

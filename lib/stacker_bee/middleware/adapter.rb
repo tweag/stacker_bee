@@ -5,7 +5,9 @@ module StackerBee
       end
 
       def call(env)
-        request = Request.new(env.request.endpoint_name, env.request.api_key, env.request.params)
+        request = Request.new(env.request.endpoint_name,
+                              env.request.api_key,
+                              env.request.params)
         env.raw_response = connection.get(request)
         env.response = Response.new(env.raw_response)
       end

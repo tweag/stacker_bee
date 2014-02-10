@@ -11,8 +11,8 @@ describe "Configuring middlewares" do
     }
   end
 
-  let(:faraday_middlewares) { proc{} }
-  let(:middlewares)         { proc{} }
+  let(:faraday_middlewares) { proc {} }
+  let(:middlewares)         { proc {} }
 
   let(:middleware_class) { Class.new(StackerBee::Middleware::Base, &body) }
   let(:faraday_middleware_class) { Class.new(Faraday::Middleware, &body) }

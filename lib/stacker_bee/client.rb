@@ -66,8 +66,8 @@ module StackerBee
 
       def default_config
         @default_config ||= {
-          faraday_middlewares: proc{},
-          middlewares:         proc{}
+          faraday_middlewares: proc {},
+          middlewares:         proc {}
         }
       end
 
