@@ -5,10 +5,20 @@ module StackerBee
         super()
 
         defaults = { params: {} }
-        self.request = OpenStruct.new(defaults.merge(request_attributes))
+        self.request = Request.new(defaults.merge(request_attributes))
 
-        self.response = OpenStruct.new
+        self.response = Response.new
       end
+
+      class Request < OpenStruct
+      end
+
+      class Response < OpenStruct
+        def success?
+          !!success
+        end
+      end
+
     end
   end
 end

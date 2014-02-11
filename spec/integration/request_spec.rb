@@ -77,7 +77,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     end
   end
 
-  context "a request that triggers an error" ,:focus do
+  context "a request that triggers an error" do
     subject { client.list_accounts(domain_id: 666) }
 
     let(:message) { "Domain id=666 doesn't exist" }
