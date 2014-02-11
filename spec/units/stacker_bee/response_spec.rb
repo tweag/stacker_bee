@@ -2,8 +2,12 @@ require "spec_helper"
 
 describe StackerBee::Response do
   let(:raw_body)          { '{ "json": "here" }' }
-  let(:raw_response)  { double body: raw_body, :success? => true }
-  let(:response)      { StackerBee::Response.new raw_response }
+  let(:raw_response) do
+    double(body: raw_body, success?: true, headers: headers)
+  end
+  let(:response)     { StackerBee::Response.new raw_response }
+  let(:headers)      { { 'content-type' => content_type } }
+  let(:content_type) { "application/json; charset=UTF-8" }
   subject { response }
   its(:body) { should == 'here' }
 
@@ -44,7 +48,8 @@ describe StackerBee::Response do
       double(
         :body     => '{ "foo": "bar" }',
         :success? => false,
-        :status   => 431
+        :status   => 431,
+        :headers  => {}
       )
     end
     it { expect { subject }.to raise_exception StackerBee::ClientError }
@@ -62,7 +67,8 @@ describe StackerBee::Response do
           { "createprojectresponse" :
             {"uuidList":[],"errorcode":401,"errortext":"#{message}"} } ],
         success?: false,
-        status: 401
+        status: 401,
+        headers: {}
       )
     end
     let(:client_error) { StackerBee::AuthenticationError.new raw_response }
@@ -76,4 +82,12 @@ describe StackerBee::Response do
     end
   end
 
+  context "with an html response" do
+    let(:raw_body) { "<html><body>hi</body><html>" }
+    let(:content_type) { "text/html" }
+
+    it "returns the raw html without parsing" do
+      expect(response.body).to eq(raw_body)
+    end
+  end
 end

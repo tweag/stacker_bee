@@ -13,7 +13,7 @@ describe StackerBee::Client, ".api" do
 end
 
 describe StackerBee::Client, "calling endpoint" do
-  let(:url)         { "cloud-stack.com" }
+  let(:url)         { "http://cloud-stack.com" }
   let(:api_key)     { "cloud-stack-api-key" }
   let(:secret_key)  { "cloud-stack-secret-key" }
   let(:config_hash) do
@@ -42,7 +42,7 @@ describe StackerBee::Client, "calling endpoint" do
     ) do
       request
     end
-    connection.stub(:get).with(request) { raw_response }
+    connection.stub(:get).with(request, "") { raw_response }
     StackerBee::Response.stub(:new).with(raw_response) { response }
   end
 
@@ -59,7 +59,7 @@ describe StackerBee::Client, "#request" do
   let(:endpoint)    { "listVirtualMachines" }
   let(:params)      { { list: :all } }
 
-  let(:url)         { "cloud-stack.com" }
+  let(:url)         { "http://cloud-stack.com" }
   let(:api_key)     { "cloud-stack-api-key" }
   let(:secret_key)  { "cloud-stack-secret-key" }
   let(:config_hash) do
@@ -80,7 +80,7 @@ describe StackerBee::Client, "#request" do
     StackerBee::Request.should_receive(:new).with(endpoint, api_key, params) do
       request
     end
-    connection.should_receive(:get).with(request) { raw_response }
+    connection.should_receive(:get).with(request, "") { raw_response }
     StackerBee::Response.should_receive(:new).with(raw_response) { response }
   end
 
@@ -93,7 +93,7 @@ describe StackerBee::Client, "#request" do
 end
 
 describe StackerBee::Client, "configuration" do
-  let(:default_url)         { "default_cloud-stack.com" }
+  let(:default_url)         { "http://default_cloud-stack.com" }
   let(:default_api_key)     { "default-cloud-stack-api-key" }
   let(:default_secret_key)  { "default-cloud-stack-secret-key" }
   let(:default_config_hash) do
@@ -108,7 +108,7 @@ describe StackerBee::Client, "configuration" do
   let!(:default_configuration) do
     StackerBee::Configuration.new(default_config_hash)
   end
-  let(:instance_url)        { "instance-cloud-stack.com" }
+  let(:instance_url)        { "http://instance-cloud-stack.com" }
   let(:instance_api_key)    { "instance-cloud-stack-api-key" }
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
   let(:instance_config_hash) do
@@ -163,7 +163,7 @@ describe StackerBee::Client, "configuration" do
     end
 
     describe "#url" do
-      let(:other_url) { "other-cloud-stack.com" }
+      let(:other_url) { "http://other-cloud-stack.com" }
       before { subject.url = other_url }
       its(:url) { should eq other_url }
     end
@@ -179,5 +179,46 @@ describe StackerBee::Client, "configuration" do
       before { subject.secret_key = other_secret_key }
       its(:secret_key) { should eq other_secret_key }
     end
+  end
+end
+
+describe StackerBee::Client, "#console_access" do
+  let(:config_hash) do
+    {
+      url:        CONFIG["url"],
+      api_key:    CONFIG["api_key"],
+      secret_key: CONFIG["secret_key"]
+    }
+  end
+
+  let(:client) do
+    StackerBee::Client.new(config_hash)
+  end
+
+  let(:vm) { "36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd" }
+
+  let(:body) { "<body></body>" }
+  let(:headers) { { 'content-type' => 'text/html' } }
+  let(:response_stub) do
+    double(StackerBee::Response, success?: true, body: body, headers: headers)
+  end
+
+  subject(:console_access) { client.console_access(vm) }
+
+  it "makes a request with the consoleAccess endpoint" do
+    expect(client).to receive(:request).with(
+      "consoleAccess", cmd: 'access', vm: vm
+    )
+
+    console_access
+  end
+
+  it "makes a get request to the connection" do
+    expect(client.send(:connection)).to receive(:get) do |request, path|
+      expect(request.endpoint).to eq("consoleAccess")
+      expect(path).to eq("/client/console")
+    end.and_return(response_stub)
+
+    expect(console_access).to eq(body)
   end
 end

@@ -41,6 +41,10 @@ VCR.configure do |c|
   c.filter_sensitive_data('<CLOUD_STACK_URL>') do
     CONFIG["url"]
   end
+  c.filter_sensitive_data('<CLOUD_STACK_HOST>') do
+    uri = URI.parse(CONFIG["url"])
+    "#{uri.scheme}://#{uri.host}:#{uri.port}"
+  end
   c.filter_sensitive_data('<CLOUD_STACK_API_KEY>') do
     CONFIG["api_key"]
   end
