@@ -15,41 +15,48 @@ end
 describe StackerBee::Client, "calling endpoint" do
   let(:client) do
     StackerBee::Client.new(
+      url: "http://example.com",
       middlewares: ->(builder) do
-        builder.before Class.new(StackerBee::Middleware::Base) {
-          def call(env)
-            raise unless env.request.endpoint_name == :list_virtual_machines
-            raise unless env.request.params == { list: :all }
-
-            env.response.body = { the: :body }
-          end
-
-          def endpoint_name_for(name)
-            name
-          end
-        }
-      end,
-
-      url: "http://example.com"
+        builder.before middleware_class,
+          expected_endpoint_name: endpoint_name,
+          expected_params:        params,
+          response_body:          response_body
+      end
     )
   end
 
-  let(:endpoint)     { :list_virtual_machines }
-  let(:params)       { { list: :all } }
+  let(:middleware_class) do
+    Class.new StackerBee::Middleware::Base do
+      def call(env)
+        raise unless env.request.endpoint_name == expected_endpoint_name
+        raise unless env.request.params == expected_params
+
+        env.response.body = response_body
+      end
+
+      def endpoint_name_for(*)
+        true
+      end
+    end
+  end
+
+  let(:endpoint_name) { :list_virtual_machines }
+  let(:params)        { double(:params) }
+  let(:response_body) { double(:response_body) }
 
   describe "responding to methods" do
     subject { client }
-    it { should respond_to endpoint }
+    it { should respond_to endpoint_name }
   end
 
   describe "via a method call" do
     subject { client.list_virtual_machines(params) }
-    it { should eq the: :body }
+    it { should eq response_body }
   end
 
   describe "via #request" do
-    subject { client.request(endpoint, params) }
-    it { should eq the: :body }
+    subject { client.request(endpoint_name, params) }
+    it { should eq response_body }
   end
 end
 
