@@ -70,8 +70,8 @@ describe StackerBee::Client, "configuration" do
       url:                 default_url,
       api_key:             default_api_key,
       secret_key:          default_secret_key,
-      faraday_middlewares: ->(*) {},
-      middlewares:         []
+      faraday_middlewares: proc {},
+      middlewares:         proc {}
     }
   end
   let!(:default_configuration) do
@@ -85,8 +85,8 @@ describe StackerBee::Client, "configuration" do
       url:                 instance_url,
       api_key:             instance_api_key,
       secret_key:          instance_secret_key,
-      faraday_middlewares: ->(*) {},
-      middlewares:         []
+      faraday_middlewares: proc {},
+      middlewares:         proc {}
     }
   end
   let!(:instance_configuration) do
