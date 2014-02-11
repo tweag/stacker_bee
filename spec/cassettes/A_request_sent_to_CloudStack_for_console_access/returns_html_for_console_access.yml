@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: "<CLOUD_STACK_HOST>/client/console?apiKey=<CLOUD_STACK_API_KEY>&cmd=access&command=consoleAccess&response=json&signature=DsI/kxaNO7AgzDCgE1j/3rtq3xU&vm=36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd"
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '616'
+      Date:
+      - Tue, 11 Feb 2014 19:33:34 GMT
+    body:
+      encoding: UTF-8
+      string: "<html><title>console2</title><frameset><frame src=\"https://207-19-99-5.realhostip.com/ajax?token=FAKE_TOKEN\"></frame></frameset></html>"
+    http_version: 
+  recorded_at: Tue, 11 Feb 2014 19:34:25 GMT
+recorded_with: VCR 2.8.0

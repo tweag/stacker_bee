@@ -7,10 +7,33 @@ require "stacker_bee/dictionary_flattener"
 require "stacker_bee/response"
 
 module StackerBee
+  module ConsoleAccess
+    ENDPOINT = "consoleAccess"
+    PATH = "/client/console"
+
+    def console_access(vm)
+      request("consoleAccess", cmd: 'access', vm: vm)
+    end
+
+    def path_for_endpoint(endpoint_name)
+      return PATH if endpoint_name == ENDPOINT
+
+      super
+    end
+
+    def endpoint_for(name)
+      return name if name == ENDPOINT
+
+      super
+    end
+  end
+
   class Client
     DEFAULT_API_PATH = File.join(
       File.dirname(__FILE__), '../../config/4.2.json'
     )
+
+    prepend ConsoleAccess
 
     extend Forwardable
     def_delegators :configuration,

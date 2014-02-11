@@ -181,3 +181,44 @@ describe StackerBee::Client, "configuration" do
     end
   end
 end
+
+describe StackerBee::Client, "#console_access" do
+  let(:config_hash) do
+    {
+      url:        CONFIG["url"],
+      api_key:    CONFIG["api_key"],
+      secret_key: CONFIG["secret_key"]
+    }
+  end
+
+  let(:client) do
+    StackerBee::Client.new(config_hash)
+  end
+
+  let(:vm) { "36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd" }
+
+  let(:body) { "<body></body>" }
+  let(:headers) { { 'content-type' => 'text/html' } }
+  let(:response_stub) do
+    double(StackerBee::Response, success?: true, body: body, headers: headers)
+  end
+
+  subject(:console_access) { client.console_access(vm) }
+
+  it "makes a request with the consoleAccess endpoint" do
+    expect(client).to receive(:request).with(
+      "consoleAccess", cmd: 'access', vm: vm
+    )
+
+    console_access
+  end
+
+  it "makes a get request to the connection" do
+    expect(client.send(:connection)).to receive(:get) do |request, path|
+      expect(request.endpoint).to eq("consoleAccess")
+      expect(path).to eq("/client/console")
+    end.and_return(response_stub)
+
+    expect(console_access).to eq(body)
+  end
+end
