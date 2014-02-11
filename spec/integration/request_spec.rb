@@ -77,6 +77,15 @@ describe "A response to a request sent to the CloudStack API", :vcr do
     end
   end
 
+  context "a request that triggers an error" ,:focus do
+    subject { client.list_accounts(domain_id: 666) }
+
+    let(:message) { "Domain id=666 doesn't exist" }
+    it "properly signs the request" do
+      expect { subject }.to raise_error StackerBee::ClientError, message
+    end
+  end
+
   context "a request parameter with an Array", :regression do
     let(:params) { { page: 1, pagesize: 1, details: [:events, :stats] } }
     subject do
