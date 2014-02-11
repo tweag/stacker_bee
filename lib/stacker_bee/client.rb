@@ -68,8 +68,13 @@ module StackerBee
       request = Request.new(endpoint_for(endpoint_name), api_key, params)
       request.allow_empty_string_params =
         configuration.allow_empty_string_params
-      raw_response = connection.get(request)
+      path = path_for_endpoint(endpoint_name)
+      raw_response = connection.get(request, path)
       Response.new(raw_response)
+    end
+
+    def path_for_endpoint(endpoint_name)
+      URI.parse(configuration.url).path
     end
 
     def endpoint_for(name)
