@@ -6,7 +6,17 @@ module StackerBee
     attr_reader :body
 
     def body=(raw_response)
-      @body = parse(raw_response.body)
+      response_body = raw_response.body
+
+      unless html?(raw_response)
+        response_body = parse(response_body)
+      end
+
+      @body = response_body
+    end
+
+    def html?(raw_response)
+      raw_response.headers['content-type'].to_s.match(%r{/html})
     end
 
     def parse(json)

@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe StackerBee::RequestError, ".for" do
-  let(:raw_response) { double status: status, body: '{"foo": "bar"}' }
+  let(:raw_response) do
+    double status: status, body: '{"foo": "bar"}', headers: {}
+  end
   subject { StackerBee::RequestError.for raw_response }
 
   context "HTTP status in the 400s" do
@@ -36,7 +38,9 @@ describe StackerBee::RequestError do
     }
     EOS
   end
-  let(:raw_response) { double body: raw_body, :success? => false, status: 431 }
+  let(:raw_response) do
+    double body: raw_body, :success? => false, status: 431, headers: {}
+  end
   let(:client_error) { StackerBee::ClientError.new raw_response }
   subject { client_error }
   its(:status) { should eq http_status }
