@@ -13,71 +13,46 @@ describe StackerBee::Client, ".api" do
 end
 
 describe StackerBee::Client, "calling endpoint" do
-  let(:url)         { "cloud-stack.com" }
-  let(:api_key)     { "cloud-stack-api-key" }
-  let(:secret_key)  { "cloud-stack-secret-key" }
-  let(:config_hash) do
-    {
-      url:        url,
-      api_key:    api_key,
-      secret_key: secret_key
-    }
+  let(:client) do
+    StackerBee::Client.new(
+      middlewares: ->(builder) do
+        builder.before Class.new(StackerBee::Middleware::Base) {
+          def call(env)
+            raise unless env.request.endpoint_name == :list_virtual_machines
+            raise unless env.request.params == { list: :all }
+
+            env.response.body = { the: :body }
+          end
+
+          def endpoint_name_for(name)
+            name
+          end
+        }
+      end,
+
+      url: "http://example.com"
+    )
   end
-  let(:client)       { StackerBee::Client.new config_hash }
+
   let(:endpoint)     { :list_virtual_machines }
   let(:params)       { { list: :all } }
-  let(:connection)   { double }
-  let(:request)      { double }
-  let(:raw_response) { double }
-  let(:response)     { double }
-  let(:api_path) do
-    File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
+
+  describe "responding to methods" do
+    subject { client }
+    it { should respond_to endpoint }
   end
 
-  before do
-    StackerBee::Client.api_path = api_path
-    StackerBee::Connection.stub new: connection
-    connection.stub get: raw_response
-    StackerBee::Response.stub new: response
-  end
-
-  subject { client }
-  it { should respond_to endpoint }
-  describe "response to endpoint request" do
+  describe "via a method call" do
     subject { client.list_virtual_machines(params) }
-    it { should eq response }
+    it { should eq the: :body }
+  end
+
+  describe "via #request" do
+    subject { client.request(endpoint, params) }
+    it { should eq the: :body }
   end
 end
 
-describe StackerBee::Client, "#request" do
-  subject { client.request(endpoint, params) }
-  let(:endpoint)    { "listVirtualMachines" }
-  let(:params)      { { list: :all } }
-
-  let(:url)         { "cloud-stack.com" }
-  let(:api_key)     { "cloud-stack-api-key" }
-  let(:secret_key)  { "cloud-stack-secret-key" }
-  let(:config_hash) do
-    {
-      url:        url,
-      api_key:    api_key,
-      secret_key: secret_key
-    }
-  end
-  let(:client)        { StackerBee::Client.new config_hash }
-  let(:connection)    { double }
-  let(:request)       { double }
-  let(:raw_response)  { double }
-  let(:response)      { double }
-
-  before do
-    StackerBee::Connection.stub new: connection
-    connection.stub get: raw_response
-    StackerBee::Response.stub new: response
-  end
-
-  it { should eq response }
-end
 
 describe StackerBee::Client, "configuration" do
   let(:default_url)         { "default_cloud-stack.com" }

@@ -2,7 +2,6 @@ require "forwardable"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
-require "stacker_bee/response"
 require "stacker_bee/middleware/environment"
 require "stacker_bee/middleware/base"
 require "stacker_bee/middleware/adapter"
@@ -13,6 +12,12 @@ require "stacker_bee/middleware/dictionary_flattener"
 require "stacker_bee/middleware/remove_nils"
 require "stacker_bee/middleware/format_keys"
 require "stacker_bee/middleware/format_values"
+require "stacker_bee/middleware/json_body"
+require "stacker_bee/middleware/de_namespace"
+require "stacker_bee/middleware/rashify_response"
+require "stacker_bee/middleware/clean_response"
+require "stacker_bee/middleware/raise_on_http_error"
+require "stacker_bee/middleware/http_status"
 
 module StackerBee
   class Client
@@ -30,6 +35,7 @@ module StackerBee
                    :secret_key=
 
     def middlewares
+      # request
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
       builder.use Middleware::CloudStackAPI, api_key: configuration.api_key
@@ -40,6 +46,15 @@ module StackerBee
       builder.use Middleware::RemoveNils
       builder.use Middleware::FormatKeys
       builder.use Middleware::FormatValues
+
+      # response
+      builder.use Middleware::RaiseOnHTTPError
+      builder.use Middleware::HTTPStatus
+      builder.use Middleware::CleanResponse
+      builder.use Middleware::RashifyResponse
+      builder.use Middleware::DeNamespace
+      builder.use Middleware::JSONBody
+
       builder.use Middleware::Adapter, connection: connection
 
       builder.build
@@ -121,7 +136,7 @@ module StackerBee
 
       middleware_app.call(env)
 
-      env.response
+      env.response.body
     end
 
     def middleware_app

@@ -6,6 +6,8 @@ module StackerBee
 
         defaults = { params: {} }
         self.request = OpenStruct.new(defaults.merge(request_attributes))
+
+        self.response = OpenStruct.new
       end
     end
   end
