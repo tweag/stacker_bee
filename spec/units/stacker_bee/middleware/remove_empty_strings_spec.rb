@@ -41,14 +41,14 @@ describe StackerBee::Middleware::RemoveEmptyStrings do
   end
 
   it "removes empty strings from the input" do
-    params.keys.should =~ %i[ok1 ok2 ok3 ok4 nested]
+    params.keys.should =~ [:ok1, :ok2, :ok3, :ok4, :nested]
   end
 
   it "removes empty strings nested in hashes" do
-    params[:nested].keys.should =~ %i[ok1 ok2 ok3 ok4 nested]
+    params[:nested].keys.should =~ [:ok1, :ok2, :ok3, :ok4, :nested]
   end
 
   it "removes empty strings deeply nested in hashes" do
-    params[:nested][:nested].keys.should =~ %i[ok1 ok2 ok3 ok4]
+    params[:nested][:nested].keys.should =~ [:ok1, :ok2, :ok3, :ok4]
   end
 end
