@@ -16,15 +16,11 @@ module StackerBee
     end
 
     def path_for_endpoint(endpoint_name)
-      return PATH if endpoint_name == ENDPOINT
-
-      super
+      PATH if endpoint_name == ENDPOINT
     end
 
     def endpoint_for(name)
-      return name if name == ENDPOINT
-
-      super
+      name if name == ENDPOINT
     end
   end
 
@@ -33,7 +29,7 @@ module StackerBee
       File.dirname(__FILE__), '../../config/4.2.json'
     )
 
-    prepend ConsoleAccess
+    include ConsoleAccess
 
     extend Forwardable
     def_delegators :configuration,
@@ -97,10 +93,14 @@ module StackerBee
     end
 
     def path_for_endpoint(endpoint_name)
-      URI.parse(configuration.url).path
+      super || URI.parse(configuration.url).path
     end
 
     def endpoint_for(name)
+      if result = super
+        return result
+      end
+
       api = self.class.api[name]
       api && api["name"]
     end
