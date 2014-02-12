@@ -11,8 +11,9 @@ module StackerBee
     ENDPOINT = "consoleAccess"
     PATH = "/client/console"
 
-    def console_access(vm)
-      request("consoleAccess", cmd: 'access', vm: vm)
+    def console_access(options)
+      options.merge!(cmd: 'access')
+      request("consoleAccess", options)
     end
 
     def path_for_endpoint(endpoint_name)

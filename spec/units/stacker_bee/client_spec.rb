@@ -203,7 +203,7 @@ describe StackerBee::Client, "#console_access" do
     double(StackerBee::Response, success?: true, body: body, headers: headers)
   end
 
-  subject(:console_access) { client.console_access(vm) }
+  subject(:console_access) { client.console_access(vm: vm) }
 
   it "makes a request with the consoleAccess endpoint" do
     expect(client).to receive(:request).with(
