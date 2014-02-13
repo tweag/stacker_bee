@@ -15,7 +15,7 @@ describe "A request sent to CloudStack for console access", :vcr do
 
   let(:vm) { "36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd" }
 
-  subject(:console_access) { client.console_access(vm) }
+  subject(:console_access) { client.console_access(vm: vm) }
 
   it "returns html for console access" do
     expect(console_access).to match(/frame src/)
