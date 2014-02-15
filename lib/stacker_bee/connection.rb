@@ -21,10 +21,20 @@ module StackerBee
 
     def initialize_faraday(uri)
       @faraday = Faraday.new(url: uri.to_s) do |faraday|
-        faraday.use      HTTPMiddleware::Detokenizer
-        faraday.use      HTTPMiddleware::SignedQuery, configuration.secret_key
+        faraday.use HTTPMiddleware::Detokenizer
+        faraday.use HTTPMiddleware::SignedQuery, configuration.secret_key
+
         configuration.faraday_middlewares.call faraday
-        faraday.adapter  Faraday.default_adapter  # Net::HTTP
+
+        unless has_adapter?(faraday.builder.handlers)
+          faraday.adapter  Faraday.default_adapter  # Net::HTTP
+        end
+      end
+    end
+
+    def has_adapter?(handlers)
+      handlers.detect do |handler|
+        handler.klass.ancestors.include?(Faraday::Adapter)
       end
     end
 
