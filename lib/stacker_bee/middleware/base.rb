@@ -4,7 +4,14 @@ module StackerBee
       def call(env)
         before env
         app.call env
-        after env
+        after env if matches_content_type?(env)
+      end
+
+      def matches_content_type?(env)
+        content_types.nil? || content_types =~ env.response.content_type
+      end
+
+      def content_types
       end
 
       def before(env)

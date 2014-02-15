@@ -8,9 +8,11 @@ describe "A response to a request sent to the CloudStack API", :vcr do
       url:        url,
       api_key:    CONFIG["api_key"],
       secret_key: CONFIG["secret_key"],
-      apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json')
+      apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json'),
+      middlewares: middlewares
     }
   end
+  let(:middlewares) { proc { } }
 
   let(:client) do
     StackerBee::Client.new(config_hash)
@@ -119,6 +121,50 @@ describe "A response to a request sent to the CloudStack API", :vcr do
 
     it "can create an object" do
       tag.should_not be_nil
+    end
+  end
+
+  describe "middleware" do
+    let(:middlewares) do
+      lambda do |builder|
+        builder.use middleware_class
+      end
+    end
+
+    context "a middleware that matches the content type" do
+      let(:middleware_class) do
+        Class.new(StackerBee::Middleware::Base) do
+          def content_types
+            /javascript/
+          end
+
+          def after(env)
+            fail "Middleware Used"
+          end
+        end
+      end
+
+      it "uses the middleware" do
+        expect { client.list_accounts }.to raise_error "Middleware Used"
+      end
+    end
+
+    context "a middleware that doesn't match the content type" do
+      let(:middleware_class) do
+        Class.new(StackerBee::Middleware::Base) do
+          def content_types
+            /html/
+          end
+
+          def after(env)
+            fail "Middleware Used"
+          end
+        end
+      end
+
+      it "uses the middleware" do
+        expect { client.list_accounts }.not_to raise_error
+      end
     end
   end
 end
