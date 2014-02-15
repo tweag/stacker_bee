@@ -3,7 +3,7 @@ module StackerBee
     class Adapter < Base
       def call(env)
         params = env.request.params.to_a.sort
-        env.raw_response = connection.get(params)
+        env.raw_response = connection.get(params, env.request.path)
         env.response.content_type =
           env.raw_response.env[:response_headers]["content-type"]
       end

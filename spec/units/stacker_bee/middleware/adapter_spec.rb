@@ -4,11 +4,13 @@ describe StackerBee::Middleware::Adapter do
   let(:env) do
     StackerBee::Middleware::Environment.new(
       endpoint_name: 'listVirtualMachines',
-      params: params
+      params: params,
+      path: path
     )
   end
   let(:app) { double(:app, call: response) }
   let(:response) { double(:response) }
+  let(:path) { double(:path) }
 
   let(:params) { { 'z' => 'z', 'a' => 'a' } }
   let(:connection) { double(:connection, get: raw_response) }
@@ -34,7 +36,7 @@ describe StackerBee::Middleware::Adapter do
     end
 
     it "sorts the paramers" do
-      connection.should have_received(:get).with([["a", "a"], ["z", "z"]])
+      connection.should have_received(:get).with([["a", "a"], ["z", "z"]], path)
     end
   end
 

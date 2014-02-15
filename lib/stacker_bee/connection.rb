@@ -12,8 +12,7 @@ module StackerBee
 
     def initialize(configuration)
       @configuration = configuration
-      uri      = URI.parse(self.configuration.url)
-      @path    = uri.path
+      uri = URI.parse(self.configuration.url)
       uri.path = ''
       fail ConnectionError, "no protocol specified" unless uri.scheme
       initialize_faraday(uri)
@@ -38,8 +37,8 @@ module StackerBee
       end
     end
 
-    def get(params)
-      @faraday.get(@path, params)
+    def get(params, path)
+      @faraday.get(path, params)
     rescue Faraday::Error::ConnectionFailed => error
       raise ConnectionError,
         "Failed to connect to #{configuration.url}, #{error}"

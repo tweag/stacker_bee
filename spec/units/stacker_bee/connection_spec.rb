@@ -2,24 +2,25 @@ require "spec_helper"
 
 describe StackerBee::Connection do
   let(:url)           { "http://test.com:1234/foo/bar/" }
+  let(:path)          { "/foo/bar" }
   let(:secret_key)    { "shhh" }
   let(:configuration) { double url: url, secret_key: secret_key }
-  let(:query_params)  { [[:foo, :bar]] }
+  let(:params)        { [[:foo, :bar]] }
   let(:response)      { double }
   let(:faraday)       { double get: response }
   let(:connection)    { StackerBee::Connection.new configuration }
-  subject { connection.get query_params }
+  subject(:get)       { connection.get params, path }
   before do
     Faraday.stub(:new) { faraday }
   end
 
   context "successfully connecting" do
     before do
-      faraday.should_receive(:get).with('/foo/bar/', query_params) { response }
+      faraday.should_receive(:get).with('/foo/bar', params) { response }
     end
     it { should be response }
     it "specifies url without path when creating connection" do
-      subject
+      get
       Faraday.should have_received(:new).with(url: "http://test.com:1234")
     end
   end
@@ -30,7 +31,7 @@ describe StackerBee::Connection do
     end
     it "should raise helpful exception" do
       klass = StackerBee::ConnectionError
-      expect(-> { subject }).to raise_error klass, /#{url}/
+      expect { get }.to raise_error klass, /#{url}/
     end
   end
 
@@ -38,7 +39,15 @@ describe StackerBee::Connection do
     let(:url) { "wrong.com" }
     it "should raise helpful exception" do
       klass = StackerBee::ConnectionError
-      expect(-> { subject }).to raise_error klass, /no protocol/
+      expect { get }.to raise_error klass, /no protocol/
+    end
+  end
+
+  context "when given a path" do
+    let(:path) { '/baz' }
+    it "makes a request to the correct path" do
+      expect(faraday).to receive(:get).with(path, params)
+      connection.get params, path
     end
   end
 end
