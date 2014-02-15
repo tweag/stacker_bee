@@ -18,7 +18,6 @@ module StackerBee
           !!success
         end
       end
-
     end
   end
 end
