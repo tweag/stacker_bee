@@ -18,6 +18,7 @@ require "stacker_bee/middleware/rashify_response"
 require "stacker_bee/middleware/clean_response"
 require "stacker_bee/middleware/raise_on_http_error"
 require "stacker_bee/middleware/http_status"
+require "stacker_bee/middleware/console_access"
 
 module StackerBee
   class Client
@@ -36,6 +37,8 @@ module StackerBee
 
     def middlewares
       # request
+      builder.use Middleware::ConsoleAccess
+
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
       builder.use Middleware::CloudStackAPI, api_key: configuration.api_key

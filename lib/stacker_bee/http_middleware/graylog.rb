@@ -6,8 +6,8 @@ module StackerBee
       end
 
       def short_message(env)
-        message = env[:url].query.match(/&command=([^&]*)/)[1]
-        "StackerBee #{message}"
+        message = env[:url].query.scan(/&command=([^&]*)/).join(' ')
+        "StackerBee #{message}".strip
       end
     end
   end

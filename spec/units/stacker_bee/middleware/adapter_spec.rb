@@ -16,9 +16,12 @@ describe StackerBee::Middleware::Adapter do
   let(:connection) { double(:connection, get: raw_response) }
   let(:middleware) { described_class.new(app: app, connection: connection) }
 
-  let(:raw_response) { double(env: { response_headers: response_headers }) }
+  let(:raw_response) do
+    double(env: { response_headers: response_headers}, body: response_body)
+  end
   let(:response_headers) { { "content-type" => content_type } }
   let(:content_type) { "text/javascript; charset=UTF-8"  }
+  let(:response_body) { double }
 
   describe "#call" do
     before { middleware.call(env) }
@@ -33,6 +36,10 @@ describe StackerBee::Middleware::Adapter do
 
     it "sets the response's mime type" do
       env.response.content_type.should == content_type
+    end
+
+    it "sets the response's body to the raw response's body" do
+      env.response.body.should == response_body
     end
 
     it "sorts the paramers" do

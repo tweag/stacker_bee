@@ -6,6 +6,7 @@ module StackerBee
         env.raw_response = connection.get(params, env.request.path)
         env.response.content_type =
           env.raw_response.env[:response_headers]["content-type"]
+        env.response.body = env.raw_response.body
       end
 
       def endpoint_name_for(*)

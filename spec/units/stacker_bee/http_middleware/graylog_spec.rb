@@ -32,4 +32,20 @@ describe StackerBee::HTTPMiddleware::Graylog do
   end
 
   its([:facility]) { should == "stacker-bee" }
+
+  context "without a command in the url" do
+    let(:env) do
+      {
+        body: "DATA",
+        response_headers: {},
+        response: {},
+        status: status,
+        url: URI.parse("http://a.b/?key=KEY&&val=val")
+      }
+    end
+
+    it "sets a custom short message" do
+      log_data[:short_message].should eq "StackerBee"
+    end
+  end
 end

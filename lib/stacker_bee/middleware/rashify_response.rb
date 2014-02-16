@@ -7,10 +7,14 @@ module StackerBee
         body = env.response.body
         env.response.body = case body
                             when Hash  then Rash.new(body)
-                            when Array then body.map { |item| Rash.new(body) }
+                            when Array then body.map { |item| Rash.new(item) }
                             else
                               body
                             end
+      end
+
+      def content_types
+        /javascript/
       end
     end
   end

@@ -32,6 +32,10 @@ module StackerBee
       def first_hash(body)
         body.values.first
       end
+
+      def content_types
+        /javascript/
+      end
     end
   end
 end
