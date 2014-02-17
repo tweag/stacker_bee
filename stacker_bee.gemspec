@@ -34,5 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
 
   # Release every merge to master as a prerelease
-  spec.version = "#{spec.version}-pre#{ENV['TRAVIS_BUILD_NUMBER']}" if ENV['TRAVIS']
+  spec.version = "#{spec.version}.pre#{ENV['TRAVIS_BUILD_NUMBER']}" if ENV['TRAVIS']
 end
