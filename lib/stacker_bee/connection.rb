@@ -14,12 +14,15 @@ module StackerBee
       @configuration = configuration
       uri = URI.parse(self.configuration.url)
       uri.path = ''
+      ssl_verify = !self.configuration.ssl_verify.nil? ?
+        self.configuration.ssl_verify : true
       fail ConnectionError, "no protocol specified" unless uri.scheme
-      initialize_faraday(uri)
+      initialize_faraday(url: uri.to_s,
+                         ssl: { verify: ssl_verify })
     end
 
-    def initialize_faraday(uri)
-      @faraday = Faraday.new(url: uri.to_s) do |faraday|
+    def initialize_faraday(options)
+      @faraday = Faraday.new(options) do |faraday|
         faraday.use      Middleware::Detokenizer
         faraday.use      Middleware::SignedQuery, configuration.secret_key
         configuration.middlewares.call faraday
