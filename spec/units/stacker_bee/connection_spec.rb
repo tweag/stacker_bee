@@ -33,7 +33,7 @@ describe StackerBee::Connection do
     before do
       faraday.stub(:get) { fail Faraday::Error::ConnectionFailed, "boom" }
     end
-    it "should raise helpful exception" do
+    it "raises a helpful exception" do
       klass = StackerBee::ConnectionError
       expect { get }.to raise_error klass, /#{url}/
     end
@@ -41,7 +41,7 @@ describe StackerBee::Connection do
 
   context "no protocol specified in URL" do
     let(:url) { "wrong.com" }
-    it "should raise helpful exception" do
+    it "raises a helpful exception" do
       klass = StackerBee::ConnectionError
       expect { get }.to raise_error klass, /no protocol/
     end

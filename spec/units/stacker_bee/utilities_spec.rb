@@ -33,11 +33,11 @@ describe StackerBee::Utilities, "#uncase" do
       map_a_hash(original) { |key, value| [key * 2, value * -1] }
     end
 
-    it "should map over a hash" do
+    it "maps over a hash" do
       transformed.should eq expected
     end
 
-    it "should not modify the original" do
+    it "does not modify the original" do
       original.freeze
       transformed
     end

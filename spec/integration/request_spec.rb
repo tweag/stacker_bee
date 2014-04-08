@@ -31,7 +31,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
 
   context "failing to connect" do
     let(:url) { "http://127.0.0.1:666/client/api" }
-    it "should raise helpful exception" do
+    it "raises a helpful exception" do
       klass = StackerBee::ConnectionError
       expect { subject }.to raise_error klass, /#{url}/
     end
