@@ -4,24 +4,28 @@ describe StackerBee::Connection do
   let(:url)           { "http://test.com:1234/foo/bar/" }
   let(:path)          { "/foo/bar" }
   let(:secret_key)    { "shhh" }
-  let(:configuration) { double url: url, secret_key: secret_key }
-  let(:params)        { [[:foo, :bar]] }
-  let(:response)      { double }
-  let(:faraday)       { double get: response }
-  let(:connection)    { StackerBee::Connection.new configuration }
-  subject(:get)       { connection.get params, path }
+  let(:query_params)  { [[:foo, :bar]] }
+  let(:response)      { double(:response) }
+  let(:faraday)       { double(:faraday, get: response) }
+  let(:connection)    { StackerBee::Connection.new(configuration) }
+  let(:configuration) do
+    double(url: url, secret_key: secret_key, ssl_verify: nil)
+  end
+  subject(:get) { connection.get query_params, path }
+
   before do
     Faraday.stub(:new) { faraday }
   end
 
   context "successfully connecting" do
     before do
-      faraday.should_receive(:get).with('/foo/bar', params) { response }
+      faraday.should_receive(:get).with('/foo/bar', query_params) { response }
     end
     it { should be response }
     it "specifies url without path when creating connection" do
       get
-      Faraday.should have_received(:new).with(url: "http://test.com:1234")
+      Faraday.should have_received(:new).with(url: "http://test.com:1234",
+                                              ssl: { verify: true })
     end
   end
 
@@ -46,8 +50,19 @@ describe StackerBee::Connection do
   context "when given a path" do
     let(:path) { '/baz' }
     it "makes a request to the correct path" do
-      expect(faraday).to receive(:get).with(path, params)
-      connection.get params, path
+      expect(faraday).to receive(:get).with(path, query_params)
+      connection.get query_params, path
+    end
+  end
+
+  context "when verifying an ssl connection" do
+    let(:configuration) do
+      double url: url, secret_key: secret_key, ssl_verify: false
+    end
+    it "specifies the ssl verify option when creating a connection" do
+      get
+      Faraday.should have_received(:new).with(url: "http://test.com:1234",
+                                              ssl: { verify: false })
     end
   end
 end

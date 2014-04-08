@@ -11,3 +11,11 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+deploy:
+  provider: rubygems
+  api_key:
+    secure: d5hC4iuoXOsrQKJRd9GSyZP2UlO2v9HsayhgNk2RlQQJFbqki6TcIlxN6j39/QER3pM3MUZyvCewtvxjrijt4f82xJGHRXaVNZvPSyD91PkGUtOuibLojc+GmwrzzRpu0d3TSEuzeKBSVag7AuJFO3oQnhEyblyZPyqWh1Ii1nM=
+  gem: stacker_bee
+  on:
+    repo: promptworks/stacker_bee
+    ruby: 2.1.0
