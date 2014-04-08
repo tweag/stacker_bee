@@ -11,20 +11,16 @@ module StackerBee
     attr_accessor :configuration
 
     def initialize(configuration)
-      @configuration = configuration
+      self.configuration = configuration
 
       uri = URI.parse(self.configuration.url)
       uri.path = ''
       fail ConnectionError, "no protocol specified" unless uri.scheme
 
-      ssl_verify = if !configuration.ssl_verify.nil?
-                     configuration.ssl_verify
-                   else
-                     true
-                   end
-
-      initialize_faraday(url: uri.to_s,
-                         ssl: { verify: ssl_verify })
+      initialize_faraday(
+        url: uri.to_s,
+        ssl: { verify: ssl_verify? }
+      )
     end
 
     def initialize_faraday(options)
@@ -51,6 +47,14 @@ module StackerBee
     rescue Faraday::Error::ConnectionFailed => error
       raise ConnectionError,
             "Failed to connect to #{configuration.url}, #{error}"
+    end
+
+    def ssl_verify?
+      if !configuration.ssl_verify.nil?
+        configuration.ssl_verify
+      else
+        true
+      end
     end
   end
 end

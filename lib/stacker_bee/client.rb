@@ -1,4 +1,5 @@
 require "forwardable"
+require "stacker_bee/builder"
 require "stacker_bee/configuration"
 require "stacker_bee/api"
 require "stacker_bee/connection"
@@ -20,6 +21,7 @@ require "stacker_bee/middleware/raise_on_http_error"
 require "stacker_bee/middleware/http_status"
 require "stacker_bee/middleware/console_access"
 
+# rubocop:disable ClassLength
 module StackerBee
   class Client
     DEFAULT_API_PATH = File.join(
@@ -35,6 +37,7 @@ module StackerBee
                    :secret_key,
                    :secret_key=
 
+    # rubocop:disable MethodLength
     def middlewares
       # request
       builder.use Middleware::ConsoleAccess
@@ -65,26 +68,6 @@ module StackerBee
 
     def builder
       @builder ||= Builder.new
-    end
-
-    class Builder
-      attr_accessor :middlewares
-
-      def middlewares
-        @middlewares ||= []
-      end
-
-      def use(*middleware_definition)
-        middlewares << middleware_definition
-      end
-
-      def before(*middleware_definition)
-        middlewares.unshift middleware_definition
-      end
-
-      def build
-        middlewares.map { |klass, *args| klass.new(*args) }
-      end
     end
 
     class << self
