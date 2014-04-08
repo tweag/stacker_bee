@@ -43,7 +43,7 @@ describe StackerBee::Middleware::Adapter do
     end
 
     it "sorts the paramers" do
-      connection.should have_received(:get).with([%w(a a), %w(z z)], path)
+      connection.should have_received(:get).with(path, [%w(a a), %w(z z)])
     end
   end
 

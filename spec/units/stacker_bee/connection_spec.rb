@@ -11,7 +11,7 @@ describe StackerBee::Connection do
   let(:configuration) do
     double(url: url, secret_key: secret_key, ssl_verify: nil)
   end
-  subject(:get) { connection.get query_params, path }
+  subject(:get) { connection.get(path, query_params) }
 
   before do
     Faraday.stub(:new) { faraday }
@@ -50,7 +50,7 @@ describe StackerBee::Connection do
   context "when given a path" do
     let(:path) { '/baz' }
     it "makes a request to the correct path" do
-      expect(faraday).to receive(:get).with(path, query_params)
+      expect(faraday).to receive(:get).with(query_params, path)
       connection.get query_params, path
     end
   end

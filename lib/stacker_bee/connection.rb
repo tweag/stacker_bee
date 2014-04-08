@@ -42,7 +42,7 @@ module StackerBee
       end
     end
 
-    def get(params, path)
+    def get(path, params)
       @faraday.get(path, params)
     rescue Faraday::Error::ConnectionFailed => error
       raise ConnectionError,
