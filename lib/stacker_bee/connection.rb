@@ -17,8 +17,11 @@ module StackerBee
       uri.path = ''
       fail ConnectionError, "no protocol specified" unless uri.scheme
 
-      ssl_verify = !configuration.ssl_verify.nil? ?
-        configuration.ssl_verify : true
+      ssl_verify = if !configuration.ssl_verify.nil?
+                     configuration.ssl_verify
+                   else
+                     true
+                   end
 
       initialize_faraday(url: uri.to_s,
                          ssl: { verify: ssl_verify })
@@ -31,14 +34,14 @@ module StackerBee
 
         configuration.faraday_middlewares.call faraday
 
-        unless has_adapter?(faraday.builder.handlers)
+        unless using_adapter?(faraday.builder.handlers)
           faraday.adapter  Faraday.default_adapter  # Net::HTTP
         end
       end
     end
 
-    def has_adapter?(handlers)
-      handlers.detect do |handler|
+    def using_adapter?(handlers)
+      handlers.find do |handler|
         handler.klass.ancestors.include?(Faraday::Adapter)
       end
     end
@@ -47,7 +50,7 @@ module StackerBee
       @faraday.get(path, params)
     rescue Faraday::Error::ConnectionFailed => error
       raise ConnectionError,
-        "Failed to connect to #{configuration.url}, #{error}"
+            "Failed to connect to #{configuration.url}, #{error}"
     end
   end
 end

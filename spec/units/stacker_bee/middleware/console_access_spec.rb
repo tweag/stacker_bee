@@ -42,9 +42,8 @@ describe StackerBee::Middleware::ConsoleAccess do
   describe "#endpoint_name_for" do
     context "given names it reponds to" do
       %w[consoleAccess console_access CONSOLEACCESS].each do |name|
-        it "returns consoleAccess for '#{name}'" do
-          middleware.endpoint_name_for(name).should == described_class::ENDPOINT
-        end
+        subject { middleware.endpoint_name_for(name) }
+        it { should eq described_class::ENDPOINT }
       end
     end
 

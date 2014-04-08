@@ -17,7 +17,7 @@ describe StackerBee::Middleware::Adapter do
   let(:middleware) { described_class.new(app: app, connection: connection) }
 
   let(:raw_response) do
-    double(env: { response_headers: response_headers}, body: response_body)
+    double(env: { response_headers: response_headers }, body: response_body)
   end
   let(:response_headers) { { "content-type" => content_type } }
   let(:content_type) { "text/javascript; charset=UTF-8"  }
@@ -43,7 +43,7 @@ describe StackerBee::Middleware::Adapter do
     end
 
     it "sorts the paramers" do
-      connection.should have_received(:get).with([["a", "a"], ["z", "z"]], path)
+      connection.should have_received(:get).with([%w(a a), %w(z z)], path)
     end
   end
 

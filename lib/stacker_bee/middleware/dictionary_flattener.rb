@@ -27,7 +27,9 @@ module StackerBee
         hashes.each do |hash_name, hash|
           remove_empties(hash).each_with_index do |(key, value), index|
             hash_url_key = self.class.tokenize("#{hash_name}[#{index}]")
-            params["#{hash_url_key}.key"] = params["#{hash_url_key}.name"] = key
+
+            params["#{hash_url_key}.key"]   = key
+            params["#{hash_url_key}.name"]  = key
             params["#{hash_url_key}.value"] = value
           end
           params.delete hash_name
@@ -39,6 +41,5 @@ module StackerBee
         hash.reject { |_, v| v.nil? || v == "" }
       end
     end
-
   end
 end

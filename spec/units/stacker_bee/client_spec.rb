@@ -16,11 +16,11 @@ describe StackerBee::Client, "calling endpoint" do
   let(:client) do
     StackerBee::Client.new(
       url: "http://example.com",
-      middlewares: ->(builder) do
+      middlewares: lambda do |builder|
         builder.before middleware_class,
-          expected_endpoint_name: endpoint_name,
-          expected_params:        params,
-          response_body:          response_body
+                       expected_endpoint_name: endpoint_name,
+                       expected_params:        params,
+                       response_body:          response_body
       end
     )
   end
@@ -28,8 +28,8 @@ describe StackerBee::Client, "calling endpoint" do
   let(:middleware_class) do
     Class.new StackerBee::Middleware::Base do
       def call(env)
-        raise unless env.request.endpoint_name == expected_endpoint_name
-        raise unless env.request.params == expected_params
+        fail unless env.request.endpoint_name == expected_endpoint_name
+        fail unless env.request.params == expected_params
 
         env.response.body = response_body
       end
@@ -59,7 +59,6 @@ describe StackerBee::Client, "calling endpoint" do
     it { should eq response_body }
   end
 end
-
 
 describe StackerBee::Client, "configuration" do
   let(:default_url)         { "default_cloud-stack.com" }

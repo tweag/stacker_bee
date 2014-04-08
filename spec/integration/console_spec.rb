@@ -16,6 +16,6 @@ describe "A request sent to CloudStack for console access", :vcr do
   subject(:console_access) { client.console_access(vm: vm) }
 
   it "returns html for console access" do
-    expect(console_access).to match %r{<html>.*<frame src=.*</html>}
+    expect(console_access).to match(/<html>.*<frame src=.*<\/html>/)
   end
 end

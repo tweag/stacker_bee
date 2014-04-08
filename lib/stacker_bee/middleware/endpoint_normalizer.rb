@@ -3,9 +3,7 @@ module StackerBee
     class EndpointNormalizer < Base
       def before(env)
         new_endpoint_name = endpoint_name_for(env.request.endpoint_name)
-        if new_endpoint_name
-          env.request.endpoint_name = new_endpoint_name
-        end
+        env.request.endpoint_name = new_endpoint_name if new_endpoint_name
       end
 
       def endpoint_name_for(name)

@@ -11,7 +11,7 @@ describe StackerBee::Middleware::Base do
   let(:middleware) { subclass.new(app: app) }
 
   let(:subclass) { Class.new(StackerBee::Middleware::Base, &subclass_body) }
-  let(:subclass_body) { proc { } }
+  let(:subclass_body) { proc {} }
 
   describe "#call" do
     before do

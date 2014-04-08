@@ -34,4 +34,3 @@ describe StackerBee::Middleware::CloudStackAPI do
     its([:command])  { should eq "endpoint-name" }
   end
 end
-

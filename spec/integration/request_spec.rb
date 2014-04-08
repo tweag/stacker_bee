@@ -12,7 +12,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
       middlewares: middlewares
     }
   end
-  let(:middlewares) { proc { } }
+  let(:middlewares) { proc {} }
 
   let(:client) do
     StackerBee::Client.new(config_hash)

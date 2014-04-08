@@ -4,20 +4,20 @@ module StackerBee
       def after(env)
         body = env.response.body
 
-        return if !is_hash?(body)
+        return unless hash?(body)
 
-        if has_count?(body)
-          env.response.body =remove_count(body)
+        if contains_count?(body)
+          env.response.body = remove_count(body)
         elsif single_hash?(body)
           env.response.body = first_hash(body)
         end
       end
 
-      def is_hash?(body)
+      def hash?(body)
         body.respond_to?(:keys)
       end
 
-      def has_count?(body)
+      def contains_count?(body)
         body.size == 2 && body.key?("count")
       end
 
@@ -39,4 +39,3 @@ module StackerBee
     end
   end
 end
-

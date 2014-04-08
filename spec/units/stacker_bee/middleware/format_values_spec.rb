@@ -6,7 +6,7 @@ describe StackerBee::Middleware::FormatValues do
   let(:params) do
     {
       single: 1,
-      list:  [1,2,3]
+      list:  [1, 2, 3]
     }
   end
 
