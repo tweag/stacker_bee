@@ -1,7 +1,10 @@
 # This is the configuration used to check the rubocop source code.
 
-StringLiterals:
+Documentation:
   Enabled: false
 
-Documentation:
+DoubleNegation:
+  Enabled: false
+
+StringLiterals:
   Enabled: false
