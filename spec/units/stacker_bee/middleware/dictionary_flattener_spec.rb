@@ -17,6 +17,8 @@ describe StackerBee::Middleware::DictionaryFlattener do
   end
 
   describe ".new" do
+    subject { described_class.new.params(params) }
+
     def prefix(number)
       described_class.tokenize "rebels[#{number}]"
     end
@@ -26,17 +28,13 @@ describe StackerBee::Middleware::DictionaryFlattener do
         "rebels" => { "r2" => "d2", "r1" => "", "father" => false } }
     end
 
-    subject do
-      described_class.new.params(params)
-    end
-
     it "flattens objects in the manner that cloudstack expects" do
       subject["#{prefix(0)}.name"].should eq "r2"
       subject["#{prefix(0)}.key"].should eq "r2"
       subject["#{prefix(0)}.value"].should eq "d2"
     end
 
-    it "doesnt flatten empty hashes" do
+    it "does not flatten empty hashes" do
       subject.should_not have_key "#{prefix(2)}.name"
     end
 

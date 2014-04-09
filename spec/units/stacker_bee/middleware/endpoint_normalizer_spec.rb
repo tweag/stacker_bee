@@ -5,9 +5,7 @@ describe StackerBee::Middleware::EndpointNormalizer do
   let(:app) { double(:app) }
 
   let(:env) do
-    StackerBee::Middleware::Environment.new(
-      endpoint_name: endpoint_name
-    )
+    StackerBee::Middleware::Environment.new(endpoint_name: endpoint_name)
   end
 
   context "when it doesn't match" do

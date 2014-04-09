@@ -32,11 +32,11 @@ module StackerBee
     end
 
     def select(*args, &block)
-      Rash.new @hash.select(*args, &block)
+      Rash.new(@hash.select(*args, &block))
     end
 
     def reject(*args, &block)
-      Rash.new @hash.reject(*args, &block)
+      Rash.new(@hash.reject(*args, &block))
     end
 
     def values_at(*keys)

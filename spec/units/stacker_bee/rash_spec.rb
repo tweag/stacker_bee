@@ -5,6 +5,8 @@ shared_examples_for "a Rash" do |mapping|
 end
 
 describe StackerBee::Rash do
+  subject { rash }
+
   let(:wiz) { [{ "aB_C" => "abc" }, { "X_yZ" => "xyz" }] }
   let(:ziz) do
     {
@@ -28,15 +30,14 @@ describe StackerBee::Rash do
     end
   end
   let(:dissimilar_hash) { hash.dup.tap { |loud| loud.delete "foo" } }
-  let(:rash) { StackerBee::Rash.new hash }
-  subject { rash }
+  let(:rash) { described_class.new(hash) }
 
   it { should include "FOO" }
 
   it { should == subject }
   it { should == subject.dup }
   it { should == hash }
-  it { should == StackerBee::Rash.new(hash) }
+  it { should == described_class.new(hash) }
   it { should == similar_hash }
   it { should_not == dissimilar_hash }
 
@@ -67,14 +68,14 @@ describe StackerBee::Rash do
 
   describe "#select" do
     subject { rash.select { |key, value| value.is_a? String } }
-    it { should be_a StackerBee::Rash }
+    it { should be_a described_class }
     it { should include "FOO" }
     it { should_not include "WIZ" }
   end
 
   describe "#reject" do
     subject { rash.reject { |key, value| value.is_a? String } }
-    it { should be_a StackerBee::Rash }
+    it { should be_a described_class }
     it { should include "WIZ" }
     it { should_not include "FOO" }
   end
@@ -83,5 +84,4 @@ describe StackerBee::Rash do
     subject { rash.values_at "FOO", "WIZ", "WRONG" }
     it { should == ["foo", wiz, nil] }
   end
-
 end

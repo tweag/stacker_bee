@@ -3,7 +3,7 @@ require "spec_helper"
 describe StackerBee::API do
   subject { api }
 
-  let(:api) { StackerBee::API.new(api_path: api_path) }
+  let(:api) { described_class.new(api_path: api_path) }
   let(:api_path) do
     File.join(File.dirname(__FILE__), '../../fixtures/simple.json')
   end

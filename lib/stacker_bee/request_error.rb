@@ -5,7 +5,7 @@ module StackerBee
     def initialize(env)
       self.env = env
       self.status = env.response.status
-      super(env.response.error)
+      super env.response.error
     end
 
     def self.for(env)

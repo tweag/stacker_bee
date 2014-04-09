@@ -2,19 +2,19 @@ require "spec_helper"
 require "ostruct"
 
 describe StackerBee::Client, ".api" do
+  subject { described_class }
   let(:api) { double }
   before do
-    StackerBee::API.stub(:new) { api }
-    StackerBee::Client.api_path = nil
+    StackerBee::API.stub new: api
+    described_class.api_path = nil
   end
-  subject { StackerBee::Client }
   its(:api_path) { should_not be_nil }
   its(:api) { should eq api }
 end
 
 describe StackerBee::Client, "calling endpoint" do
   let(:client) do
-    StackerBee::Client.new(
+    described_class.new(
       url: "http://example.com",
       middlewares: lambda do |builder|
         builder.before middleware_class,
@@ -92,20 +92,20 @@ describe StackerBee::Client, "configuration" do
     StackerBee::Configuration.new(instance_config_hash)
   end
   before do
-    StackerBee::Configuration.stub(:new) do |options|
+    StackerBee::Configuration.stub(:new) do
       fail "Unexpected Configuration instantiation: \n#{args.inspect}"
     end
-    StackerBee::Configuration.stub(:new).with(default_config_hash)  do
+    StackerBee::Configuration.stub(:new).with(default_config_hash) do
       default_configuration
     end
     StackerBee::Configuration.stub(:new).with(instance_config_hash) do
       instance_configuration
     end
-    StackerBee::Client.configuration = default_config_hash
+    described_class.configuration = default_config_hash
   end
 
   describe ".new" do
-    subject { StackerBee::Client.new }
+    subject { described_class.new }
 
     context "with default, class configuration" do
       its(:url)           { should eq default_url }
@@ -114,7 +114,7 @@ describe StackerBee::Client, "configuration" do
     end
 
     context "with instance-specific configuration" do
-      subject { StackerBee::Client.new(instance_config_hash) }
+      subject { described_class.new(instance_config_hash) }
       its(:configuration) { should eq instance_configuration }
       its(:url)           { should eq instance_url }
       its(:api_key)       { should eq instance_api_key }
@@ -122,7 +122,7 @@ describe StackerBee::Client, "configuration" do
     end
 
     context "with instance-specific configuration that's not a hash" do
-      subject { StackerBee::Client.new(config) }
+      subject { described_class.new(config) }
       let(:config) { double(to_hash: instance_config_hash) }
       its(:configuration) { should eq instance_configuration }
       its(:url)           { should eq instance_url }

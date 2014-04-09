@@ -2,6 +2,8 @@ require "spec_helper"
 require "logger"
 
 describe "A response to a request sent to the CloudStack API", :vcr do
+  subject { client.list_accounts }
+
   let(:url) { CONFIG["url"] }
   let(:config_hash) do
     {
@@ -17,8 +19,6 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   let(:client) do
     StackerBee::Client.new(config_hash)
   end
-
-  subject { client.list_accounts }
 
   it { should_not be_empty }
 
@@ -47,10 +47,8 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "space character in a request parameter", :regression do
+    subject { client.list_accounts(params) }
     let(:params) { { name: "stacker bee" } }
-    subject do
-      client.list_accounts(params)
-    end
 
     it "properly signs the request" do
       expect { subject }.not_to raise_error
@@ -58,10 +56,8 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "a nil request parameter" do
+    subject { client.list_accounts(params) }
     let(:params) { { name: nil } }
-    subject do
-      client.list_accounts(params)
-    end
 
     it "properly executes the request" do
       expect { subject }.not_to raise_error
@@ -69,10 +65,8 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "a request parameter with and empty string", :regression do
+    subject { client.list_accounts(params) }
     let(:params) { { name: '' } }
-    subject do
-      client.list_accounts(params)
-    end
 
     it "properly executes the request" do
       expect { subject }.not_to raise_error
@@ -89,10 +83,8 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   end
 
   context "a request parameter with an Array", :regression do
+    subject { client.list_hosts(params).first.keys }
     let(:params) { { page: 1, pagesize: 1, details: [:events, :stats] } }
-    subject do
-      client.list_hosts(params).first.keys
-    end
     it { should include "cpuused" }
     it { should include "events" }
     it { should_not include "cpuallocated" }
@@ -100,11 +92,13 @@ describe "A response to a request sent to the CloudStack API", :vcr do
 
   context "a request parameter with a map" do
     let(:zone_id) { client.list_zones.first["id"] }
+    let(:service_offering_id) { service_offerings.first["id"] }
 
-    let(:service_offering_id) do
+    let(:service_offerings) do
       client.list_network_offerings(
         supported_services: 'sourcenat',
-        type: 'isolated').first["id"]
+        type: 'isolated'
+      )
     end
 
     let(:network) do

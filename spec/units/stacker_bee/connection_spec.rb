@@ -1,20 +1,18 @@
 require "spec_helper"
 
 describe StackerBee::Connection do
+  subject(:get) { connection.get(path, query_params) }
+  before { Faraday.stub new: faraday }
+
   let(:url)           { "http://test.com:1234/foo/bar/" }
   let(:path)          { "/foo/bar" }
   let(:secret_key)    { "shhh" }
   let(:query_params)  { [[:foo, :bar]] }
   let(:response)      { double(:response) }
   let(:faraday)       { double(:faraday, get: response) }
-  let(:connection)    { StackerBee::Connection.new(configuration) }
+  let(:connection)    { described_class.new(configuration) }
   let(:configuration) do
     double(url: url, secret_key: secret_key, ssl_verify: nil)
-  end
-  subject(:get) { connection.get(path, query_params) }
-
-  before do
-    Faraday.stub(:new) { faraday }
   end
 
   context "successfully connecting" do
@@ -34,16 +32,14 @@ describe StackerBee::Connection do
       faraday.stub(:get) { fail Faraday::Error::ConnectionFailed, "boom" }
     end
     it "raises a helpful exception" do
-      klass = StackerBee::ConnectionError
-      expect { get }.to raise_error klass, /#{url}/
+      expect { get }.to raise_error StackerBee::ConnectionError, /#{url}/
     end
   end
 
   context "no protocol specified in URL" do
     let(:url) { "wrong.com" }
     it "raises a helpful exception" do
-      klass = StackerBee::ConnectionError
-      expect { get }.to raise_error klass, /no protocol/
+      expect { get }.to raise_error StackerBee::ConnectionError, /no protocol/
     end
   end
 
@@ -57,7 +53,7 @@ describe StackerBee::Connection do
 
   context "when verifying an ssl connection" do
     let(:configuration) do
-      double url: url, secret_key: secret_key, ssl_verify: false
+      double(url: url, secret_key: secret_key, ssl_verify: false)
     end
     it "specifies the ssl verify option when creating a connection" do
       get
