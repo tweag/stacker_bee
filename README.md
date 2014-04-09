@@ -108,7 +108,7 @@ cloud_stack = StackerBee::Client.new(
 All configuration parameters set on the `StackerBee::Client` class are used as defaults for `StackerBee::Client` instances.
 
 ```ruby
-StackerBee::Client.url    = 'http://localhost:8080/client/api'
+StackerBee::Client.url = 'http://localhost:8080/client/api'
 
 user_client = StackerBee::Client.new(
   api_key:    'USER_API_KEY',
