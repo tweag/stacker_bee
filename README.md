@@ -170,7 +170,9 @@ class StdoutLoggingMiddleware < StackerBee::Middleware::Base
 end
 
 class PrependedMiddleware < StackerBee::Middleware::Base
-  def call(env) app.call(env) end
+  def call(env)
+    app.call(env)
+  end
 end
 
 StackerBee::Client.configuration = {
