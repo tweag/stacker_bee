@@ -8,3 +8,6 @@ DoubleNegation:
 
 StringLiterals:
   Enabled: false
+
+Encoding:
+  Enabled: false
