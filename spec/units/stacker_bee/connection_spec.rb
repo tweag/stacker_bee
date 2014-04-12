@@ -4,15 +4,20 @@ describe StackerBee::Connection do
   subject(:get) { connection.get(path, query_params) }
   before { Faraday.stub new: faraday }
 
-  let(:url)           { "http://test.com:1234/foo/bar/" }
-  let(:path)          { "/foo/bar" }
-  let(:secret_key)    { "shhh" }
-  let(:query_params)  { [[:foo, :bar]] }
-  let(:response)      { double(:response) }
-  let(:faraday)       { double(:faraday, get: response) }
-  let(:connection)    { described_class.new(configuration) }
+  let(:url)          { "http://test.com:1234/foo/bar/" }
+  let(:path)         { "/foo/bar" }
+  let(:secret_key)   { "shhh" }
+  let(:query_params) { [[:foo, :bar]] }
+  let(:response)     { double(:response) }
+  let(:faraday)      { double(:faraday, get: response) }
+  let(:connection)   { described_class.new(configuration) }
+  let(:ssl_verify)   { true }
   let(:configuration) do
-    double(url: url, secret_key: secret_key, ssl_verify: nil)
+    StackerBee::Configuration.new(
+      url: url,
+      secret_key: secret_key,
+      ssl_verify: ssl_verify
+    )
   end
 
   context "successfully connecting" do
@@ -52,9 +57,7 @@ describe StackerBee::Connection do
   end
 
   context "when verifying an ssl connection" do
-    let(:configuration) do
-      double(url: url, secret_key: secret_key, ssl_verify: false)
-    end
+    let(:ssl_verify) { false }
     it "specifies the ssl verify option when creating a connection" do
       get
       Faraday.should have_received(:new).with(url: "http://test.com:1234",

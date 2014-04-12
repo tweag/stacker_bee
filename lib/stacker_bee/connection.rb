@@ -19,7 +19,7 @@ module StackerBee
 
       initialize_faraday(
         url: uri.to_s,
-        ssl: { verify: ssl_verify? }
+        ssl: { verify: configuration.ssl_verify? }
       )
     end
 
@@ -47,14 +47,6 @@ module StackerBee
     rescue Faraday::Error::ConnectionFailed => error
       raise ConnectionError,
             "Failed to connect to #{configuration.url}, #{error}"
-    end
-
-    def ssl_verify?
-      if !configuration.ssl_verify.nil?
-        configuration.ssl_verify
-      else
-        true
-      end
     end
   end
 end
