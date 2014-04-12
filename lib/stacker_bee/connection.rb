@@ -31,7 +31,7 @@ module StackerBee
         configuration.faraday_middlewares.call faraday
 
         unless using_adapter?(faraday.builder.handlers)
-          faraday.adapter  Faraday.default_adapter  # Net::HTTP
+          faraday.adapter Faraday.default_adapter  # Net::HTTP
         end
       end
     end

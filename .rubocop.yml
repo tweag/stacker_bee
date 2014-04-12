@@ -1,7 +1,13 @@
 # This is the configuration used to check the rubocop source code.
 
+Documentation:
+  Enabled: false
+
+DoubleNegation:
+  Enabled: false
+
 StringLiterals:
   Enabled: false
 
-Documentation:
+Encoding:
   Enabled: false

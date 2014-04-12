@@ -13,7 +13,7 @@ default_config_file = File.expand_path("../../config.default.yml", __FILE__)
 config_file         = File.expand_path("../../config.yml", __FILE__)
 
 CONFIG = YAML.load(File.read(default_config_file))
-CONFIG.merge!(YAML.load(File.read(config_file))) if File.exists?(config_file)
+CONFIG.merge!(YAML.load(File.read(config_file))) if File.exist?(config_file)
 
 require 'webmock/rspec'
 

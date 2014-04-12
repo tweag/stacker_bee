@@ -30,8 +30,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec",    "~> 2.1"
   spec.add_development_dependency "webmock",  "~> 1.15"
   spec.add_development_dependency "vcr",      "~> 2.6"
-  spec.add_development_dependency "rubocop"
   spec.add_development_dependency "pry"
+
+  # It should be consistent for Travis and all developers, since we don't check
+  # in the Gemfile.lock
+  spec.add_development_dependency "rubocop",  "0.20.1"
 
   # Release every merge to master as a prerelease
   spec.version = "#{spec.version}.pre#{ENV['TRAVIS_BUILD_NUMBER']}" if ENV['TRAVIS']

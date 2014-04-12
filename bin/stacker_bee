@@ -11,14 +11,15 @@ require 'irb/completion'
 
 cli_title = "StackerBee CloudStack REPL"
 
-filename  = File.basename(__FILE__)
-options   = {}
-verbose   = false
-optparse  = OptionParser.new do |opts|
-  opts.banner = "#{cli_title}\n" <<
-                "Usage: #{filename} [options]\n" <<
-                "Example: #{filename} " <<
-                "-u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY"
+command  = File.basename(__FILE__)
+options  = {}
+verbose  = false
+optparse = OptionParser.new do |opts|
+  opts.banner = <<-BANNER.gsub(/^\s{4}/, '')
+    #{cli_title}
+    Usage: #{command} [options]
+    Example: #{command} -u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY
+  BANNER
 
   config_help = "StackerBee configuration file, formatted as YAML"
   opts.on('-c', '--config=/PATH/TO/CONFIG.yml', config_help) do |config|
