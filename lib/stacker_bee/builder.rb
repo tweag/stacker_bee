@@ -1,6 +1,6 @@
 module StackerBee
   class Builder
-    attr_accessor :middlewares
+    attr_writer :middlewares
 
     def middlewares
       @middlewares ||= []
