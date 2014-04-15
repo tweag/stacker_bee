@@ -7,10 +7,9 @@ describe "A response to a request sent to the CloudStack API", :vcr do
   let(:url) { CONFIG["url"] }
   let(:config_hash) do
     {
-      url:        url,
-      api_key:    CONFIG["api_key"],
-      secret_key: CONFIG["secret_key"],
-      apis_path:  File.join(File.dirname(__FILE__), '../fixtures/4.2.json'),
+      url:         url,
+      api_key:     CONFIG["api_key"],
+      secret_key:  CONFIG["secret_key"],
       middlewares: middlewares
     }
   end

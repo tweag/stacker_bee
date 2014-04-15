@@ -28,15 +28,6 @@ module StackerBee
       File.dirname(__FILE__), '../../config/4.2.json'
     )
 
-    extend Forwardable
-    def_delegators :configuration,
-                   :url,
-                   :url=,
-                   :api_key,
-                   :api_key=,
-                   :secret_key,
-                   :secret_key=
-
     # rubocop:disable MethodLength
     def middlewares
       # request
@@ -72,18 +63,16 @@ module StackerBee
 
     class << self
       def reset!
-        @api, @api_path, @default_config = nil
+        self.api, self.api_path, self.configuration = nil
       end
 
-      def default_config
-        @default_config ||= {
-          faraday_middlewares: proc {},
-          middlewares:         proc {}
-        }
+      def configuration
+        self.configuration = nil unless @configuration
+        @configuration
       end
 
-      def configuration=(config_hash)
-        default_config.merge!(config_hash)
+      def configuration=(config_hash = {})
+        @configuration = Configuration.new(config_hash)
       end
 
       def api_path
@@ -96,6 +85,7 @@ module StackerBee
         @api_path = new_api_path
       end
 
+      attr_writer :api
       def api
         @api ||= API.new(api_path: api_path)
       end
@@ -106,17 +96,18 @@ module StackerBee
     end
 
     def configuration=(config)
-      @configuration = configuration_with_defaults(config)
+      @configuration = self.class.configuration.merge(config)
     end
 
     def configuration
-      @configuration ||= configuration_with_defaults
+      self.configuration = {} unless @configuration
+      @configuration
     end
 
     def request(endpoint_name, params = {})
       env = Middleware::Environment.new(
         endpoint_name: endpoint_name,
-        api_key:       api_key,
+        api_key:       configuration.api_key,
         params:        params
       )
 
@@ -159,11 +150,6 @@ module StackerBee
 
     def connection
       @connection ||= Connection.new(configuration)
-    end
-
-    def configuration_with_defaults(config = {})
-      config_hash = self.class.default_config.merge(config)
-      Configuration.new(config_hash)
     end
   end
 end

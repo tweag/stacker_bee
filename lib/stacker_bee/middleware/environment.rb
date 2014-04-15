@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module StackerBee
   module Middleware
     class Environment < OpenStruct

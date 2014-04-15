@@ -1,11 +1,63 @@
-require "ostruct"
-
 module StackerBee
-  class Configuration < OpenStruct
+  class Configuration
+    class NoAttributeError < StandardError
+    end
+
+    ATTRIBUTES = [
+      :ssl_verify,
+      :url,
+      :secret_key,
+      :api_key,
+      :middlewares,
+      :faraday_middlewares
+    ]
+
+    def initialize(attrs = nil)
+      @attributes = attrs || {}
+
+      @attributes.each_pair do |key, value|
+        unless ATTRIBUTES.include?(key)
+          fail NoAttributeError, "No attribute defined: '#{key}'"
+        end
+      end
+    end
+
     def ssl_verify?
-      # rubocop:disable NonNilCheck
-      # it should default to true if it's not explicitly set
-      !ssl_verify.nil? ? ssl_verify : true
+      attribute :ssl_verify, true
+    end
+
+    def url
+      attribute :url
+    end
+
+    def secret_key
+      attribute :secret_key
+    end
+
+    def api_key
+      attribute :api_key
+    end
+
+    def middlewares
+      attribute :middlewares, proc {}
+    end
+
+    def faraday_middlewares
+      attribute :faraday_middlewares, proc {}
+    end
+
+    def to_hash
+      @attributes
+    end
+
+    def merge(other)
+      self.class.new(to_hash.merge(other.to_hash))
+    end
+
+    private
+
+    def attribute(key, value = nil)
+      @attributes.fetch(key, value)
     end
   end
 end

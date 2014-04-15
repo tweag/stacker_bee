@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "faraday",            "~> 0.8", "< 0.9"
-  spec.add_runtime_dependency 'multi_json',         "~> 1.8"
+  spec.add_runtime_dependency "faraday",    "~> 0.8", "< 0.9"
+  spec.add_runtime_dependency 'multi_json', "~> 1.8"
 
   # this is a dependency for FaradayMiddleware::Graylog
   spec.add_runtime_dependency "faraday_middleware", "~> 0.9"

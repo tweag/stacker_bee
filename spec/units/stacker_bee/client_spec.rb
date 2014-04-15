@@ -61,6 +61,8 @@ describe StackerBee::Client, "calling endpoint" do
 end
 
 describe StackerBee::Client, "configuration" do
+  before { described_class.configuration = default_config_hash }
+
   let(:default_url)         { "default_cloud-stack.com" }
   let(:default_api_key)     { "default-cloud-stack-api-key" }
   let(:default_secret_key)  { "default-cloud-stack-secret-key" }
@@ -73,9 +75,7 @@ describe StackerBee::Client, "configuration" do
       middlewares:         proc {}
     }
   end
-  let!(:default_configuration) do
-    StackerBee::Configuration.new(default_config_hash)
-  end
+
   let(:instance_url)        { "instance-cloud-stack.com" }
   let(:instance_api_key)    { "instance-cloud-stack-api-key" }
   let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
@@ -88,64 +88,44 @@ describe StackerBee::Client, "configuration" do
       middlewares:         proc {}
     }
   end
-  let!(:instance_configuration) do
-    StackerBee::Configuration.new(instance_config_hash)
-  end
-  before do
-    StackerBee::Configuration.stub(:new) do
-      fail "Unexpected Configuration instantiation: \n#{args.inspect}"
-    end
-    StackerBee::Configuration.stub(:new).with(default_config_hash) do
-      default_configuration
-    end
-    StackerBee::Configuration.stub(:new).with(instance_config_hash) do
-      instance_configuration
-    end
-    described_class.configuration = default_config_hash
-  end
 
   describe ".new" do
-    subject { described_class.new }
+    subject { client.configuration }
 
     context "with default, class configuration" do
-      its(:url)           { should eq default_url }
-      its(:api_key)       { should eq default_api_key }
-      its(:secret_key)    { should eq default_secret_key }
+      let(:client) { described_class.new }
+
+      its(:url)        { should eq default_url }
+      its(:api_key)    { should eq default_api_key }
+      its(:secret_key) { should eq default_secret_key }
     end
 
     context "with instance-specific configuration" do
-      subject { described_class.new(instance_config_hash) }
-      its(:configuration) { should eq instance_configuration }
-      its(:url)           { should eq instance_url }
-      its(:api_key)       { should eq instance_api_key }
-      its(:secret_key)    { should eq instance_secret_key }
+      let(:client) { described_class.new(instance_config_hash) }
+
+      its(:url)        { should eq instance_url }
+      its(:api_key)    { should eq instance_api_key }
+      its(:secret_key) { should eq instance_secret_key }
     end
 
     context "with instance-specific configuration that's not a hash" do
-      subject { described_class.new(config) }
+      let(:client) { described_class.new(config) }
       let(:config) { double(to_hash: instance_config_hash) }
-      its(:configuration) { should eq instance_configuration }
-      its(:url)           { should eq instance_url }
-      its(:api_key)       { should eq instance_api_key }
-      its(:secret_key)    { should eq instance_secret_key }
+
+      its(:url)        { should eq instance_url }
+      its(:api_key)    { should eq instance_api_key }
+      its(:secret_key) { should eq instance_secret_key }
     end
 
-    describe "#url" do
-      let(:other_url) { "other-cloud-stack.com" }
-      before { subject.url = other_url }
-      its(:url) { should eq other_url }
-    end
+    context "with partial instance-specific configuration" do
+      let(:client) { described_class.new(partial_config_hash) }
+      let(:partial_config_hash) do
+        { url: instance_config_hash[:url] }
+      end
 
-    describe "#api_key" do
-      let(:other_api_key) { "other-cloud-stack-api-key" }
-      before { subject.api_key = other_api_key }
-      its(:api_key) { should eq other_api_key }
-    end
-
-    describe "#secret_key" do
-      let(:other_secret_key) { "other-cloud-stack-secret-key" }
-      before { subject.secret_key = other_secret_key }
-      its(:secret_key) { should eq other_secret_key }
+      its(:url)        { should eq instance_url }
+      its(:api_key)    { should eq default_api_key }
+      its(:secret_key) { should eq default_secret_key }
     end
   end
 end
