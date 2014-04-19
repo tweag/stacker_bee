@@ -10,10 +10,10 @@ module StackerBee
   class Connection
     attr_accessor :configuration
 
-    def initialize(configuration)
-      self.configuration = configuration
+    def initialize(config)
+      self.configuration = config
 
-      uri = URI.parse(self.configuration.url)
+      uri = URI.parse(configuration.url)
       uri.path = ''
       fail ConnectionError, "no protocol specified" unless uri.scheme
 
