@@ -5,7 +5,7 @@ describe StackerBee::HTTPMiddleware::Graylog do
 
   class DummyLogger
     attr_accessor :data
-    alias_method :notify, :data=
+    alias_method :info, :data=
   end
 
   let(:log_data) { logger.data }

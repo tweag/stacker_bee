@@ -16,7 +16,7 @@ module FaradayMiddleware
     end
 
     def process_response(env)
-      @logger.notify(
+      @logger.info(
         facility:      facility,
         short_message: short_message(env),
         level:         level(env),
