@@ -23,16 +23,16 @@ optparse = OptionParser.new do |opts|
 
   config_help = "StackerBee configuration file, formatted as YAML"
   opts.on('-c', '--config=/PATH/TO/CONFIG.yml', config_help) do |config|
-    options["config"] = config
+    options[:config] = config
   end
   opts.on('-a', '--api_key=API_KEY', "CloudStack API Key") do |key|
-    options["api_key"] = key
+    options[:api_key] = key
   end
   opts.on('-s', '--secret_key=SECRET_KEY', "CloudStack Secret Key") do |key|
-    options["secret_key"] = key
+    options[:secret_key] = key
   end
   opts.on('-u', '--url=URL', "CloudStack URL") do |url|
-    options["url"] = url
+    options[:url] = url
   end
   opts.on('-v', '--[no-]verbose', 'Run verbosely') do |v|
     verbose = true
@@ -53,11 +53,11 @@ end
 
 begin
   optparse.parse!
-  if options["config"]
-    hash = File.read options["config"]
+  if options[:config]
+    hash = File.read options[:config]
     options.merge! YAML.load(hash)
   end
-  unless (%w(api_key secret_key url) - options.keys).empty?
+  unless ([:api_key, :secret_key, :url] - options.keys).empty?
     puts "Please specify a config file or all of the following: " \
          "--api_key, --secret_key and --url"
     exit
@@ -70,8 +70,8 @@ end
 
 if verbose
   puts "StackerBee version #{StackerBee::VERSION}"
-  puts "URL: #{options["url"]}"
-  puts "API key: #{options["api_key"]}"
+  puts "URL: #{options[:url]}"
+  puts "API key: #{options[:api_key]}"
 end
 
 client = StackerBee::Client.new(options)
