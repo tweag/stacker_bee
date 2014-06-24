@@ -25,7 +25,7 @@ module StackerBee
 
       def flatten_map_values(params, hashes)
         hashes.each do |hash_name, hash|
-          remove_empties(hash).each_with_index do |(key, value), index|
+          remove_falseish(hash).each_with_index do |(key, value), index|
             hash_url_key = self.class.tokenize("#{hash_name}[#{index}]")
 
             params["#{hash_url_key}.key"]   = key
@@ -37,8 +37,8 @@ module StackerBee
       end
 
       # TODO: isn't this done with the RemoveEmptyStrings middleware?
-      def remove_empties(hash)
-        hash.reject { |_, v| v.nil? || v == "" }
+      def remove_falseish(hash)
+        hash.reject { |_, v| v == "" || v =~ /false/i || !v }
       end
     end
   end
