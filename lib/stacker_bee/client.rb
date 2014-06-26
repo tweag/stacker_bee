@@ -21,6 +21,7 @@ require "stacker_bee/middleware/raise_on_http_error"
 require "stacker_bee/middleware/http_status"
 require "stacker_bee/middleware/console_access"
 require "stacker_bee/middleware/error_message"
+require "stacker_bee/middleware/log_response"
 
 # rubocop:disable ClassLength
 module StackerBee
@@ -48,6 +49,7 @@ module StackerBee
       # response
       builder.use Middleware::RaiseOnHTTPError
       builder.use Middleware::ErrorMessage
+      builder.use Middleware::LogResponse
       builder.use Middleware::HTTPStatus
       builder.use Middleware::CleanResponse
       builder.use Middleware::RashifyResponse
@@ -110,7 +112,8 @@ module StackerBee
       env = Middleware::Environment.new(
         endpoint_name: endpoint_name,
         api_key:       configuration.api_key,
-        params:        params
+        params:        params,
+        logger:        configuration.logger
       )
 
       middleware_app.call(env)

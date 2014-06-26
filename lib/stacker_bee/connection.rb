@@ -27,7 +27,6 @@ module StackerBee
       @faraday = Faraday.new(options) do |faraday|
         faraday.use HTTPMiddleware::Detokenizer
         faraday.use HTTPMiddleware::SignedQuery, configuration.secret_key
-
         configuration.faraday_middlewares.call faraday
 
         unless using_adapter?(faraday.builder.handlers)
@@ -45,6 +44,7 @@ module StackerBee
     def get(path, params)
       @faraday.get(path, params)
     rescue Faraday::Error::ConnectionFailed => error
+      configuration.logger.error error if configuration.logger
       raise ConnectionError,
             "Failed to connect to #{configuration.url}, #{error}"
     end

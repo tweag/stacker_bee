@@ -9,12 +9,12 @@ module StackerBee
       :secret_key,
       :api_key,
       :middlewares,
-      :faraday_middlewares
+      :faraday_middlewares,
+      :logger
     ]
 
     def initialize(attrs = nil)
       @attributes = attrs || {}
-
       @attributes.each_pair do |key, value|
         unless ATTRIBUTES.include?(key)
           fail NoAttributeError, "No attribute defined: '#{key}'"
@@ -44,6 +44,10 @@ module StackerBee
 
     def faraday_middlewares
       attribute :faraday_middlewares, proc {}
+    end
+
+    def logger
+      attribute :logger
     end
 
     def to_hash

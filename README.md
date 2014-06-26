@@ -204,31 +204,7 @@ StackerBee itself puts some middlewares on Faraday. Any middlewares you add will
 
 ### Logging
 
-Logging is best handled with Faraday middleware.
-
-#### GELF/Graylog2
-
-If you're using the Graylog2 GELF format, you're in luck because StackerBee currently ships with a Faraday middleware for that. Here's an example of logging to Graylog2:
-
-```ruby
-logger = GELF::Notifier.new("localhost", 12201)
-
-StackerBee::Client.configuration = {
-  faraday_middlewares: ->(faraday) do
-    faraday.use StackerBee::HTTPMiddleware::Graylog, logger
-  end
-}
-```
-
-#### Basic logging
-
-To log to a file or STDOUT, Faraday has a built-in logger. You can use it like so:
-
-```ruby
-StackerBee::Client.configuration = {
-  faraday_middlewares: ->(faraday) { faraday.response :logger }
-}
-```
+You can configure logging by passing in a logger object that adheres to the standard log4* logging conventions
 
 ### Bulk Configuration
 

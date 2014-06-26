@@ -10,6 +10,7 @@ module StackerBee
         self.request = Request.new(defaults.merge(request_attributes))
 
         self.response = Response.new
+        self.logger = request_attributes[:logger]
       end
 
       class Request < OpenStruct
