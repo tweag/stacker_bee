@@ -7,11 +7,12 @@ describe StackerBee::Middleware::CloudStackAPI do
       path: path
     )
   end
-
   let(:middleware) { described_class.new(api_key: "API-KEY", params: {}) }
   let(:path) { nil }
 
-  before { middleware.before(env) }
+  before do
+    middleware.before(env)
+  end
 
   describe "request" do
     subject { env.request }
