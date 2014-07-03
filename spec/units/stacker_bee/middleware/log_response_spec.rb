@@ -4,11 +4,11 @@ describe StackerBee::Middleware::LogResponse do
     let(:logger) { FakeLogger.new }
 
     let(:env) do
-        env = StackerBee::Middleware::Environment.new({logger: logger})
-        env.raw_response = { body: "some body" }
-        env.request.params = { "command" => "some command" }
-        env.request.path = "some/path"
-        env
+      env = StackerBee::Middleware::Environment.new(logger: logger)
+      env.raw_response = { body: "some body" }
+      env.request.params = { "command" => "some command" }
+      env.request.path = "some/path"
+      env
     end
 
     shared_examples_for "all logs" do
