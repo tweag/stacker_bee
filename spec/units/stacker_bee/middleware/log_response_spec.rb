@@ -29,7 +29,8 @@ describe StackerBee::Middleware::LogResponse do
 
       it_should_behave_like "all logs"
       it "should have logged the details" do
-        logger.logs.last[:short_message].should eq "some command failed: invalid request"
+        logger.logs.last[:short_message].should eq \
+          "some command failed: invalid request"
       end
     end
 
