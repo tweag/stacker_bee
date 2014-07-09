@@ -212,6 +212,17 @@ StackerBee::Client.configuration = {
 }
 ```
 
+### SSL and `ssl_verify`
+
+StackerBee supports using SSL. To do so, use an HTTPS URL. In some deployments, CloudStack's SSL certificates don't match the DNS name that StackerBee will use to access it which will cause certificate validation errors. In these cases, if it's not feasible to fix the certificates (which is recommended) setting `ssl_verfiy` to `false` will cause StackerBee to ignore certificate validation errors.
+
+```ruby
+StackerBee::Client.configuration = {
+  url:        'https://my-cloudstack-server/client/api',
+  ssl_verify: false # ignore certificate validation errors
+}
+```
+
 ### Bulk Configuration
 
 The `StackerBee::Client` class can be configured with multiple options at once.
