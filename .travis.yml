@@ -19,3 +19,10 @@ deploy:
   on:
     repo: promptworks/stacker_bee
     ruby: 2.1
+install: script/cached-bundle install --deployment
+env:
+  global:
+  - AMAZON_S3_BUCKET=stackerbee-travis
+  - AMAZON_ACCESS_KEY_ID=AKIAIOYK2S6RTFLKVMYA
+  - secure: Z80TEqte9P2ZS1NusBRzAxNMCU6N0GYExxnWtJgfWxaQy0Fsn3RvTJp0UmTsw+SS5Cvxx5lhjClA6GOGIEeirnBqVw137Cmh1K3vzbGRRPrm/WDoJQWr4EASivj7sUyCXTtRyu8OH9+1KEKWDF5lNUWqj+7ezhrWDj2nIcBJGII=
+
