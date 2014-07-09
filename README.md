@@ -206,6 +206,12 @@ StackerBee itself puts some middlewares on Faraday. Any middlewares you add will
 
 You can configure logging by passing in a logger object that adheres to the standard log4* logging conventions
 
+```ruby
+StackerBee::Client.configuration = {
+  logger: my_log4x_logger
+}
+```
+
 ### Bulk Configuration
 
 The `StackerBee::Client` class can be configured with multiple options at once.
