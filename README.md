@@ -60,7 +60,7 @@ puts vm[:iso_display_text]
 For any endpoint requiring a map parameter, pass in a hash.
 
 ```ruby
-cloud_stack.create_tags(tags: { type: 'community' }, resource_type: "Template", resource_ids: id )
+cloud_stack.create_tags tags: { type: 'community' }, ...
 ```
 
 This will yield a request with the following query string:
