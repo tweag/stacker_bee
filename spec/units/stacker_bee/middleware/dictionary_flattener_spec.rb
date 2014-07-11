@@ -17,7 +17,7 @@ describe StackerBee::Middleware::DictionaryFlattener do
   end
 
   describe ".new" do
-    subject { described_class.new.params(params) }
+    subject { described_class.new.transform_params(params) }
 
     def param(number)
       described_class.tokenize "rebels[#{number}]"

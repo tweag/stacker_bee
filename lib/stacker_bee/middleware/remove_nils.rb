@@ -1,7 +1,7 @@
 module StackerBee
   module Middleware
     class RemoveNils < Base
-      def params(params)
+      def transform_params(params)
         params.reject { |key, val| val.nil? }
       end
     end

@@ -91,7 +91,7 @@ describe StackerBee::Middleware::Base do
     context "when overriding #params" do
       let(:subclass_body) do
         proc do
-          def params(params)
+          def transform_params(params)
             params.merge(params_merged?: true)
           end
         end

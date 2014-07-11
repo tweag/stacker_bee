@@ -3,7 +3,7 @@ module StackerBee
     class FormatValues < Base
       include Utilities
 
-      def params(params)
+      def transform_params(params)
         transform_hash_values(params) do |value|
           value.respond_to?(:join) ? value.join(',') : value.to_s
         end

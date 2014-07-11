@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe StackerBee::Middleware::FormatKeys do
-  subject { described_class.new.params(params) }
+  subject { described_class.new.transform_params(params) }
 
   let(:params) do
     {

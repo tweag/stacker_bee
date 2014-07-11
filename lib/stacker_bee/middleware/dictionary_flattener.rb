@@ -14,7 +14,7 @@ module StackerBee
         key.gsub(LB, '[').gsub(RB, ']')
       end
 
-      def params(original)
+      def transform_params(original)
         original.dup.tap { |params| flatten_params(params) }
       end
 

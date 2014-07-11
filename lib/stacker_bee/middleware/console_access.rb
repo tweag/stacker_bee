@@ -14,7 +14,7 @@ module StackerBee
         env.request.endpoint_name = ENDPOINT
       end
 
-      def params(params)
+      def transform_params(params)
         params.merge(PARAMS)
       end
 

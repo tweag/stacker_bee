@@ -15,13 +15,13 @@ module StackerBee
       end
 
       def before(env)
-        env.request.params = params(env.request.params)
+        env.request.params = transform_params(env.request.params)
       end
 
       def after(env)
       end
 
-      def params(params)
+      def transform_params(params)
         params
       end
 
