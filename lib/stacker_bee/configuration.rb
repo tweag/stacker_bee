@@ -16,6 +16,7 @@ module StackerBee
     def initialize(attrs = nil)
       @attributes = attrs || {}
       @attributes.each_pair do |key, value|
+        next if key == :config
         unless ATTRIBUTES.include?(key)
           fail NoAttributeError, "No attribute defined: '#{key}'"
         end
