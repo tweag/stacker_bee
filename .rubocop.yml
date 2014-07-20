@@ -6,8 +6,5 @@ Documentation:
 DoubleNegation:
   Enabled: false
 
-StringLiterals:
-  Enabled: false
-
 Encoding:
   Enabled: false

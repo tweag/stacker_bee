@@ -12,22 +12,22 @@ describe StackerBee::Middleware::ErrorMessage do
     end
   end
   let(:body) { { errortext: message } }
-  let(:message) { "Unable to execute API command deployvirtualmachine " }
+  let(:message) { 'Unable to execute API command deployvirtualmachine ' }
   let(:is_success?) { true }
 
   it "doesn't apply to HTML responses" do
-    middleware.content_types.should_not match("text/html; charset=utf-8")
+    middleware.content_types.should_not match('text/html; charset=utf-8')
   end
-  it "applies to JSON responses" do
-    middleware.content_types.should match("text/javascript; charset=utf-8")
+  it 'applies to JSON responses' do
+    middleware.content_types.should match('text/javascript; charset=utf-8')
   end
 
-  context "given an error" do
+  context 'given an error' do
     let(:is_success?) { false }
     its(:error) { should eq message }
   end
 
-  context "given a success" do
+  context 'given a success' do
     let(:is_success?) { true }
     its(:error) { should be_nil }
   end

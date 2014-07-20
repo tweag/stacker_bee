@@ -1,5 +1,5 @@
-require "multi_json"
-require "stacker_bee/utilities"
+require 'multi_json'
+require 'stacker_bee/utilities'
 
 module StackerBee
   class API
@@ -35,8 +35,8 @@ module StackerBee
     end
 
     def apis_by_endpoint(response)
-      response["listapisresponse"]["api"].each_with_object({}) do |api, memo|
-        memo[uncase(api["name"])] = api
+      response['listapisresponse']['api'].each_with_object({}) do |api, memo|
+        memo[uncase(api['name'])] = api
       end
     end
   end

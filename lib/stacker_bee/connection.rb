@@ -1,7 +1,7 @@
-require "faraday"
-require "uri"
-require "stacker_bee/http_middleware/signed_query"
-require "stacker_bee/http_middleware/detokenizer"
+require 'faraday'
+require 'uri'
+require 'stacker_bee/http_middleware/signed_query'
+require 'stacker_bee/http_middleware/detokenizer'
 
 module StackerBee
   class ConnectionError < StandardError
@@ -15,7 +15,7 @@ module StackerBee
 
       uri = URI.parse(configuration.url)
       uri.path = ''
-      fail ConnectionError, "no protocol specified" unless uri.scheme
+      fail ConnectionError, 'no protocol specified' unless uri.scheme
 
       initialize_faraday(
         url: uri.to_s,

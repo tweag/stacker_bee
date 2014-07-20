@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe StackerBee::Middleware::ConsoleAccess do
   let(:env) do
@@ -8,15 +8,15 @@ describe StackerBee::Middleware::ConsoleAccess do
   let(:middleware) { described_class.new(app: app) }
   let(:app) { double(:app) }
 
-  context "when it matches the endpoint" do
+  context 'when it matches the endpoint' do
     let(:endpoint_name) { described_class::ENDPOINT }
 
-    it "adds its path to the env" do
+    it 'adds its path to the env' do
       middleware.before(env)
       env.request.path.should == described_class::PATH
     end
 
-    it "adds cmd to the parameters" do
+    it 'adds cmd to the parameters' do
       env.request.params.should_not include described_class::PARAMS
     end
   end
@@ -35,22 +35,22 @@ describe StackerBee::Middleware::ConsoleAccess do
     end
   end
 
-  it "matches html content typtes" do
-    middleware.content_types.should =~ "text/html; charset=utf-8"
+  it 'matches html content typtes' do
+    middleware.content_types.should =~ 'text/html; charset=utf-8'
   end
 
-  describe "#endpoint_name_for" do
-    context "given names it reponds to" do
+  describe '#endpoint_name_for' do
+    context 'given names it reponds to' do
       %w(consoleAccess console_access CONSOLEACCESS).each do |name|
         subject { middleware.endpoint_name_for(name) }
         it { should eq described_class::ENDPOINT }
       end
     end
 
-    context "for other names" do
+    context 'for other names' do
       before { app.stub :endpoint_name_for, &:upcase }
 
-      it "delegates for other names" do
+      it 'delegates for other names' do
         middleware.endpoint_name_for('other-name').should == 'OTHER-NAME'
       end
     end

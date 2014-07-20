@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe StackerBee::Middleware::Adapter do
   let(:env) do
@@ -19,14 +19,14 @@ describe StackerBee::Middleware::Adapter do
   let(:raw_response) do
     double(env: { response_headers: response_headers }, body: response_body)
   end
-  let(:response_headers) { { "content-type" => content_type } }
-  let(:content_type) { "text/javascript; charset=UTF-8"  }
+  let(:response_headers) { { 'content-type' => content_type } }
+  let(:content_type) { 'text/javascript; charset=UTF-8'  }
   let(:response_body) { double }
 
-  describe "#call" do
+  describe '#call' do
     before { middleware.call(env) }
 
-    it "makes a call via the connection" do
+    it 'makes a call via the connection' do
       connection.should have_received(:get)
     end
 
@@ -42,12 +42,12 @@ describe StackerBee::Middleware::Adapter do
       env.response.body.should == response_body
     end
 
-    it "sorts the paramers" do
+    it 'sorts the paramers' do
       connection.should have_received(:get).with(path, [%w(a a), %w(z z)])
     end
   end
 
-  describe "#endpoint_name_for" do
+  describe '#endpoint_name_for' do
     subject { middleware.endpoint_name_for('listVirtualMachines') }
     it { should be_nil }
   end

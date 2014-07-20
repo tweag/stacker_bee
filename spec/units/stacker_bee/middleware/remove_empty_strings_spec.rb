@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 # TODO: does this really need to work with nested hashes?
 describe StackerBee::Middleware::RemoveEmptyStrings do
@@ -40,15 +40,15 @@ describe StackerBee::Middleware::RemoveEmptyStrings do
     middleware.call(env)
   end
 
-  it "removes empty strings from the input" do
+  it 'removes empty strings from the input' do
     params.keys.should =~ [:ok1, :ok2, :ok3, :ok4, :nested]
   end
 
-  it "removes empty strings nested in hashes" do
+  it 'removes empty strings nested in hashes' do
     params[:nested].keys.should =~ [:ok1, :ok2, :ok3, :ok4, :nested]
   end
 
-  it "removes empty strings deeply nested in hashes" do
+  it 'removes empty strings deeply nested in hashes' do
     params[:nested][:nested].keys.should =~ [:ok1, :ok2, :ok3, :ok4]
   end
 end

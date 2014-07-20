@@ -5,12 +5,12 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require File.expand_path("../../lib/stacker_bee", __FILE__)
+require File.expand_path('../../lib/stacker_bee', __FILE__)
 
 require 'yaml'
 
-default_config_file = File.expand_path("../../config.default.yml", __FILE__)
-config_file         = File.expand_path("../../config.yml", __FILE__)
+default_config_file = File.expand_path('../../config.default.yml', __FILE__)
+config_file         = File.expand_path('../../config.yml', __FILE__)
 
 CONFIG = YAML.load(File.read(default_config_file))
 CONFIG.merge!(YAML.load(File.read(config_file))) if File.exist?(config_file)
@@ -18,7 +18,7 @@ CONFIG.merge!(YAML.load(File.read(config_file))) if File.exist?(config_file)
 require 'webmock/rspec'
 
 support_files = Dir[File.join(
-  File.expand_path("../../spec/support/**/*.rb", __FILE__)
+  File.expand_path('../../spec/support/**/*.rb', __FILE__)
 )]
 support_files.each { |f| require f }
 

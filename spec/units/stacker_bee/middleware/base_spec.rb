@@ -13,20 +13,20 @@ describe StackerBee::Middleware::Base do
   let(:subclass) { Class.new(described_class, &subclass_body) }
   let(:subclass_body) { proc {} }
 
-  describe "#call" do
+  describe '#call' do
     before do
       middleware.call env
     end
 
     def self.it_calls_its_app_with_the_env
-      it "calls its app with the env" do
+      it 'calls its app with the env' do
         app.should have_received(:call).with(env)
       end
     end
 
     it_calls_its_app_with_the_env
 
-    context "when overriding #before" do
+    context 'when overriding #before' do
       let(:subclass_body) do
         proc do
           def before(env)
@@ -37,12 +37,12 @@ describe StackerBee::Middleware::Base do
 
       it_calls_its_app_with_the_env
 
-      it "runs the before hook" do
+      it 'runs the before hook' do
         env.before_was_run.should be_true
       end
     end
 
-    context "when overriding #after" do
+    context 'when overriding #after' do
       let(:subclass_body) do
         proc do
           def after(env)
@@ -53,12 +53,12 @@ describe StackerBee::Middleware::Base do
 
       it_calls_its_app_with_the_env
 
-      it "runs the after hook" do
+      it 'runs the after hook' do
         env.after_was_run.should be_true
       end
     end
 
-    context "when overriding #content_types" do
+    context 'when overriding #content_types' do
       let(:subclass_body) do
         proc do
           def after(env)
@@ -73,22 +73,22 @@ describe StackerBee::Middleware::Base do
 
       it_calls_its_app_with_the_env
 
-      context "when it matches the content type" do
+      context 'when it matches the content type' do
         let(:content_type) { 'text/html; uft-8' }
-        it "runs the after hook" do
+        it 'runs the after hook' do
           env.after_was_run.should be_true
         end
       end
 
       context "when it doesn't match the content type" do
         let(:content_type) { 'text/javascript; uft-8' }
-        it "runs the after hook" do
+        it 'runs the after hook' do
           env.after_was_run.should be_nil
         end
       end
     end
 
-    context "when overriding #params" do
+    context 'when overriding #params' do
       let(:subclass_body) do
         proc do
           def transform_params(params)
@@ -97,17 +97,17 @@ describe StackerBee::Middleware::Base do
         end
       end
 
-      it "changes the params" do
+      it 'changes the params' do
         env.request.params[:params_merged?].should be_true
       end
     end
   end
 
-  describe "#endpoint_name_for" do
+  describe '#endpoint_name_for' do
     let(:endpoint_name) { double }
     let(:normalized_endpoint_name) { double }
 
-    it "delegates to its app" do
+    it 'delegates to its app' do
       app.should_receive(:endpoint_name_for)
         .with(endpoint_name)
         .and_return(normalized_endpoint_name)
@@ -117,10 +117,10 @@ describe StackerBee::Middleware::Base do
     end
   end
 
-  describe "#matches_content_type?" do
-    describe "by default" do
+  describe '#matches_content_type?' do
+    describe 'by default' do
       before { env.response.content_type = '$8^02(324' }
-      it "matches anything" do
+      it 'matches anything' do
         middleware.matches_content_type?(env).should be_true
       end
     end

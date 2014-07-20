@@ -12,15 +12,15 @@ describe StackerBee::Middleware::EndpointNormalizer do
     let(:api) { {} }
     let(:endpoint_name) { :some_endpoint }
 
-    describe "#endpoint_name_for" do
+    describe '#endpoint_name_for' do
       before { app.stub :endpoint_name_for, &:upcase }
 
-      it "delegates to its app" do
+      it 'delegates to its app' do
         middleware.endpoint_name_for('some-name').should == 'SOME-NAME'
       end
     end
 
-    describe "#before" do
+    describe '#before' do
       before { app.stub endpoint_name_for: nil }
 
       it "doesn't set the endpoint to nil", :regression do
@@ -30,5 +30,5 @@ describe StackerBee::Middleware::EndpointNormalizer do
     end
   end
 
-  context "when it matches an endpoint"
+  context 'when it matches an endpoint'
 end

@@ -1,4 +1,4 @@
-require "stacker_bee/request_error"
+require 'stacker_bee/request_error'
 
 module StackerBee
   module Middleware

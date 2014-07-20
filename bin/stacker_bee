@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 
-$LOAD_PATH << File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
+$LOAD_PATH << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'optparse'
 require 'stacker_bee'
@@ -9,7 +9,7 @@ require 'yaml'
 require 'irb'
 require 'irb/completion'
 
-cli_title = "StackerBee CloudStack REPL"
+cli_title = 'StackerBee CloudStack REPL'
 
 command  = File.basename(__FILE__)
 options  = {}
@@ -21,17 +21,17 @@ optparse = OptionParser.new do |opts|
     Example: #{command} -u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY
   BANNER
 
-  config_help = "StackerBee configuration file, formatted as YAML"
+  config_help = 'StackerBee configuration file, formatted as YAML'
   opts.on('-c', '--config=/PATH/TO/CONFIG.yml', config_help) do |config|
     options[:config] = config
   end
-  opts.on('-a', '--api_key=API_KEY', "CloudStack API Key") do |key|
+  opts.on('-a', '--api_key=API_KEY', 'CloudStack API Key') do |key|
     options[:api_key] = key
   end
-  opts.on('-s', '--secret_key=SECRET_KEY', "CloudStack Secret Key") do |key|
+  opts.on('-s', '--secret_key=SECRET_KEY', 'CloudStack Secret Key') do |key|
     options[:secret_key] = key
   end
-  opts.on('-u', '--url=URL', "CloudStack URL") do |url|
+  opts.on('-u', '--url=URL', 'CloudStack URL') do |url|
     options[:url] = url
   end
   opts.on('-v', '--[no-]verbose', 'Run verbosely') do
@@ -41,7 +41,7 @@ optparse = OptionParser.new do |opts|
     puts opts
 
     puts
-    puts "Example config file:"
+    puts 'Example config file:'
     puts
     puts "url: 'http://127.0.0.1:1234/client/api'"
     puts "api_key: 'MY_KEY-MY_KEY-MY_KEY'"
@@ -59,8 +59,8 @@ begin
   end
   unless options.keys.include?(:config) ||
     ([:api_key, :secret_key, :url] - options.keys).empty?
-    puts "Please specify a config file or all of the following: " \
-         "--api_key, --secret_key and --url"
+    puts 'Please specify a config file or all of the following: ' \
+         '--api_key, --secret_key and --url'
     exit
   end
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument

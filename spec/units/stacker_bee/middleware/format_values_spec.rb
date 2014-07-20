@@ -10,6 +10,6 @@ describe StackerBee::Middleware::FormatValues do
     }
   end
 
-  its([:single]) { should eq "1" }
-  its([:list])   { should eq "1,2,3" }
+  its([:single]) { should eq '1' }
+  its([:list])   { should eq '1,2,3' }
 end

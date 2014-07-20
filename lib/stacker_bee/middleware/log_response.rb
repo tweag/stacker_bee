@@ -4,7 +4,7 @@ module StackerBee
       def after(env)
         return unless env.logger
         params = env.request.params.to_a.sort
-        command = params.find { |key, _| key == "command" }.last
+        command = params.find { |key, _| key == 'command' }.last
 
         log(env, params, command)
       end

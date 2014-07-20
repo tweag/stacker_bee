@@ -18,11 +18,11 @@ module StackerBee
       end
 
       def contains_count?(body)
-        body.size == 2 && body.key?("count")
+        body.size == 2 && body.key?('count')
       end
 
       def remove_count(body)
-        body.reject { |key, _| key == "count" }.values.first
+        body.reject { |key, _| key == 'count' }.values.first
       end
 
       def single_hash?(body)

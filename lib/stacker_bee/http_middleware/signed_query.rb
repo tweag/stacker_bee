@@ -1,12 +1,12 @@
-require "faraday"
-require "base64"
+require 'faraday'
+require 'base64'
 
 module StackerBee
   module HTTPMiddleware
     class SignedQuery < Faraday::Middleware
       def initialize(app, key)
         @key = key
-        fail "Key cannot be nil" unless @key
+        fail 'Key cannot be nil' unless @key
         super app
       end
 

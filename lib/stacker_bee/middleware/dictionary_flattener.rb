@@ -1,8 +1,8 @@
 module StackerBee
   module Middleware
     class DictionaryFlattener < Base
-      LB = "SBLEFTBRACKET"
-      RB = "SBRIGHTBRACKET"
+      LB = 'SBLEFTBRACKET'
+      RB = 'SBRIGHTBRACKET'
 
       # TODO: should the tokenizing be separate from the flattener?
       # it could be a middleware that finds [] in the keys and replaces them
@@ -38,7 +38,7 @@ module StackerBee
 
       # TODO: isn't this done with the RemoveEmptyStrings middleware?
       def remove_falseish(hash)
-        hash.reject { |_, v| v == "" || v =~ /false/i || !v }
+        hash.reject { |_, v| v == '' || v =~ /false/i || !v }
       end
     end
   end

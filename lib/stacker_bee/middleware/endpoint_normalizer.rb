@@ -8,10 +8,10 @@ module StackerBee
 
       def endpoint_name_for(name)
         # TODO: shouldn't this be in the base endpoint?
-        fail "API required" unless api
+        fail 'API required' unless api
         endpoint_description = api[name]
         if endpoint_description
-          endpoint_description.fetch("name")
+          endpoint_description.fetch('name')
         else
           super
         end

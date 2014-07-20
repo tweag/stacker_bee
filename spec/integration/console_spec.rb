@@ -1,9 +1,9 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe "A request sent to CloudStack for console access", :vcr do
+describe 'A request sent to CloudStack for console access', :vcr do
   subject(:console_access) { client.console_access(vm: vm) }
 
-  let(:vm) { "36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd" }
+  let(:vm) { '36f9c08b-f17a-4d0e-ac9b-d45ce2d34fcd' }
   let(:client) { StackerBee::Client.new(config_hash) }
   let(:config_hash) do
     {
@@ -13,7 +13,7 @@ describe "A request sent to CloudStack for console access", :vcr do
     }
   end
 
-  it "returns html for console access" do
+  it 'returns html for console access' do
     expect(console_access).to match(/<html>.*<frame src=.*<\/html>/)
   end
 end

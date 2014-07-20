@@ -1,7 +1,7 @@
-require "spec_helper"
-require "ostruct"
+require 'spec_helper'
+require 'ostruct'
 
-describe StackerBee::Client, ".api" do
+describe StackerBee::Client, '.api' do
   subject { described_class }
   let(:api) { double }
   before do
@@ -12,10 +12,10 @@ describe StackerBee::Client, ".api" do
   its(:api) { should eq api }
 end
 
-describe StackerBee::Client, "calling endpoint" do
+describe StackerBee::Client, 'calling endpoint' do
   let(:client) do
     described_class.new(
-      url: "http://example.com",
+      url: 'http://example.com',
       middlewares: lambda do |builder|
         builder.before middleware_class,
                        expected_endpoint_name: endpoint_name,
@@ -44,28 +44,28 @@ describe StackerBee::Client, "calling endpoint" do
   let(:params)        { double(:params) }
   let(:response_body) { double(:response_body) }
 
-  describe "responding to methods" do
+  describe 'responding to methods' do
     subject { client }
     it { should respond_to endpoint_name }
   end
 
-  describe "via a method call" do
+  describe 'via a method call' do
     subject { client.list_virtual_machines(params) }
     it { should eq response_body }
   end
 
-  describe "via #request" do
+  describe 'via #request' do
     subject { client.request(endpoint_name, params) }
     it { should eq response_body }
   end
 end
 
-describe StackerBee::Client, "configuration" do
+describe StackerBee::Client, 'configuration' do
   before { described_class.configuration = default_config_hash }
 
-  let(:default_url)         { "default_cloud-stack.com" }
-  let(:default_api_key)     { "default-cloud-stack-api-key" }
-  let(:default_secret_key)  { "default-cloud-stack-secret-key" }
+  let(:default_url)         { 'default_cloud-stack.com' }
+  let(:default_api_key)     { 'default-cloud-stack-api-key' }
+  let(:default_secret_key)  { 'default-cloud-stack-secret-key' }
   let(:default_config_hash) do
     {
       url:                 default_url,
@@ -76,9 +76,9 @@ describe StackerBee::Client, "configuration" do
     }
   end
 
-  let(:instance_url)        { "instance-cloud-stack.com" }
-  let(:instance_api_key)    { "instance-cloud-stack-api-key" }
-  let(:instance_secret_key) { "instance-cloud-stack-secret-key" }
+  let(:instance_url)        { 'instance-cloud-stack.com' }
+  let(:instance_api_key)    { 'instance-cloud-stack-api-key' }
+  let(:instance_secret_key) { 'instance-cloud-stack-secret-key' }
   let(:instance_config_hash) do
     {
       url:                 instance_url,
@@ -89,10 +89,10 @@ describe StackerBee::Client, "configuration" do
     }
   end
 
-  describe ".new" do
+  describe '.new' do
     subject { client.configuration }
 
-    context "with default, class configuration" do
+    context 'with default, class configuration' do
       let(:client) { described_class.new }
 
       its(:url)        { should eq default_url }
@@ -100,7 +100,7 @@ describe StackerBee::Client, "configuration" do
       its(:secret_key) { should eq default_secret_key }
     end
 
-    context "with instance-specific configuration" do
+    context 'with instance-specific configuration' do
       let(:client) { described_class.new(instance_config_hash) }
 
       its(:url)        { should eq instance_url }
@@ -117,7 +117,7 @@ describe StackerBee::Client, "configuration" do
       its(:secret_key) { should eq instance_secret_key }
     end
 
-    context "with partial instance-specific configuration" do
+    context 'with partial instance-specific configuration' do
       let(:client) { described_class.new(partial_config_hash) }
       let(:partial_config_hash) do
         { url: instance_config_hash[:url] }

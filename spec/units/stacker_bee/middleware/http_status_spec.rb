@@ -13,7 +13,7 @@ describe StackerBee::Middleware::HTTPStatus do
   end
   let(:body) { { errorcode: http_status } }
 
-  context "given an error" do
+  context 'given an error' do
     let(:http_status) { 431 }
     let(:success?) { false }
 
@@ -21,7 +21,7 @@ describe StackerBee::Middleware::HTTPStatus do
     it { should_not be_success }
   end
 
-  context "given a success" do
+  context 'given a success' do
     let(:http_status) { 200 }
     let(:success?) { true }
 

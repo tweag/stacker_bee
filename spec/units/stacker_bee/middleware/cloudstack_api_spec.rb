@@ -7,31 +7,31 @@ describe StackerBee::Middleware::CloudStackAPI do
       path: path
     )
   end
-  let(:middleware) { described_class.new(api_key: "API-KEY", params: {}) }
+  let(:middleware) { described_class.new(api_key: 'API-KEY', params: {}) }
   let(:path) { nil }
 
   before do
     middleware.before(env)
   end
 
-  describe "request" do
+  describe 'request' do
     subject { env.request }
 
-    context "when the path is not set" do
+    context 'when the path is not set' do
       let(:path) { nil }
       its(:path) { should == described_class::DEFAULT_PATH }
     end
 
-    context "when the path is already set" do
-      let(:path) { "already set"  }
+    context 'when the path is already set' do
+      let(:path) { 'already set'  }
       its(:path) { should == path }
     end
   end
 
-  describe "params" do
+  describe 'params' do
     subject { env.request.params }
-    its([:api_key])  { should eq "API-KEY" }
-    its([:response]) { should eq "json" }
-    its([:command])  { should eq "endpoint-name" }
+    its([:api_key])  { should eq 'API-KEY' }
+    its([:response]) { should eq 'json' }
+    its([:command])  { should eq 'endpoint-name' }
   end
 end

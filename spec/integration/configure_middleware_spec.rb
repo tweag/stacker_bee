@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe "Configuring middlewares" do
+describe 'Configuring middlewares' do
   let(:configuration) do
     {
-      url:                 "http://garbagestring",
-      api_key:             "HI!",
-      secret_key:          "SECRET",
+      url:                 'http://garbagestring',
+      api_key:             'HI!',
+      secret_key:          'SECRET',
       faraday_middlewares: faraday_middlewares,
       middlewares:         middlewares
     }
@@ -20,20 +20,20 @@ describe "Configuring middlewares" do
   let(:body) do
     proc do
       def call(_env)
-        fail "MiddlewareUsed"
+        fail 'MiddlewareUsed'
       end
     end
   end
 
   def self.it_uses_the_middleware
-    it "uses the middle ware" do
+    it 'uses the middle ware' do
       expect { subject.list_virtual_machines }
-        .to raise_exception "MiddlewareUsed"
+        .to raise_exception 'MiddlewareUsed'
     end
   end
 
   def self.it_configures_a_faraday_middleware
-    describe "a Faraday middleware" do
+    describe 'a Faraday middleware' do
       let(:faraday_middlewares) do
         ->(faraday) { faraday.use faraday_middleware_class }
       end
@@ -43,7 +43,7 @@ describe "Configuring middlewares" do
   end
 
   def self.it_configures_a_middleware
-    describe "a StackerBee middleware" do
+    describe 'a StackerBee middleware' do
       let(:middlewares) do
         ->(builder) { builder.use middleware_class }
       end
@@ -51,7 +51,7 @@ describe "Configuring middlewares" do
     end
   end
 
-  describe "via StackerBee::Client.configuration=" do
+  describe 'via StackerBee::Client.configuration=' do
     subject { StackerBee::Client.new }
     before  { StackerBee::Client.configuration = configuration }
 
@@ -59,7 +59,7 @@ describe "Configuring middlewares" do
     it_configures_a_faraday_middleware
   end
 
-  describe "via the Client initializer" do
+  describe 'via the Client initializer' do
     subject { StackerBee::Client.new(configuration) }
 
     it_configures_a_middleware

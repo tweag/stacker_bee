@@ -1,5 +1,5 @@
-require "forwardable"
-require "stacker_bee/utilities"
+require 'forwardable'
+require 'stacker_bee/utilities'
 
 module StackerBee
   class Rash
