@@ -25,11 +25,12 @@ Gem::Specification.new do |spec|
   # this is a dependency for FaradayMiddleware::Graylog
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.9'
 
-  spec.add_development_dependency 'bundler',  '~> 1.3'
-  spec.add_development_dependency 'rake',     '~> 10.0'
+  spec.add_development_dependency 'bundler',   '~> 1.3'
+  spec.add_development_dependency 'rake',      '~> 10.0'
   spec.add_development_dependency 'rspec',     '~> 2.99'
-  spec.add_development_dependency 'webmock',  '~> 1.15'
-  spec.add_development_dependency 'vcr',      '~> 2.6'
+  spec.add_development_dependency 'rspec-its', '~> 1.0'
+  spec.add_development_dependency 'webmock',   '~> 1.15'
+  spec.add_development_dependency 'vcr',       '~> 2.6'
   spec.add_development_dependency 'pry'
 
   # It should be consistent for Travis and all developers, since we don't check

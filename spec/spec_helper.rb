@@ -37,3 +37,5 @@ RSpec.configure do |config|
     StackerBee::Client.reset!
   end
 end
+
+require 'rspec/its'
