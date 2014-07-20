@@ -6,8 +6,8 @@ Documentation:
 DoubleNegation:
   Enabled: false
 
-Encoding:
-  Enabled: false
-
 Style/AlignHash:
   EnforcedColonStyle: table
+
+Style/Encoding:
+  EnforcedStyle: when_needed
