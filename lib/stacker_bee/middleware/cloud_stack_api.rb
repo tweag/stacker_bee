@@ -6,8 +6,8 @@ module StackerBee
 
       def before(env)
         env.request.params.merge!(
-          api_key: api_key,
-          command: env.request.endpoint_name,
+          api_key:  api_key,
+          command:  env.request.endpoint_name,
           response: RESPONSE_TYPE
         )
         env.request.path ||= DEFAULT_PATH

@@ -22,7 +22,7 @@ VCR.configure do |c|
   end
 
   c.default_cassette_options = {
-    record: :new_episodes,
+    record:            :new_episodes,
     match_requests_on: [
       :method,
       VCR.request_matchers.uri_without_param(:signature)

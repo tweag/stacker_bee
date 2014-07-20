@@ -22,8 +22,8 @@ module StackerBee
 
       def base_log_data(env, params)
         {
-          request_path: env.request.path,
-          params: params,
+          request_path:  env.request.path,
+          params:        params,
           response_body: env.raw_response[:body]
         }
       end

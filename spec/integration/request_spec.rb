@@ -96,7 +96,7 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
     let(:service_offerings) do
       client.list_network_offerings(
         supported_services: 'sourcenat',
-        type: 'isolated'
+        type:               'isolated'
       )
     end
 
@@ -108,8 +108,8 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
 
     let(:tag) do
       client.create_tags(resource_type: 'Network',
-                         resource_ids: network['id'],
-                         tags: { 'speed [lab]' => 'real fast!' })
+                         resource_ids:  network['id'],
+                         tags:          { 'speed [lab]' => 'real fast!' })
     end
 
     it 'can create an object' do

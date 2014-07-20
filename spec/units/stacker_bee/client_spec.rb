@@ -15,7 +15,7 @@ end
 describe StackerBee::Client, 'calling endpoint' do
   let(:client) do
     described_class.new(
-      url: 'http://example.com',
+      url:         'http://example.com',
       middlewares: lambda do |builder|
         builder.before middleware_class,
                        expected_endpoint_name: endpoint_name,

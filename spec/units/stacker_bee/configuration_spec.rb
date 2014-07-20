@@ -109,22 +109,22 @@ describe StackerBee::Configuration do
 
     let(:parent) do
       described_class.new(
-        url: :parent_url,
-        api_key: :parent_api_key,
-        secret_key: :parent_secret_key,
-        ssl_verify: :parent_ssl_verify,
-        middlewares: :parent_ssl_middlewares,
+        url:                 :parent_url,
+        api_key:             :parent_api_key,
+        secret_key:          :parent_secret_key,
+        ssl_verify:          :parent_ssl_verify,
+        middlewares:         :parent_ssl_middlewares,
         faraday_middlewares: :parent_faraday_middlewares
       )
     end
 
     let(:child) do
       described_class.new(
-        url: :child_url,
-        api_key: :child_api_key,
-        secret_key: :child_secret_key,
-        ssl_verify: :child_ssl_verify,
-        middlewares: :child_ssl_middlewares,
+        url:                 :child_url,
+        api_key:             :child_api_key,
+        secret_key:          :child_secret_key,
+        ssl_verify:          :child_ssl_verify,
+        middlewares:         :child_ssl_middlewares,
         faraday_middlewares: :child_faraday_middlewares
       )
     end

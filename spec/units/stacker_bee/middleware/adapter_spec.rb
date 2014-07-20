@@ -4,8 +4,8 @@ describe StackerBee::Middleware::Adapter do
   let(:env) do
     StackerBee::Middleware::Environment.new(
       endpoint_name: 'listVirtualMachines',
-      params: params,
-      path: path
+      params:        params,
+      path:          path
     )
   end
   let(:app) { double(:app, call: response) }

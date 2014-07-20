@@ -4,7 +4,7 @@ describe StackerBee::Middleware::CloudStackAPI do
   let(:env) do
     StackerBee::Middleware::Environment.new(
       endpoint_name: 'endpoint-name',
-      path: path
+      path:          path
     )
   end
   let(:middleware) { described_class.new(api_key: 'API-KEY', params: {}) }

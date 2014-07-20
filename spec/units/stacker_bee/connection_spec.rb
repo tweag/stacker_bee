@@ -14,7 +14,7 @@ describe StackerBee::Connection do
   let(:ssl_verify)   { true }
   let(:configuration) do
     StackerBee::Configuration.new(
-      url: url,
+      url:        url,
       secret_key: secret_key,
       ssl_verify: ssl_verify
     )

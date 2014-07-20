@@ -12,25 +12,25 @@ describe StackerBee::Middleware::RemoveEmptyStrings do
 
   before do
     env.request.params = {
-      blank: '',
-      ok1: true,
-      ok2: nil,
-      ok3: 'string',
-      ok4: ' ',
+      blank:  '',
+      ok1:    true,
+      ok2:    nil,
+      ok3:    'string',
+      ok4:    ' ',
 
       nested: {
-        blank: '',
-        ok1: true,
-        ok2: nil,
-        ok3: 'string',
-        ok4: ' ',
+        blank:  '',
+        ok1:    true,
+        ok2:    nil,
+        ok3:    'string',
+        ok4:    ' ',
 
         nested: {
           blank: '',
-          ok1: true,
-          ok2: nil,
-          ok3: 'string',
-          ok4: ' '
+          ok1:   true,
+          ok2:   nil,
+          ok3:   'string',
+          ok4:   ' '
         }
       }
     }

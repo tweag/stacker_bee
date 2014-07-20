@@ -8,3 +8,6 @@ DoubleNegation:
 
 Encoding:
   Enabled: false
+
+Style/AlignHash:
+  EnforcedColonStyle: table
