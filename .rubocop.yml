@@ -1,4 +1,4 @@
-# This is the configuration used to check the rubocop source code.
+require: rubocop-rspec
 
 Documentation:
   Enabled: false
@@ -11,3 +11,15 @@ Style/AlignHash:
 
 Style/Encoding:
   EnforcedStyle: when_needed
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/MultipleDescribes:
+  Enabled: false
+
+RSpec/DescribeMethod:
+  Enabled: false

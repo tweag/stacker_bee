@@ -28,7 +28,8 @@ describe StackerBee::Middleware::LogResponse do
       end
 
       it_should_behave_like 'all logs'
-      it 'should have logged the details' do
+
+      it 'logs details' do
         expect(logger.logs.last[:short_message]).to eq \
           'some command failed: invalid request'
       end
@@ -41,11 +42,11 @@ describe StackerBee::Middleware::LogResponse do
       end
 
       it_should_behave_like 'all logs'
-      it 'should have logged the details' do
+
+      it 'logs details' do
         expect(logger.logs.length).to eq 1
         expect(logger.logs.last[:short_message]).to eq 'some command'
       end
-
     end
   end
 end

@@ -34,7 +34,8 @@ Gem::Specification.new do |spec|
 
   # It should be consistent for Travis and all developers, since we don't check
   # in the Gemfile.lock
-  spec.add_development_dependency 'rubocop',  '0.24.1'
+  spec.add_development_dependency 'rubocop',       '0.24.1'
+  spec.add_development_dependency 'rubocop-rspec', '1.1.0'
 
   # Release every merge to master as a prerelease
   if ENV['TRAVIS']

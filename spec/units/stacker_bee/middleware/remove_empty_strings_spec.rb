@@ -2,6 +2,7 @@ require 'spec_helper'
 
 # TODO: does this really need to work with nested hashes?
 describe StackerBee::Middleware::RemoveEmptyStrings do
+  # rubocop:disable RSpec/InstanceVariable
   let(:middleware) do
     described_class.new(app: proc { |env| @response_env = env })
   end

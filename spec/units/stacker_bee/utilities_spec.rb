@@ -1,30 +1,36 @@
 require 'spec_helper'
 
-describe StackerBee::Utilities, '#uncase' do
-  include StackerBee::Utilities
+describe StackerBee::Utilities do
+  include described_class
 
-  it { expect(uncase('Foo Bar')).to eq 'foobar' }
-  it { expect(uncase('foo_bar')).to eq 'foobar' }
-  it { expect(uncase('foo-bar')).to eq 'foobar' }
-  it { expect(uncase('fooBar')).to eq 'foobar' }
-  it { expect(uncase('foo[0].Bar')).to eq 'foo[0].bar' }
+  describe '#uncase' do
+    it { expect(uncase('Foo Bar')).to    eq 'foobar' }
+    it { expect(uncase('foo_bar')).to    eq 'foobar' }
+    it { expect(uncase('foo-bar')).to    eq 'foobar' }
+    it { expect(uncase('fooBar')).to     eq 'foobar' }
+    it { expect(uncase('foo[0].Bar')).to eq 'foo[0].bar' }
+  end
 
-  it { expect(snake_case('Foo Bar')).to eq 'foo_bar' }
-  it { expect(snake_case('foo_bar')).to eq 'foo_bar' }
-  it { expect(snake_case('foo-bar')).to eq 'foo_bar' }
-  it { expect(snake_case('fooBar')).to eq 'foo_bar' }
+  describe '#snake_case' do
+    it { expect(snake_case('Foo Bar')).to eq 'foo_bar' }
+    it { expect(snake_case('foo_bar')).to eq 'foo_bar' }
+    it { expect(snake_case('foo-bar')).to eq 'foo_bar' }
+    it { expect(snake_case('fooBar')).to  eq 'foo_bar' }
+  end
 
-  it { expect(camel_case('Foo Bar')).to eq 'FooBar' }
-  it { expect(camel_case('foo_bar')).to eq 'FooBar' }
-  it { expect(camel_case('foo-bar')).to eq 'FooBar' }
-  it { expect(camel_case('fooBar')).to eq 'FooBar' }
+  describe '#camel_case' do
+    it { expect(camel_case('Foo Bar')).to eq 'FooBar' }
+    it { expect(camel_case('foo_bar')).to eq 'FooBar' }
+    it { expect(camel_case('foo-bar')).to eq 'FooBar' }
+    it { expect(camel_case('fooBar')).to  eq 'FooBar' }
 
-  it { expect(camel_case('Foo Bar', true)).to eq 'fooBar' }
-  it { expect(camel_case('foo_bar', true)).to eq 'fooBar' }
-  it { expect(camel_case('foo-bar', true)).to eq 'fooBar' }
-  it { expect(camel_case('fooBar', true)).to eq 'fooBar' }
-  it { expect(camel_case('fooBar', false)).to eq 'FooBar' }
-  it { expect(camel_case('foo[0].Bar', false)).to eq 'Foo[0].Bar' }
+    it { expect(camel_case('Foo Bar',    true)).to  eq 'fooBar' }
+    it { expect(camel_case('foo_bar',    true)).to  eq 'fooBar' }
+    it { expect(camel_case('foo-bar',    true)).to  eq 'fooBar' }
+    it { expect(camel_case('fooBar',     true)).to  eq 'fooBar' }
+    it { expect(camel_case('fooBar',     false)).to eq 'FooBar' }
+    it { expect(camel_case('foo[0].Bar', false)).to eq 'Foo[0].Bar' }
+  end
 
   describe '#map_a_hash' do
     let(:original) { { 1 =>  1, 2 =>  2 } }
