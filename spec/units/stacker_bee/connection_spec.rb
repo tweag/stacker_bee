@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe StackerBee::Connection do
   subject(:get) { connection.get(path, query_params) }
-  before { Faraday.stub new: faraday }
+  before { allow(Faraday).to receive_messages new: faraday }
 
   let(:url)          { 'http://test.com:1234/foo/bar/' }
   let(:path)         { '/foo/bar' }
@@ -22,20 +22,27 @@ describe StackerBee::Connection do
 
   context 'successfully connecting' do
     before do
-      faraday.should_receive(:get).with('/foo/bar', query_params) { response }
+      expect(faraday).to receive(:get).with('/foo/bar', query_params) do
+        response
+      end
     end
-    it { should be response }
+
+    it { is_expected.to be response }
+
     it 'specifies url without path when creating connection' do
       get
-      Faraday.should have_received(:new).with(url: 'http://test.com:1234',
-                                              ssl: { verify: true })
+      expect(Faraday).to have_received(:new).with(url: 'http://test.com:1234',
+                                                  ssl: { verify: true })
     end
   end
 
   context 'failing to connect' do
     before do
-      faraday.stub(:get) { fail Faraday::Error::ConnectionFailed, 'boom' }
+      allow(faraday).to receive(:get) do
+        fail Faraday::Error::ConnectionFailed, 'boom'
+      end
     end
+
     it 'raises a helpful exception' do
       expect { get }.to raise_error StackerBee::ConnectionError, /#{url}/
     end
@@ -60,8 +67,8 @@ describe StackerBee::Connection do
     let(:ssl_verify) { false }
     it 'specifies the ssl verify option when creating a connection' do
       get
-      Faraday.should have_received(:new).with(url: 'http://test.com:1234',
-                                              ssl: { verify: false })
+      expect(Faraday).to have_received(:new).with(url: 'http://test.com:1234',
+                                                  ssl: { verify: false })
     end
   end
 end

@@ -17,8 +17,8 @@ describe StackerBee::API do
   its(['getVmPassword'])         { should be_a Hash }
   its(['getWRONG'])              { should be_nil }
 
-  it { should be_key 'get_vm_password' }
-  it { should be_key 'getvmpassword' }
-  it { should be_key 'getVMPassword' }
-  it { should be_key 'getVmPassword' }
+  it { is_expected.to be_key 'get_vm_password' }
+  it { is_expected.to be_key 'getvmpassword' }
+  it { is_expected.to be_key 'getVMPassword' }
+  it { is_expected.to be_key 'getVmPassword' }
 end

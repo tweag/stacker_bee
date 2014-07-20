@@ -10,9 +10,9 @@ describe StackerBee::Middleware::FormatKeys do
     }
   end
 
-  it { should have_key 'symbol' }
-  it { should_not have_key :symbol  }
+  it { is_expected.to have_key 'symbol' }
+  it { is_expected.not_to have_key :symbol  }
 
-  it { should have_key 'keyCase' }
-  it { should_not have_key :key_case }
+  it { is_expected.to have_key 'keyCase' }
+  it { is_expected.not_to have_key :key_case }
 end

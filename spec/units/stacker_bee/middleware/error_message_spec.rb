@@ -16,10 +16,10 @@ describe StackerBee::Middleware::ErrorMessage do
   let(:is_success?) { true }
 
   it "doesn't apply to HTML responses" do
-    middleware.content_types.should_not match('text/html; charset=utf-8')
+    expect(middleware.content_types).not_to match 'text/html; charset=utf-8'
   end
   it 'applies to JSON responses' do
-    middleware.content_types.should match('text/javascript; charset=utf-8')
+    expect(middleware.content_types).to match 'text/javascript; charset=utf-8'
   end
 
   context 'given an error' do

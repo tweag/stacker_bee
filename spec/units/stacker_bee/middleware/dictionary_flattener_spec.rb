@@ -8,12 +8,12 @@ describe StackerBee::Middleware::DictionaryFlattener do
 
   describe '.detokenize' do
     subject { described_class.detokenize(tokenized_string) }
-    it { should eq string  }
+    it { is_expected.to eq string  }
   end
 
   describe '.tokenize' do
     subject { described_class.tokenize(string) }
-    it { should eq tokenized_string  }
+    it { is_expected.to eq tokenized_string  }
   end
 
   describe '.new' do
@@ -34,28 +34,28 @@ describe StackerBee::Middleware::DictionaryFlattener do
     end
 
     it 'flattens objects in the manner that cloudstack expects' do
-      subject["#{param(0)}.name"].should eq 'r2'
-      subject["#{param(0)}.key"].should eq 'r2'
-      subject["#{param(0)}.value"].should eq 'd2'
+      expect(subject["#{param(0)}.name"]).to eq 'r2'
+      expect(subject["#{param(0)}.key"]).to eq 'r2'
+      expect(subject["#{param(0)}.value"]).to eq 'd2'
     end
 
     it 'does not flatten empty hashes' do
-      subject.should_not have_key "#{param(2)}.name"
+      expect(subject).not_to have_key "#{param(2)}.name"
     end
 
     it 'handles true booleans' do
-      subject["#{param(1)}.name"].should eq 'droid'
-      subject["#{param(1)}.value"].should be true
+      expect(subject["#{param(1)}.name"]).to eq 'droid'
+      expect(subject["#{param(1)}.value"]).to be true
     end
 
     it 'removes original map params' do
-      subject.should_not have_key 'rebels'
+      expect(subject).not_to have_key 'rebels'
     end
 
     it 'doesnt send false to CloudStack' do
       # This assumption is based on CloudStack UI behavior
-      subject.values.should_not include false
-      subject.values.should_not include 'false'
+      expect(subject.values).not_to include false
+      expect(subject.values).not_to include 'false'
     end
   end
 end

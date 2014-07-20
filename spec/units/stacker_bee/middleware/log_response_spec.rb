@@ -13,10 +13,10 @@ describe StackerBee::Middleware::LogResponse do
 
     shared_examples_for 'all logs' do
       it 'logs the details' do
-        logger.logs.length.should eq 1
-        logger.logs.last[:request_path].should eq env.request.path
-        logger.logs.last[:params].should eq env.request.params.to_a
-        logger.logs.last[:response_body].should eq env.raw_response[:body]
+        expect(logger.logs.length).to eq 1
+        expect(logger.logs.last[:request_path]).to eq env.request.path
+        expect(logger.logs.last[:params]).to eq env.request.params.to_a
+        expect(logger.logs.last[:response_body]).to eq env.raw_response[:body]
       end
     end
 
@@ -29,7 +29,7 @@ describe StackerBee::Middleware::LogResponse do
 
       it_should_behave_like 'all logs'
       it 'should have logged the details' do
-        logger.logs.last[:short_message].should eq \
+        expect(logger.logs.last[:short_message]).to eq \
           'some command failed: invalid request'
       end
     end
@@ -42,8 +42,8 @@ describe StackerBee::Middleware::LogResponse do
 
       it_should_behave_like 'all logs'
       it 'should have logged the details' do
-        logger.logs.length.should eq 1
-        logger.logs.last[:short_message].should eq 'some command'
+        expect(logger.logs.length).to eq 1
+        expect(logger.logs.last[:short_message]).to eq 'some command'
       end
 
     end

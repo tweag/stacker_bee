@@ -27,28 +27,28 @@ describe StackerBee::Middleware::Adapter do
     before { middleware.call(env) }
 
     it 'makes a call via the connection' do
-      connection.should have_received(:get)
+      expect(connection).to have_received(:get)
     end
 
     it "sets the environment's raw_response" do
-      env.raw_response.should == raw_response
+      expect(env.raw_response).to eq raw_response
     end
 
     it "sets the response's mime type" do
-      env.response.content_type.should == content_type
+      expect(env.response.content_type).to eq content_type
     end
 
     it "sets the response's body to the raw response's body" do
-      env.response.body.should == response_body
+      expect(env.response.body).to eq response_body
     end
 
     it 'sorts the paramers' do
-      connection.should have_received(:get).with(path, [%w(a a), %w(z z)])
+      expect(connection).to have_received(:get).with(path, [%w(a a), %w(z z)])
     end
   end
 
   describe '#endpoint_name_for' do
     subject { middleware.endpoint_name_for('listVirtualMachines') }
-    it { should be_nil }
+    it { is_expected.to be_nil }
   end
 end

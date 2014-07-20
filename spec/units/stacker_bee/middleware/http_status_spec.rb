@@ -18,7 +18,7 @@ describe StackerBee::Middleware::HTTPStatus do
     let(:success?) { false }
 
     its(:status) { should eq http_status }
-    it { should_not be_success }
+    it { is_expected.not_to be_success }
   end
 
   context 'given a success' do
@@ -26,6 +26,6 @@ describe StackerBee::Middleware::HTTPStatus do
     let(:success?) { true }
 
     its(:status) { should eq http_status }
-    it { should be_success }
+    it { is_expected.to be_success }
   end
 end

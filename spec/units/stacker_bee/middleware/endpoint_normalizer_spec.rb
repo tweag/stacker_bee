@@ -13,19 +13,19 @@ describe StackerBee::Middleware::EndpointNormalizer do
     let(:endpoint_name) { :some_endpoint }
 
     describe '#endpoint_name_for' do
-      before { app.stub :endpoint_name_for, &:upcase }
+      before { allow(app).to receive :endpoint_name_for, &:upcase }
 
       it 'delegates to its app' do
-        middleware.endpoint_name_for('some-name').should == 'SOME-NAME'
+        expect(middleware.endpoint_name_for('some-name')).to eq 'SOME-NAME'
       end
     end
 
     describe '#before' do
-      before { app.stub endpoint_name_for: nil }
+      before { allow(app).to receive_messages endpoint_name_for: nil }
 
       it "doesn't set the endpoint to nil", :regression do
         middleware.before env
-        env.request.endpoint_name.should == endpoint_name
+        expect(env.request.endpoint_name).to eq endpoint_name
       end
     end
   end

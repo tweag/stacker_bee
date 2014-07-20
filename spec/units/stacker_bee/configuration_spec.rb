@@ -15,17 +15,17 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should eq true }
+      it { is_expected.to eq true }
     end
 
     context 'when set to false' do
       let(:configuration) { described_class.new(ssl_verify: false) }
-      it { should eq false }
+      it { is_expected.to eq false }
     end
 
     context 'when set to true' do
       let(:configuration) { described_class.new(ssl_verify: true) }
-      it { should eq true }
+      it { is_expected.to eq true }
     end
   end
 
@@ -34,13 +34,13 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should eq nil }
+      it { is_expected.to eq nil }
     end
 
     context 'when set' do
       let(:configuration) { described_class.new(url: setting) }
       let(:setting) { 'http://example.com' }
-      it { should eq setting }
+      it { is_expected.to eq setting }
     end
   end
 
@@ -49,13 +49,13 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should eq nil }
+      it { is_expected.to eq nil }
     end
 
     context 'when set' do
       let(:configuration) { described_class.new(secret_key: setting) }
       let(:setting) { 'qwertyuiop' }
-      it { should eq setting }
+      it { is_expected.to eq setting }
     end
   end
 
@@ -64,13 +64,13 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should eq nil }
+      it { is_expected.to eq nil }
     end
 
     context 'when set' do
       let(:configuration) { described_class.new(api_key: setting) }
       let(:setting) { 'qwertyuiop' }
-      it { should eq setting }
+      it { is_expected.to eq setting }
     end
   end
 
@@ -79,13 +79,13 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should be_a Proc }
+      it { is_expected.to be_a Proc }
     end
 
     context 'when set' do
       let(:configuration) { described_class.new(middlewares: setting) }
       let(:setting) { proc { something } }
-      it { should eq setting }
+      it { is_expected.to eq setting }
     end
   end
 
@@ -94,13 +94,13 @@ describe StackerBee::Configuration do
 
     context 'when not set' do
       let(:configuration) { described_class.new }
-      it { should be_a Proc }
+      it { is_expected.to be_a Proc }
     end
 
     context 'when set' do
       let(:configuration) { described_class.new(faraday_middlewares: setting) }
       let(:setting) { proc { something } }
-      it { should eq setting }
+      it { is_expected.to eq setting }
     end
   end
 
@@ -132,24 +132,24 @@ describe StackerBee::Configuration do
     context "when the child doesn't have an attribute set" do
       let(:child) { described_class.new }
       it 'uses the attribute of the parent' do
-        subject.url.should eq :parent_url
-        subject.api_key.should eq :parent_api_key
-        subject.secret_key.should eq :parent_secret_key
-        subject.ssl_verify?.should eq :parent_ssl_verify
-        subject.middlewares.should eq :parent_ssl_middlewares
-        subject.faraday_middlewares.should eq :parent_faraday_middlewares
+        expect(subject.url).to eq :parent_url
+        expect(subject.api_key).to eq :parent_api_key
+        expect(subject.secret_key).to eq :parent_secret_key
+        expect(subject.ssl_verify?).to eq :parent_ssl_verify
+        expect(subject.middlewares).to eq :parent_ssl_middlewares
+        expect(subject.faraday_middlewares).to eq :parent_faraday_middlewares
       end
     end
 
     context "when the parent doesn't have an attribute set" do
       let(:parent) { described_class.new }
       it 'uses the attribute of the child' do
-        subject.url.should eq :child_url
-        subject.api_key.should eq :child_api_key
-        subject.secret_key.should eq :child_secret_key
-        subject.ssl_verify?.should eq :child_ssl_verify
-        subject.middlewares.should eq :child_ssl_middlewares
-        subject.faraday_middlewares.should eq :child_faraday_middlewares
+        expect(subject.url).to eq :child_url
+        expect(subject.api_key).to eq :child_api_key
+        expect(subject.secret_key).to eq :child_secret_key
+        expect(subject.ssl_verify?).to eq :child_ssl_verify
+        expect(subject.middlewares).to eq :child_ssl_middlewares
+        expect(subject.faraday_middlewares).to eq :child_faraday_middlewares
       end
     end
 
@@ -157,12 +157,12 @@ describe StackerBee::Configuration do
       let(:child) { described_class.new }
       let(:parent) { described_class.new }
       it 'uses the defaults of the attributes of the child' do
-        subject.url.should eq nil
-        subject.api_key.should eq nil
-        subject.secret_key.should eq nil
-        subject.ssl_verify?.should eq true
-        subject.middlewares.should be_a Proc
-        subject.faraday_middlewares.should be_a Proc
+        expect(subject.url).to eq nil
+        expect(subject.api_key).to eq nil
+        expect(subject.secret_key).to eq nil
+        expect(subject.ssl_verify?).to eq true
+        expect(subject.middlewares).to be_a Proc
+        expect(subject.faraday_middlewares).to be_a Proc
       end
     end
   end

@@ -20,7 +20,7 @@ describe StackerBee::Middleware::Base do
 
     def self.it_calls_its_app_with_the_env
       it 'calls its app with the env' do
-        app.should have_received(:call).with(env)
+        expect(app).to have_received(:call).with(env)
       end
     end
 
@@ -38,7 +38,7 @@ describe StackerBee::Middleware::Base do
       it_calls_its_app_with_the_env
 
       it 'runs the before hook' do
-        env.before_was_run.should be true
+        expect(env.before_was_run).to be true
       end
     end
 
@@ -54,7 +54,7 @@ describe StackerBee::Middleware::Base do
       it_calls_its_app_with_the_env
 
       it 'runs the after hook' do
-        env.after_was_run.should be true
+        expect(env.after_was_run).to be true
       end
     end
 
@@ -76,14 +76,14 @@ describe StackerBee::Middleware::Base do
       context 'when it matches the content type' do
         let(:content_type) { 'text/html; uft-8' }
         it 'runs the after hook' do
-          env.after_was_run.should be true
+          expect(env.after_was_run).to be true
         end
       end
 
       context "when it doesn't match the content type" do
         let(:content_type) { 'text/javascript; uft-8' }
         it 'runs the after hook' do
-          env.after_was_run.should be_nil
+          expect(env.after_was_run).to be_nil
         end
       end
     end
@@ -98,7 +98,7 @@ describe StackerBee::Middleware::Base do
       end
 
       it 'changes the params' do
-        env.request.params[:params_merged?].should be true
+        expect(env.request.params[:params_merged?]).to be true
       end
     end
   end
@@ -108,12 +108,12 @@ describe StackerBee::Middleware::Base do
     let(:normalized_endpoint_name) { 'normalized-endpoint-name' }
 
     it 'delegates to its app' do
-      app.should_receive(:endpoint_name_for)
+      expect(app).to receive(:endpoint_name_for)
         .with(endpoint_name)
         .and_return(normalized_endpoint_name)
 
-      middleware.endpoint_name_for(endpoint_name)
-        .should == normalized_endpoint_name
+      expect(middleware.endpoint_name_for(endpoint_name))
+        .to eq normalized_endpoint_name
     end
   end
 
@@ -121,7 +121,7 @@ describe StackerBee::Middleware::Base do
     describe 'by default' do
       before { env.response.content_type = '$8^02(324' }
       it 'matches anything' do
-        middleware.matches_content_type?(env).should be true
+        expect(middleware.matches_content_type?(env)).to be true
       end
     end
   end

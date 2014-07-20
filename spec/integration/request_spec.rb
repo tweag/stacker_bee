@@ -19,11 +19,11 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
     StackerBee::Client.new(config_hash)
   end
 
-  it { should_not be_empty }
+  it { is_expected.not_to be_empty }
 
   context 'first item' do
     subject { client.list_accounts.first }
-    it { should include 'id' }
+    it { is_expected.to include 'id' }
     its(['accounttype'])  { should be_a Numeric }
     its(['account_type']) { should be_a Numeric }
   end
@@ -41,7 +41,7 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
     it 'makes request with trailing slash' do
       stub = stub_request(:get, /#{url}/).to_return(body: '{"foo": {}}')
       subject
-      stub.should have_been_requested
+      expect(stub).to have_been_requested
     end
   end
 
@@ -84,9 +84,9 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   context 'a request parameter with an Array', :regression do
     subject { client.list_hosts(params).first.keys }
     let(:params) { { page: 1, pagesize: 1, details: [:events, :stats] } }
-    it { should include 'cpuused' }
-    it { should include 'events' }
-    it { should_not include 'cpuallocated' }
+    it { is_expected.to include 'cpuused' }
+    it { is_expected.to include 'events' }
+    it { is_expected.not_to include 'cpuallocated' }
   end
 
   context 'a request parameter with a map' do
@@ -113,7 +113,7 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
     end
 
     it 'can create an object' do
-      tag.should_not be_nil
+      expect(tag).not_to be_nil
     end
   end
 

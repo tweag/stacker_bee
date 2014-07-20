@@ -11,15 +11,15 @@ describe 'An error occuring' do
 
     context 'HTTP status in the 400s' do
       let(:status) { 431 }
-      it { should be_a StackerBee::ClientError }
+      it { is_expected.to be_a StackerBee::ClientError }
     end
     context 'HTTP status in the 500s' do
       let(:status) { 500 }
-      it { should be_a StackerBee::ServerError }
+      it { is_expected.to be_a StackerBee::ServerError }
     end
     context 'HTTP status > 599' do
       let(:status) { 999 }
-      it { should be_a StackerBee::RequestError }
+      it { is_expected.to be_a StackerBee::RequestError }
     end
   end
 

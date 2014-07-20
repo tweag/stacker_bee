@@ -5,7 +5,7 @@ describe StackerBee::Client, '.api' do
   subject { described_class }
   let(:api) { double }
   before do
-    StackerBee::API.stub new: api
+    allow(StackerBee::API).to receive_messages new: api
     described_class.api_path = nil
   end
   its(:api_path) { should_not be_nil }
@@ -46,17 +46,17 @@ describe StackerBee::Client, 'calling endpoint' do
 
   describe 'responding to methods' do
     subject { client }
-    it { should respond_to endpoint_name }
+    it { is_expected.to respond_to endpoint_name }
   end
 
   describe 'via a method call' do
     subject { client.list_virtual_machines(params) }
-    it { should eq response_body }
+    it { is_expected.to eq response_body }
   end
 
   describe 'via #request' do
     subject { client.request(endpoint_name, params) }
-    it { should eq response_body }
+    it { is_expected.to eq response_body }
   end
 end
 
