@@ -38,7 +38,7 @@ describe StackerBee::Middleware::Base do
       it_calls_its_app_with_the_env
 
       it 'runs the before hook' do
-        env.before_was_run.should be_true
+        env.before_was_run.should be true
       end
     end
 
@@ -54,7 +54,7 @@ describe StackerBee::Middleware::Base do
       it_calls_its_app_with_the_env
 
       it 'runs the after hook' do
-        env.after_was_run.should be_true
+        env.after_was_run.should be true
       end
     end
 
@@ -76,7 +76,7 @@ describe StackerBee::Middleware::Base do
       context 'when it matches the content type' do
         let(:content_type) { 'text/html; uft-8' }
         it 'runs the after hook' do
-          env.after_was_run.should be_true
+          env.after_was_run.should be true
         end
       end
 
@@ -98,7 +98,7 @@ describe StackerBee::Middleware::Base do
       end
 
       it 'changes the params' do
-        env.request.params[:params_merged?].should be_true
+        env.request.params[:params_merged?].should be true
       end
     end
   end
@@ -121,7 +121,7 @@ describe StackerBee::Middleware::Base do
     describe 'by default' do
       before { env.response.content_type = '$8^02(324' }
       it 'matches anything' do
-        middleware.matches_content_type?(env).should be_true
+        middleware.matches_content_type?(env).should be true
       end
     end
   end

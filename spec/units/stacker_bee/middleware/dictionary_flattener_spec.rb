@@ -45,7 +45,7 @@ describe StackerBee::Middleware::DictionaryFlattener do
 
     it 'handles true booleans' do
       subject["#{param(1)}.name"].should eq 'droid'
-      subject["#{param(1)}.value"].should be_true
+      subject["#{param(1)}.value"].should be true
     end
 
     it 'removes original map params' do
