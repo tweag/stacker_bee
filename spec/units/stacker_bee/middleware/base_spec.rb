@@ -5,7 +5,7 @@ describe StackerBee::Middleware::Base do
   let(:params) { {} }
   let(:app) { double(:app, call: response) }
   let(:response) { double(:response) }
-  let(:content_type) { double }
+  let(:content_type) { 'content-type' }
   before { env.response.content_type = content_type }
 
   let(:middleware) { subclass.new(app: app) }
@@ -104,8 +104,8 @@ describe StackerBee::Middleware::Base do
   end
 
   describe '#endpoint_name_for' do
-    let(:endpoint_name) { double }
-    let(:normalized_endpoint_name) { double }
+    let(:endpoint_name) { 'endpoint-name' }
+    let(:normalized_endpoint_name) { 'normalized-endpoint-name' }
 
     it 'delegates to its app' do
       app.should_receive(:endpoint_name_for)
