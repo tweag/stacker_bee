@@ -19,7 +19,7 @@ describe "Configuring middlewares" do
 
   let(:body) do
     proc do
-      def call(env)
+      def call(_env)
         fail "MiddlewareUsed"
       end
     end

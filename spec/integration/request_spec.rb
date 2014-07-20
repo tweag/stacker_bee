@@ -131,7 +131,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
             /javascript/
           end
 
-          def after(env)
+          def after(_env)
             fail "Middleware Used"
           end
         end
@@ -149,7 +149,7 @@ describe "A response to a request sent to the CloudStack API", :vcr do
             /html/
           end
 
-          def after(env)
+          def after(_env)
             fail "Middleware Used"
           end
         end

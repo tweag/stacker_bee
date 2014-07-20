@@ -78,7 +78,7 @@ module StackerBee
     end
 
     def convert_key(key)
-      key.kind_of?(Numeric) ? key : uncase(key)
+      key.is_a?(Numeric) ? key : uncase(key)
     end
 
     def convert_value(value)

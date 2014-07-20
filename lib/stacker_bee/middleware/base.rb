@@ -18,7 +18,7 @@ module StackerBee
         env.request.params = transform_params(env.request.params)
       end
 
-      def after(env)
+      def after(_env)
       end
 
       def transform_params(params)

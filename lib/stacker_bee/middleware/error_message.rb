@@ -2,9 +2,9 @@ module StackerBee
   module Middleware
     class ErrorMessage < Base
       def after(env)
-        unless env.response.success?
-          env.response.error = env.response.body[:errortext]
-        end
+        return if env.response.success?
+
+        env.response.error = env.response.body[:errortext]
       end
 
       def content_types

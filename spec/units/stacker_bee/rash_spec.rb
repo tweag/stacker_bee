@@ -67,14 +67,14 @@ describe StackerBee::Rash do
   end
 
   describe "#select" do
-    subject { rash.select { |key, value| value.is_a? String } }
+    subject { rash.select { |_, value| value.is_a? String } }
     it { should be_a described_class }
     it { should include "FOO" }
     it { should_not include "WIZ" }
   end
 
   describe "#reject" do
-    subject { rash.reject { |key, value| value.is_a? String } }
+    subject { rash.reject { |_, value| value.is_a? String } }
     it { should be_a described_class }
     it { should include "WIZ" }
     it { should_not include "FOO" }

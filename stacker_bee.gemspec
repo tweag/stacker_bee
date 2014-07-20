@@ -9,14 +9,14 @@ Gem::Specification.new do |spec|
   spec.platform      = Gem::Platform::RUBY
   spec.authors       = ["Greg Sterndale", "Mike Nicholaides"]
   spec.email         = ["team@promptworks.com"]
-  spec.summary       = %q{Ruby CloudStack client}
-  spec.description   = %q{Ruby CloudStack client and CLI}
+  spec.summary       = 'Ruby CloudStack client'
+  spec.description   = 'Ruby CloudStack client and CLI'
   spec.homepage      = "http://github.com/promptworks/stacker_bee"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "faraday",    "~> 0.8", "< 0.9"
@@ -34,8 +34,10 @@ Gem::Specification.new do |spec|
 
   # It should be consistent for Travis and all developers, since we don't check
   # in the Gemfile.lock
-  spec.add_development_dependency "rubocop",  "0.20.1"
+  spec.add_development_dependency "rubocop",  "0.24.1"
 
   # Release every merge to master as a prerelease
-  spec.version = "#{spec.version}.pre#{ENV['TRAVIS_BUILD_NUMBER']}" if ENV['TRAVIS']
+  if ENV['TRAVIS']
+    spec.version = "#{spec.version}.pre#{ENV['TRAVIS_BUILD_NUMBER']}"
+  end
 end

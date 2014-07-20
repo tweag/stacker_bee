@@ -10,18 +10,24 @@ module StackerBee
       :api_key,
       :middlewares,
       :faraday_middlewares,
-      :logger
+      :logger,
+      :config
     ]
 
     def initialize(attrs = nil)
       @attributes = attrs || {}
-      @attributes.each_pair do |key, value|
-        next if key == :config
-        unless ATTRIBUTES.include?(key)
-          fail NoAttributeError, "No attribute defined: '#{key}'"
-        end
-      end
+      validate_attributes
     end
+
+    def validate_attributes
+      unknown_attributes = @attributes.keys - ATTRIBUTES
+      return if unknown_attributes.empty?
+
+      attribute_list = unknown_attributes.join(', ')
+      message = "No configuration attribute exists: #{attribute_list}"
+      fail NoAttributeError, message
+    end
+    private :validate_attributes
 
     def ssl_verify?
       attribute :ssl_verify, true

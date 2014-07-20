@@ -22,7 +22,7 @@ module StackerBee
       end
 
       def remove_count(body)
-        body.reject { |key, val| key == "count" }.values.first
+        body.reject { |key, _| key == "count" }.values.first
       end
 
       def single_hash?(body)

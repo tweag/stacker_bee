@@ -34,7 +34,7 @@ optparse = OptionParser.new do |opts|
   opts.on('-u', '--url=URL', "CloudStack URL") do |url|
     options[:url] = url
   end
-  opts.on('-v', '--[no-]verbose', 'Run verbosely') do |v|
+  opts.on('-v', '--[no-]verbose', 'Run verbosely') do
     verbose = true
   end
   opts.on('-h', '--help', 'Display this screen') do
