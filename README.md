@@ -4,6 +4,7 @@
 [![Dependency Status](https://gemnasium.com/promptworks/stacker_bee.png)](https://gemnasium.com/promptworks/stacker_bee)
 [![Build Status](https://travis-ci.org/promptworks/stacker_bee.png?branch=master)](https://travis-ci.org/promptworks/stacker_bee)
 [![Gem Version](https://badge.fury.io/rb/stacker_bee.png)](http://badge.fury.io/rb/stacker_bee)
+[![Coverage Status](https://img.shields.io/coveralls/promptworks/stacker_bee.svg)](https://coveralls.io/r/promptworks/stacker_bee)
 
 The unofficial CloudStack client for Ruby.
 
