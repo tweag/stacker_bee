@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'A request sent to CloudStack for console access', :vcr do
   subject(:console_access) { client.console_access(vm: vm) }
 

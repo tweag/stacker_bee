@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::ConsoleAccess do
   let(:env) do
     StackerBee::Middleware::Environment.new(endpoint_name: endpoint_name)

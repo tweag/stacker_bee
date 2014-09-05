@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Configuration do
   describe "setting an attribute that doesn't exist" do
     [:ssl_verify?, :url?, :other_attr].each do |attr|

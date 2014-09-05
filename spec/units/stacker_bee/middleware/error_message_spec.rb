@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::ErrorMessage do
   subject { env.response }
   before { middleware.after(env) }

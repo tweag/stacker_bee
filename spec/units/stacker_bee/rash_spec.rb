@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples_for 'a Rash' do |mapping|
   mapping.each_pair { |key, value| its([key]) { should == value } }
 end

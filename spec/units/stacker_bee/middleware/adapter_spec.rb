@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::Adapter do
   let(:env) do
     StackerBee::Middleware::Environment.new(

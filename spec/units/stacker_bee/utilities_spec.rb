@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Utilities do
   include described_class
 

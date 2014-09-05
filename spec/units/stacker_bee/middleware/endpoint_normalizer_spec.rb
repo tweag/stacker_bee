@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::EndpointNormalizer do
   let(:middleware) { described_class.new(app: app, api: api) }
   let(:app) { double(:app) }

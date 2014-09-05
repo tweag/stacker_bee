@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::Base do
   let(:env) { StackerBee::Middleware::Environment.new(params: params) }
   let(:params) { {} }

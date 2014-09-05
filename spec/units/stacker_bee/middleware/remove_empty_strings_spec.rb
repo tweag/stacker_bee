@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 # TODO: does this really need to work with nested hashes?
 describe StackerBee::Middleware::RemoveEmptyStrings do
   # rubocop:disable RSpec/InstanceVariable

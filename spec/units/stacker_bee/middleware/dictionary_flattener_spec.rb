@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Middleware::DictionaryFlattener do
   let(:lb)               { described_class::LB }
   let(:rb)               { described_class::RB }

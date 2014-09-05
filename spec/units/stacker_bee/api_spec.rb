@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::API do
   subject { api }
 

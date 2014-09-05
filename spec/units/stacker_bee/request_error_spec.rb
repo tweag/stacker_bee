@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'An error occuring' do
   let(:env)      { double(response: response) }
   let(:response) { double(status: status, error: error_text) }

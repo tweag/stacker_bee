@@ -1,4 +1,3 @@
-require 'spec_helper'
 describe StackerBee::Middleware::LogResponse do
   describe 'after' do
     let(:logger) { FakeLogger.new }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe StackerBee::Connection do
   subject(:get) { connection.get(path, query_params) }
   before { allow(Faraday).to receive_messages new: faraday }
