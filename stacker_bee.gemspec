@@ -30,7 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec-its', '~> 1.0'
   spec.add_development_dependency 'webmock',   '~> 1.15'
   spec.add_development_dependency 'vcr',       '~> 2.9'
-  spec.add_development_dependency 'pry'
   spec.add_development_dependency 'coveralls'
 
   # It should be consistent for Travis and all developers, since we don't check
