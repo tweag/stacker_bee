@@ -29,4 +29,33 @@ http_interactions:
       string: '{ "listaccountsresponse" : { } }'
     http_version: 
   recorded_at: Mon, 28 Oct 2013 15:24:49 GMT
-recorded_with: VCR 2.6.0
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>/?apiKey=<CLOUD_STACK_API_KEY>&command=listAccounts&name=stacker%20bee&response=json&signature=uAHazDwdFrvlPK9JgZjNZvsojfI=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '32'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: UTF-8
+      string: '{ "listaccountsresponse" : { } }'
+    http_version: 
+  recorded_at: Thu, 09 Oct 2014 18:16:03 GMT
+recorded_with: VCR 2.9.3

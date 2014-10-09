@@ -32,4 +32,36 @@ http_interactions:
         id=666 doesn''t exist"} }'
     http_version: 
   recorded_at: Tue, 11 Feb 2014 02:48:17 GMT
-recorded_with: VCR 2.8.0
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>/?apiKey=<CLOUD_STACK_API_KEY>&command=listAccounts&domainId=666&response=json&signature=xsXEaSNzlFQjI3%2B4EVBOV%2BwFrbM=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 431
+      message: '431'
+    headers:
+      X-Description:
+      - Domain id=666 doesn't exist
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '121'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: UTF-8
+      string: '{ "listaccountsresponse" : {"uuidList":[],"errorcode":431,"cserrorcode":4350,"errortext":"Domain
+        id=666 doesn''t exist"} }'
+    http_version: 
+  recorded_at: Thu, 09 Oct 2014 18:16:03 GMT
+recorded_with: VCR 2.9.3
