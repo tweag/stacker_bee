@@ -32,4 +32,35 @@ http_interactions:
         }'
     http_version: 
   recorded_at: Mon, 28 Oct 2013 18:20:00 GMT
-recorded_with: VCR 2.6.0
+- request:
+    method: get
+    uri: <CLOUD_STACK_URL>/?apiKey=<CLOUD_STACK_API_KEY>&command=listHosts&details=events,stats&page=1&pagesize=1&response=json&signature=YO7r8REbwAoQVCRYRQEbs6s9tmQ=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Content-Length:
+      - '983'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: UTF-8
+      string: '{ "listhostsresponse" : { "count":4 ,"host" : [  {"id":"98a6bdba-9659-4e9b-8cb5-5d4b46bcd42a","name":"SimulatedAgent.20e7b318-8e08-4368-bf65-436d59511555","state":"Up","disconnected":"2014-10-09T15:17:58+0000","type":"Routing","ipaddress":"172.16.15.3","zoneid":"3c0f55e5-a4a2-4a82-8c98-20bf34d5766b","zonename":"Sandbox-simulator","podid":"1aa4f03c-ca85-414a-9b78-c8bc8980c5f5","podname":"POD0","version":"4.2.0","hypervisor":"Simulator","cpunumber":4,"cpuspeed":8000,"cpuused":"0%","networkkbsread":32768,"networkkbswrite":16384,"memoryused":0,"capabilities":"hvm","lastpinged":"1970-01-16T23:15:54+0000","managementserverid":8796747832893,"clusterid":"ad093cd1-1346-4cc7-ac0e-b06cbe0486a7","clustername":"C0","clustertype":"CloudManaged","islocalstorageactive":false,"created":"2014-03-31T18:50:29+0000","events":"Remove;
+        Ping; ManagementServerDown; PingTimeout; StartAgentRebalance; HostDown; AgentConnected;
+        ShutdownRequested; AgentDisconnected","resourcestate":"Enabled"} ] } }'
+    http_version: 
+  recorded_at: Thu, 09 Oct 2014 18:16:02 GMT
+recorded_with: VCR 2.9.3
