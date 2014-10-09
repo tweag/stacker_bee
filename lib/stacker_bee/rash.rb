@@ -13,8 +13,9 @@ module StackerBee
     ]
 
     def initialize(hash = {})
+      hash ||= {}
       @hash = {}
-      Hash(hash).each_pair do |key, value|
+      hash.each_pair do |key, value|
         @hash[convert_key(key)] = convert_value(value)
       end
       @hash.freeze
