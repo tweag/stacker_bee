@@ -30,6 +30,12 @@ describe StackerBee::Rash do
   let(:dissimilar_hash) { hash.dup.tap { |loud| loud.delete 'foo' } }
   let(:rash) { described_class.new(hash) }
 
+  context 'with nil' do
+    let(:hash) { nil }
+
+    it { should be_empty }
+  end
+
   it { is_expected.to include 'FOO' }
 
   it { is_expected.to eq subject }
