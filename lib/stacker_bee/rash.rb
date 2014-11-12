@@ -12,8 +12,11 @@ module StackerBee
       :flatten, :invert, :keys, :key, :merge, :rassoc, :to_a, :to_h, :to_hash
     ]
 
-    def initialize(hash = {})
+    def initialize(hash = {}, preferred_keys = [])
       @hash = {}
+
+      save_preferred_keys preferred_keys
+
       hash.each_pair do |key, value|
         @hash[convert_key(key)] = convert_value(value)
       end
@@ -78,7 +81,27 @@ module StackerBee
     end
 
     def convert_key(key)
-      key.is_a?(Numeric) ? key : uncase(key)
+      if key.is_a?(Numeric)
+        key
+      elsif preferred_key_format?(key)
+        preferred_key_format(key)
+      else
+        uncase(key)
+      end
+    end
+
+    def save_preferred_keys(keys)
+      @preferred_keys = keys.each_with_object({}) do |key, mapping|
+        mapping[uncase(key)] = key
+      end
+    end
+
+    def preferred_key_format?(key)
+      @preferred_keys.key?(uncase(key))
+    end
+
+    def preferred_key_format(key)
+      @preferred_keys[uncase(key)]
     end
 
     def convert_value(value)

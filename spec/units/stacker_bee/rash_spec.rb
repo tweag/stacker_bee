@@ -3,7 +3,7 @@ shared_examples_for 'a Rash' do |mapping|
 end
 
 describe StackerBee::Rash do
-  subject { rash }
+  subject(:rash) { described_class.new(hash) }
 
   let(:wiz) { [{ 'aB_C' => 'abc' }, { 'X_yZ' => 'xyz' }] }
   let(:ziz) do
@@ -28,7 +28,6 @@ describe StackerBee::Rash do
     end
   end
   let(:dissimilar_hash) { hash.dup.tap { |loud| loud.delete 'foo' } }
-  let(:rash) { described_class.new(hash) }
 
   it { is_expected.to include 'FOO' }
 
@@ -81,5 +80,22 @@ describe StackerBee::Rash do
   describe '#values_at' do
     subject { rash.values_at 'FOO', 'WIZ', 'WRONG' }
     it { is_expected.to eq ['foo', wiz, nil] }
+  end
+
+  describe 'with preferred keys' do
+    subject { described_class.new(hash, preferred_keys) }
+    let(:preferred_keys) { [:foo, 'BAR', :b_a_z] }
+    let(:hash) do
+      {
+        f_o_o:  'foo',
+        ba_r:   'bar',
+        baz:    'baz',
+        Ot_her: 'other'
+      }
+    end
+
+    it 'is stored as preferred if mentioned, otherwise as uncased' do
+      expect(subject.keys).to match_array [:foo, 'BAR', :b_a_z, 'other']
+    end
   end
 end
