@@ -90,12 +90,21 @@ describe StackerBee::Rash do
         f_o_o:  'foo',
         ba_r:   'bar',
         baz:    'baz',
-        Ot_her: 'other'
+        Ot_her: 'other',
+        sub:    {
+          foo__:    'foo',
+          BaR:      'bar',
+          anOth_er: 'another'
+        }
       }
     end
 
     it 'is stored as preferred if mentioned, otherwise as uncased' do
-      expect(subject.keys).to match_array [:foo, 'BAR', :b_a_z, 'other']
+      expect(subject.keys).to match_array [:foo, 'BAR', :b_a_z, 'other', 'sub']
+    end
+
+    it 'has child Rashes that also use the preferred keys' do
+      expect(subject['sub'].keys).to match_array [:foo, 'BAR', 'another']
     end
   end
 end

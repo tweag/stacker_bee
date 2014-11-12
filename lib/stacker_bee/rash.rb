@@ -15,7 +15,7 @@ module StackerBee
     def initialize(hash = {}, preferred_keys = [])
       @hash = {}
 
-      save_preferred_keys preferred_keys
+      @preferred_keys = preferred_keys
 
       hash.each_pair do |key, value|
         @hash[convert_key(key)] = convert_value(value)
@@ -90,24 +90,25 @@ module StackerBee
       end
     end
 
-    def save_preferred_keys(keys)
-      @preferred_keys = keys.each_with_object({}) do |key, mapping|
-        mapping[uncase(key)] = key
-      end
+    def preferred_keys_map
+      @preferred_keys_map ||=
+        @preferred_keys.each_with_object({}) do |key, mapping|
+          mapping[uncase(key)] = key
+        end
     end
 
     def preferred_key_format?(key)
-      @preferred_keys.key?(uncase(key))
+      preferred_keys_map.key?(uncase(key))
     end
 
     def preferred_key_format(key)
-      @preferred_keys[uncase(key)]
+      preferred_keys_map[uncase(key)]
     end
 
     def convert_value(value)
       case value
       when Hash
-        Rash.new(value)
+        Rash.new(value, @preferred_keys)
       when Array
         value.map { |item| convert_value(item) }
       else
