@@ -6,10 +6,11 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   let(:url) { CONFIG['url'] }
   let(:config_hash) do
     {
-      url:         url,
-      api_key:     CONFIG['api_key'],
-      secret_key:  CONFIG['secret_key'],
-      middlewares: middlewares
+      url:            url,
+      api_key:        CONFIG['api_key'],
+      secret_key:     CONFIG['secret_key'],
+      middlewares:    middlewares,
+      preferred_keys: %w(account_type)
     }
   end
   let(:middlewares) { proc {} }
@@ -158,5 +159,11 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
         expect { client.list_accounts }.not_to raise_error
       end
     end
+  end
+
+  context 'obeying preferred keys' do
+    subject { client.list_accounts.first.keys }
+    it { is_expected.to include 'account_type' }
+    it { is_expected.not_to include 'accounttype' }
   end
 end

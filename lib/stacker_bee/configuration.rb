@@ -11,7 +11,8 @@ module StackerBee
       :middlewares,
       :faraday_middlewares,
       :logger,
-      :config
+      :config,
+      :preferred_keys
     ]
 
     def initialize(attrs = nil)
@@ -55,6 +56,10 @@ module StackerBee
 
     def logger
       attribute :logger
+    end
+
+    def preferred_keys
+      attribute :preferred_keys
     end
 
     def to_hash

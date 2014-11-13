@@ -52,7 +52,8 @@ module StackerBee
       builder.use Middleware::LogResponse
       builder.use Middleware::HTTPStatus
       builder.use Middleware::CleanResponse
-      builder.use Middleware::RashifyResponse
+      builder.use Middleware::RashifyResponse,
+                  preferred_keys: configuration.preferred_keys
       builder.use Middleware::DeNamespace
       builder.use Middleware::JSONBody
 
