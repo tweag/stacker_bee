@@ -3,8 +3,35 @@ require 'stacker_bee/utilities'
 
 module StackerBee
   class Rash
+    class PreferredKeys < Struct.new(:preferred_keys)
+      include Utilities
+      def transform(key)
+        if key.is_a?(Numeric)
+          key
+        elsif preferred_key_format?(key)
+          preferred_key_format(key)
+        else
+          uncase(key)
+        end
+      end
+
+      def preferred_keys_map
+        @preferred_keys_map ||=
+          preferred_keys.each_with_object({}) do |key, mapping|
+            mapping[uncase(key)] = key
+          end
+      end
+
+      def preferred_key_format?(key)
+        preferred_keys_map.key?(uncase(key))
+      end
+
+      def preferred_key_format(key)
+        preferred_keys_map[uncase(key)]
+      end
+    end
+
     extend Forwardable
-    include Utilities
 
     def_delegators :@hash, *[
       :default, :default_proc, :each_value, :empty?, :has_value?, :hash,
@@ -12,10 +39,10 @@ module StackerBee
       :flatten, :invert, :keys, :key, :merge, :rassoc, :to_a, :to_h, :to_hash
     ]
 
-    def initialize(hash = {}, preferred_keys = [])
+    def initialize(hash = {}, preferred_keys = nil)
       @hash = {}
 
-      @preferred_keys = preferred_keys
+      @preferred_keys = preferred_keys || PreferredKeys.new([])
 
       hash.each_pair do |key, value|
         @hash[convert_key(key)] = convert_value(value)
@@ -81,28 +108,7 @@ module StackerBee
     end
 
     def convert_key(key)
-      if key.is_a?(Numeric)
-        key
-      elsif preferred_key_format?(key)
-        preferred_key_format(key)
-      else
-        uncase(key)
-      end
-    end
-
-    def preferred_keys_map
-      @preferred_keys_map ||=
-        @preferred_keys.each_with_object({}) do |key, mapping|
-          mapping[uncase(key)] = key
-        end
-    end
-
-    def preferred_key_format?(key)
-      preferred_keys_map.key?(uncase(key))
-    end
-
-    def preferred_key_format(key)
-      preferred_keys_map[uncase(key)]
+      @preferred_keys.transform(key)
     end
 
     def convert_value(value)

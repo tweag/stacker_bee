@@ -84,7 +84,9 @@ describe StackerBee::Rash do
 
   describe 'with preferred keys' do
     subject { described_class.new(hash, preferred_keys) }
-    let(:preferred_keys) { [:foo, 'BAR', :b_a_z] }
+    let(:preferred_keys) do
+      StackerBee::Rash::PreferredKeys.new([:foo, 'BAR', :b_a_z])
+    end
     let(:hash) do
       {
         f_o_o:  'foo',

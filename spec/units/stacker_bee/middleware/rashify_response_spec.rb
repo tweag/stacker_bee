@@ -1,5 +1,5 @@
 describe StackerBee::Middleware::RashifyResponse do
-  describe 'after' do
+  describe '#after' do
     let(:env) do
       StackerBee::Middleware::Environment.new.tap do |env|
         env.response.body = body
@@ -35,7 +35,11 @@ describe StackerBee::Middleware::RashifyResponse do
     end
 
     context 'with preferred keys' do
-      subject { described_class.new(preferred_keys: %w(the_data)) }
+      subject do
+        described_class.new(
+          preferred_keys: StackerBee::Rash::PreferredKeys.new(%w(the_data))
+        )
+      end
 
       context 'when the body is a hash' do
         let(:body) { { thedata: 'the data' } }

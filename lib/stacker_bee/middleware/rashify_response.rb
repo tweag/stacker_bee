@@ -14,7 +14,7 @@ module StackerBee
       end
 
       def rashify(item)
-        Rash.new(item, preferred_keys || [])
+        Rash.new(item, preferred_keys)
       end
 
       def content_types
