@@ -31,6 +31,7 @@ module StackerBee
     )
 
     # rubocop:disable MethodLength
+    # rubocop:disable Metrics/AbcSize
     def middlewares
       # request
       builder.use Middleware::ConsoleAccess
@@ -60,6 +61,8 @@ module StackerBee
 
       builder.build
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable MethodLength
 
     def builder
       @builder ||= Builder.new

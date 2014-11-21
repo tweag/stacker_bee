@@ -58,7 +58,7 @@ begin
     options.merge! Hash[YAML.load(hash).map { |k, v| [k.to_sym, v] }]
   end
   unless options.keys.include?(:config) ||
-    ([:api_key, :secret_key, :url] - options.keys).empty?
+         ([:api_key, :secret_key, :url] - options.keys).empty?
     puts 'Please specify a config file or all of the following: ' \
          '--api_key, --secret_key and --url'
     exit
