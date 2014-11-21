@@ -38,7 +38,9 @@ module StackerBee
 
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
-      builder.use Middleware::CloudStackAPI, api_key: configuration.api_key
+      builder.use Middleware::CloudStackAPI,
+                  api_key: configuration.api_key,
+                  url:     configuration.url
 
       configuration.middlewares.call builder
 

@@ -3,7 +3,9 @@ require 'logger'
 describe 'A response to a request sent to the CloudStack API', :vcr do
   subject { client.list_accounts }
 
-  let(:url) { CONFIG['url'] }
+  let(:config_url) { CONFIG['url'] }
+  let(:uri) { URI.parse(config_url) }
+  let(:url) { uri.to_s }
   let(:config_hash) do
     {
       url:         url,
@@ -32,6 +34,13 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
     it 'raises a helpful exception' do
       klass = StackerBee::ConnectionError
       expect { subject }.to raise_error klass, /#{url}/
+    end
+  end
+
+  context 'with a nonexistant path', :regression do
+    before { uri.path = '/not/a/real/endpoint' }
+    it 'raises a client error' do
+      expect { subject }.to raise_error(StackerBee::ClientError)
     end
   end
 

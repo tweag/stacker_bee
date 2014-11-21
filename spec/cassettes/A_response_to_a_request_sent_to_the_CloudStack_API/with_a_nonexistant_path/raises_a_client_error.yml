@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: <CLOUD_STACK_HOST>/not/a/real/endpoint?apiKey=<CLOUD_STACK_API_KEY>&command=listAccounts&response=json&signature=oftBcJm8kFc%2Buxul8pAL2%2Bh0bdU=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Content-Length:
+      - '1287'
+      Server:
+      - Jetty(6.1.26)
+    body:
+      encoding: UTF-8
+      string: "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html;
+        charset=ISO-8859-1\"/>\n<title>Error 404 NOT_FOUND</title>\n</head>\n<body>\n<h2>HTTP
+        ERROR: 404</h2>\n<p>Problem accessing /not/a/real/endpoint. Reason:\n<pre>
+        \   NOT_FOUND</pre></p>\n<hr /><i><small>Powered by Jetty://</small></i>\n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n
+        \                                               \n                                                \n</body>\n</html>\n"
+    http_version: 
+  recorded_at: Mon, 24 Nov 2014 16:10:28 GMT
+recorded_with: VCR 2.9.3
