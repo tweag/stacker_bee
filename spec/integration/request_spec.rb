@@ -40,7 +40,7 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   context 'with a nonexistant path', :regression do
     before { uri.path = '/not/a/real/endpoint' }
     it 'raises a client error' do
-      expect { subject }.to raise_error(StackerBee::ClientError)
+      expect { subject }.to raise_error(StackerBee::RequestError)
     end
   end
 
