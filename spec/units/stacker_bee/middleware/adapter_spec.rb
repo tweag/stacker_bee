@@ -8,7 +8,7 @@ describe StackerBee::Middleware::Adapter do
   end
   let(:app) { double(:app, call: response) }
   let(:response) { double(:response) }
-  let(:path) { double(:path) }
+  let(:path) { '/the/path' }
 
   let(:params) { { 'z' => 'z', 'a' => 'a' } }
   let(:connection) { double(:connection, get: raw_response) }
@@ -42,6 +42,14 @@ describe StackerBee::Middleware::Adapter do
 
     it 'sorts the paramers' do
       expect(connection).to have_received(:get).with(path, [%w(a a), %w(z z)])
+    end
+
+    context 'when the path ends in a slash' do
+      let(:path) { '/my/path/' }
+      it 'discards the trailing slash' do
+        expect(connection).to \
+          have_received(:get).with('/my/path', [%w(a a), %w(z z)])
+      end
     end
   end
 

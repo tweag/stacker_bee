@@ -18,7 +18,11 @@ module StackerBee
 
       def perform_request(env)
         params = env.request.params.to_a.sort
-        env.raw_response = connection.get(env.request.path, params)
+        env.raw_response = connection.get(path(env), params)
+      end
+
+      def path(env)
+        env.request.path.gsub(/\/$/, '')
       end
 
       def endpoint_name_for(*)

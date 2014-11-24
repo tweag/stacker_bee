@@ -33,7 +33,7 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   end
 
   context 'failing to connect' do
-    let(:url) { 'http://127.0.0.1:666/client/api' }
+    let(:url) { 'http://127.0.0.1:666' }
     it 'raises a helpful exception' do
       klass = StackerBee::ConnectionError
       expect { subject }.to raise_error klass, /#{url}/
@@ -48,10 +48,14 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   end
 
   context 'trailing slash in API path', :regression do
-    let(:api_path) { CONFIG['api_path'].gsub(/\/$/, '') + '/' }
+    let(:api_path) { api_path_without_slash + '/' }
+    let(:api_path_without_slash) { CONFIG['api_path'].gsub(/\/$/, '') }
     it 'makes request with trailing slash' do
-      stub = stub_request(:get, /#{api_path}/).to_return(body: '{"foo": {}}')
+      stub = stub_request(:get, /#{api_path_without_slash}\?apiKey/)
+             .to_return(body: '{"foo": {}}')
+
       subject
+
       expect(stub).to have_been_requested
     end
   end
