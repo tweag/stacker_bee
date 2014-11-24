@@ -3,15 +3,18 @@ describe StackerBee::Middleware::ConsoleAccess do
     StackerBee::Middleware::Environment.new(endpoint_name: endpoint_name)
   end
 
-  let(:middleware) { described_class.new(app: app) }
+  let(:middleware) do
+    described_class.new(app: app, console_path: console_path)
+  end
   let(:app) { double(:app) }
+  let(:console_path) { '/path/to/console' }
 
   context 'when it matches the endpoint' do
     let(:endpoint_name) { described_class::ENDPOINT }
 
     it 'adds its path to the env' do
       middleware.before(env)
-      expect(env.request.path).to eq described_class::PATH
+      expect(env.request.path).to eq console_path
     end
 
     it 'adds cmd to the parameters' do
@@ -25,7 +28,7 @@ describe StackerBee::Middleware::ConsoleAccess do
     before { middleware.before(env) }
 
     it "doesn't add it's path" do
-      expect(env.request.path).not_to eq described_class::PATH
+      expect(env.request.path).to be_nil
     end
 
     it "doesn't add cmd to the parameters" do

@@ -34,13 +34,14 @@ module StackerBee
     # rubocop:disable Metrics/AbcSize
     def middlewares
       # request
-      builder.use Middleware::ConsoleAccess
+      builder.use Middleware::ConsoleAccess,
+                  console_path: configuration.console_path
 
       builder.use Middleware::EndpointNormalizer, api: self.class.api
       builder.use Middleware::RemoveEmptyStrings
       builder.use Middleware::CloudStackAPI,
-                  api_key: configuration.api_key,
-                  url:     configuration.url
+                  api_path: configuration.api_path,
+                  api_key:  configuration.api_key
 
       configuration.middlewares.call builder
 

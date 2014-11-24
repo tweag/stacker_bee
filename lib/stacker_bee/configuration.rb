@@ -6,6 +6,8 @@ module StackerBee
     ATTRIBUTES = [
       :ssl_verify,
       :url,
+      :api_path,
+      :console_path,
       :secret_key,
       :api_key,
       :middlewares,
@@ -35,6 +37,14 @@ module StackerBee
 
     def url
       attribute :url
+    end
+
+    def api_path
+      attribute :api_path, '/client/api'
+    end
+
+    def console_path
+      attribute :console_path, '/client/console'
     end
 
     def secret_key
@@ -67,8 +77,8 @@ module StackerBee
 
     private
 
-    def attribute(key, value = nil)
-      @attributes.fetch(key, value)
+    def attribute(key, default_value = nil)
+      @attributes.fetch(key, default_value)
     end
   end
 end

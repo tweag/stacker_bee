@@ -9,7 +9,7 @@ module StackerBee
           command:  env.request.endpoint_name,
           response: RESPONSE_TYPE
         )
-        env.request.path ||= URI.parse(url).path
+        env.request.path ||= api_path
       end
     end
   end

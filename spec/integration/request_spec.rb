@@ -6,12 +6,15 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   let(:config_url) { CONFIG['url'] }
   let(:uri) { URI.parse(config_url) }
   let(:url) { uri.to_s }
+  let(:api_path) { CONFIG['api_path'] }
   let(:config_hash) do
     {
-      url:         url,
-      api_key:     CONFIG['api_key'],
-      secret_key:  CONFIG['secret_key'],
-      middlewares: middlewares
+      url:          url,
+      api_path:     api_path,
+      console_path: CONFIG['console_path'],
+      api_key:      CONFIG['api_key'],
+      secret_key:   CONFIG['secret_key'],
+      middlewares:  middlewares
     }
   end
   let(:middlewares) { proc {} }
@@ -38,16 +41,16 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
   end
 
   context 'with a nonexistant path', :regression do
-    before { uri.path = '/not/a/real/endpoint' }
+    let(:api_path) { '/not/a/real/endpoint' }
     it 'raises a client error' do
       expect { subject }.to raise_error(StackerBee::RequestError)
     end
   end
 
-  context 'trailing slash in URL', :regression do
-    let(:url) { CONFIG['url'].gsub(/\/$/, '') + '/' }
+  context 'trailing slash in API path', :regression do
+    let(:api_path) { CONFIG['api_path'].gsub(/\/$/, '') + '/' }
     it 'makes request with trailing slash' do
-      stub = stub_request(:get, /#{url}/).to_return(body: '{"foo": {}}')
+      stub = stub_request(:get, /#{api_path}/).to_return(body: '{"foo": {}}')
       subject
       expect(stub).to have_been_requested
     end

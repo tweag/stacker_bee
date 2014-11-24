@@ -4,13 +4,12 @@ module StackerBee
       include Utilities
 
       ENDPOINT = 'consoleAccess'
-      PATH     = '/client/console'
       PARAMS   = { cmd: 'access' }
 
       def before(env)
         return unless matches_endpoint?(env.request.endpoint_name)
         super
-        env.request.path = PATH
+        env.request.path = console_path
         env.request.endpoint_name = ENDPOINT
       end
 

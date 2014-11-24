@@ -5,9 +5,10 @@ describe 'A request sent to CloudStack for console access', :vcr do
   let(:client) { StackerBee::Client.new(config_hash) }
   let(:config_hash) do
     {
-      url:        CONFIG['url'],
-      api_key:    CONFIG['api_key'],
-      secret_key: CONFIG['secret_key']
+      url:          CONFIG['url'],
+      console_path: CONFIG['console_path'],
+      api_key:      CONFIG['api_key'],
+      secret_key:   CONFIG['secret_key']
     }
   end
 

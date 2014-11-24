@@ -4,8 +4,10 @@ describe StackerBee::Middleware::CloudStackAPI do
       endpoint_name: 'endpoint-name'
     )
   end
-  let(:middleware) { described_class.new(api_key: 'API-KEY', url: url) }
-  let(:url) { 'http://localhost:1234/my/path' }
+  let(:middleware) do
+    described_class.new(api_key: 'API-KEY', api_path: api_path)
+  end
+  let(:api_path) { '/my/path' }
 
   before do
     middleware.before(env)

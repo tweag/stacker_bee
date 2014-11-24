@@ -42,6 +42,36 @@ describe StackerBee::Configuration do
     end
   end
 
+  describe '#api_path' do
+    subject { configuration.api_path }
+
+    context 'when not set' do
+      let(:configuration) { described_class.new }
+      it { is_expected.to eq '/client/api' }
+    end
+
+    context 'when set' do
+      let(:configuration) { described_class.new(api_path: setting) }
+      let(:setting) { '/new-path/cloudstack' }
+      it { is_expected.to eq setting }
+    end
+  end
+
+  describe '#console_path' do
+    subject { configuration.console_path }
+
+    context 'when not set' do
+      let(:configuration) { described_class.new }
+      it { is_expected.to eq '/client/console' }
+    end
+
+    context 'when set' do
+      let(:configuration) { described_class.new(console_path: setting) }
+      let(:setting) { '/new-path/cloudstack' }
+      it { is_expected.to eq setting }
+    end
+  end
+
   describe '#secret_key' do
     subject { configuration.secret_key }
 
