@@ -29,7 +29,7 @@ And execute:
 
 ```ruby
 cloud_stack = StackerBee::Client.new(
-  url:        'http://localhost:8080/client/api',
+  url:        'http://localhost:8080',
   api_key:    'MY_API_KEY',
   secret_key: 'MY_SECRET_KEY'
 )
@@ -85,7 +85,7 @@ Usage:
 
 Example:
 
-    $ stacker_bee -u http://localhost:8080/client/api -a MY_API_KEY -s MY_SECRET_KEY
+    $ stacker_bee -u http://localhost:8080 -a MY_API_KEY -s MY_SECRET_KEY
     StackerBee CloudStack REPL
     >> list_virtual_machines state: 'Running'
     => [{"id"=>"48b91ab4-dc23-4e24-bc6f-695d58c91087",
@@ -100,7 +100,7 @@ Configuring a client:
 
 ```ruby
 cloud_stack = StackerBee::Client.new(
-  url:        'http://localhost:8080/client/api',
+  url:        'http://localhost:8080',
   api_key:    'API_KEY',
   secret_key: 'SECRET_KEY'
 )
@@ -109,7 +109,7 @@ cloud_stack = StackerBee::Client.new(
 All configuration parameters set on the `StackerBee::Client` class are used as defaults for `StackerBee::Client` instances.
 
 ```ruby
-StackerBee::Client.url = 'http://localhost:8080/client/api'
+StackerBee::Client.url = 'http://localhost:8080'
 
 user_client = StackerBee::Client.new(
   api_key:    'USER_API_KEY',
@@ -127,16 +127,51 @@ root_client = StackerBee::Client.new(
 The URL of your CloudStack instance's URL.
 
 ```ruby
-StackerBee::Client.url = 'http://localhost:8080/client/api'
+StackerBee::Client.url = 'http://localhost:8080'
 ```
 
 Or:
 
 ```ruby
 my_client = StackerBee::Client.new(
-  url: 'http://localhost:8080/client/api'
+  url: 'http://localhost:8080'
 )
 ```
+
+### API path
+
+The path of your CloudStack instance's API URL.
+Defaults to `'/client/api/'`.
+
+```ruby
+StackerBee::Client.api_path = '/other-path/client/api'
+```
+
+Or:
+
+```ruby
+my_client = StackerBee::Client.new(
+  api_path: '/other-path/client/api'
+)
+```
+
+### Console path
+
+The path of your CloudStack instance's URL for console access.
+Defaults to `'/client/console/'`.
+
+```ruby
+StackerBee::Client.console_path = '/other-path/client/console'
+```
+
+Or:
+
+```ruby
+my_client = StackerBee::Client.new(
+  console_path: '/other-path/client/console'
+)
+```
+
 
 ### Keys
 
@@ -219,7 +254,7 @@ StackerBee supports using SSL. To do so, use an HTTPS URL. In some deployments, 
 
 ```ruby
 StackerBee::Client.configuration = {
-  url:        'https://my-cloudstack-server/client/api',
+  url:        'https://my-cloudstack-server',
   ssl_verify: false # ignore certificate validation errors
 }
 ```
@@ -230,7 +265,7 @@ The `StackerBee::Client` class can be configured with multiple options at once.
 
 ```ruby
 StackerBee::Client.configuration = {
-  url:        'http://localhost:8080/client/api',
+  url:        'http://localhost:8080',
   api_key:    'API_KEY',
   secret_key: 'MY_SECRET_KEY'
 }
