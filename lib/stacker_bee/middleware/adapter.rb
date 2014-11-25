@@ -22,7 +22,7 @@ module StackerBee
       end
 
       def path(env)
-        env.request.path.gsub(/\/$/, '')
+        env.request.path.to_s.gsub(/\/$/, '')
       end
 
       def endpoint_name_for(*)
