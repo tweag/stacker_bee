@@ -49,7 +49,8 @@ describe 'A response to a request sent to the CloudStack API', :vcr do
 
   context 'trailing slash in API path', :regression do
     let(:api_path) { api_path_without_slash + '/' }
-    let(:api_path_without_slash) { CONFIG['api_path'].gsub(/\/$/, '') }
+    let(:api_path_without_slash) { api_path_from_config.sub(/\/$/, '') }
+    let(:api_path_from_config) { CONFIG.fetch('api_path', '/client/api') }
     it 'makes request with trailing slash' do
       stub = stub_request(:get, /#{api_path_without_slash}\?apiKey/)
              .to_return(body: '{"foo": {}}')
