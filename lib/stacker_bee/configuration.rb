@@ -78,7 +78,17 @@ module StackerBee
     private
 
     def attribute(key, default_value = nil)
-      @attributes.fetch(key, default_value)
+      value = @attributes.fetch(key, default_value)
+
+      if blank?(value)
+        default_value
+      else
+        value
+      end
+    end
+
+    def blank?(value)
+      value.nil? || value == ''
     end
   end
 end
